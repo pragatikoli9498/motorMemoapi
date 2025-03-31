@@ -1,0 +1,6 @@
+@MotorMemo_HostAddress = http://localhost:5245
+
+GET {{MotorMemo_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,218 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\Main\BranchController.cs" />
+    <Compile Remove="Controllers\Master\FirmController.cs" />
+    <Compile Remove="Controllers\Master\OpeningBalController.cs" />
+    <Compile Remove="Controllers\Master\userAuditController.cs" />
+    <Compile Remove="Controllers\Master\vehdeclarationController.cs" />
+    <Compile Remove="Controllers\Transaction\ExpenseController.cs" />
+    <Compile Remove="Models\ConnectionString.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="obj\Debug\net9.0\.NETCoreApp,Version=v9.0.AssemblyAttributes.cs" />
+    <Compile Include="obj\Debug\net9.0\MotorMemo.AssemblyInfo.cs" />
+    <Compile Include="obj\Debug\net9.0\MotorMemo.GlobalUsings.g.cs" />
+    <Compile Include="obj\Debug\net9.0\MotorMemo.MvcApplicationPartsAssemblyInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="bin\Debug\net9.0\appsettings.Development.json" />
+    <Content Include="bin\Debug\net9.0\appsettings.json" />
+    <Content Include="bin\Debug\net9.0\MotorMemo.deps.json" />
+    <Content Include="bin\Debug\net9.0\MotorMemo.runtimeconfig.json" />
+    <Content Include="bin\Debug\net9.0\MotorMemo.staticwebassets.endpoints.json" />
+    <Content Include="obj\Debug\net9.0\ApiEndpoints.json" />
+    <Content Include="obj\Debug\net9.0\MotorMemo.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\net9.0\MotorMemo.sourcelink.json" />
+    <Content Include="obj\Debug\net9.0\staticwebassets.build.endpoints.json" />
+    <Content Include="obj\Debug\net9.0\staticwebassets.build.json" />
+    <Content Include="obj\Debug\net9.0\staticwebassets.references.upToDateCheck.txt" />
+    <Content Include="obj\Debug\net9.0\staticwebassets.removed.txt" />
+    <Content Include="obj\MotorMemo.csproj.nuget.dgspec.json" />
+    <Content Include="obj\project.assets.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include=".github\workflows\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\net9.0\Castle.Core.dll" />
+    <None Include="bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll" />
+    <None Include="bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net9.0\de\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll" />
+    <None Include="bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net9.0\es\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll" />
+    <None Include="bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll" />
+    <None Include="bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net9.0\Humanizer.dll" />
+    <None Include="bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net9.0\it\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll" />
+    <None Include="bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll" />
+    <None Include="bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll" />
+    <None Include="bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net9.0\Microsoft.AspNetCore.JsonPatch.dll" />
+    <None Include="bin\Debug\net9.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll" />
+    <None Include="bin\Debug\net9.0\Microsoft.Bcl.AsyncInterfaces.dll" />
+    <None Include="bin\Debug\net9.0\Microsoft.Build.Locator.dll" />
+    <None Include="bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.dll" />
+    <None Include="bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll" />
+    <None Include="bin\Debug\net9.0\Microsoft.CodeAnalysis.dll" />
+    <None Include="bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.dll" />
+    <None Include="bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll" />
+    <None Include="bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.dll" />
+    <None Include="bin\Debug\net9.0\Microsoft.Data.Sqlite.dll" />
+    <None Include="bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Abstractions.dll" />
+    <None Include="bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Design.dll" />
+    <None Include="bin\Debug\net9.0\Microsoft.EntityFrameworkCore.dll" />
+    <None Include="bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Proxies.dll" />
+    <None Include="bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Relational.dll" />
+    <None Include="bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Sqlite.dll" />
+    <None Include="bin\Debug\net9.0\Microsoft.Extensions.DependencyModel.dll" />
+    <None Include="bin\Debug\net9.0\Microsoft.OpenApi.dll" />
+    <None Include="bin\Debug\net9.0\Mono.TextTemplating.dll" />
+    <None Include="bin\Debug\net9.0\MotorMemo.dll" />
+    <None Include="bin\Debug\net9.0\MotorMemo.exe" />
+    <None Include="bin\Debug\net9.0\MotorMemo.pdb" />
+    <None Include="bin\Debug\net9.0\Newtonsoft.Json.Bson.dll" />
+    <None Include="bin\Debug\net9.0\Newtonsoft.Json.dll" />
+    <None Include="bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll" />
+    <None Include="bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll" />
+    <None Include="bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net9.0\runtimes\browser-wasm\nativeassets\net9.0\e_sqlite3.a" />
+    <None Include="bin\Debug\net9.0\runtimes\linux-arm64\native\libe_sqlite3.so" />
+    <None Include="bin\Debug\net9.0\runtimes\linux-armel\native\libe_sqlite3.so" />
+    <None Include="bin\Debug\net9.0\runtimes\linux-arm\native\libe_sqlite3.so" />
+    <None Include="bin\Debug\net9.0\runtimes\linux-mips64\native\libe_sqlite3.so" />
+    <None Include="bin\Debug\net9.0\runtimes\linux-musl-arm64\native\libe_sqlite3.so" />
+    <None Include="bin\Debug\net9.0\runtimes\linux-musl-arm\native\libe_sqlite3.so" />
+    <None Include="bin\Debug\net9.0\runtimes\linux-musl-s390x\native\libe_sqlite3.so" />
+    <None Include="bin\Debug\net9.0\runtimes\linux-musl-x64\native\libe_sqlite3.so" />
+    <None Include="bin\Debug\net9.0\runtimes\linux-ppc64le\native\libe_sqlite3.so" />
+    <None Include="bin\Debug\net9.0\runtimes\linux-s390x\native\libe_sqlite3.so" />
+    <None Include="bin\Debug\net9.0\runtimes\linux-x64\native\libe_sqlite3.so" />
+    <None Include="bin\Debug\net9.0\runtimes\linux-x86\native\libe_sqlite3.so" />
+    <None Include="bin\Debug\net9.0\runtimes\maccatalyst-arm64\native\libe_sqlite3.dylib" />
+    <None Include="bin\Debug\net9.0\runtimes\maccatalyst-x64\native\libe_sqlite3.dylib" />
+    <None Include="bin\Debug\net9.0\runtimes\osx-arm64\native\libe_sqlite3.dylib" />
+    <None Include="bin\Debug\net9.0\runtimes\osx-x64\native\libe_sqlite3.dylib" />
+    <None Include="bin\Debug\net9.0\runtimes\win-arm64\native\e_sqlite3.dll" />
+    <None Include="bin\Debug\net9.0\runtimes\win-arm\native\e_sqlite3.dll" />
+    <None Include="bin\Debug\net9.0\runtimes\win-x64\native\e_sqlite3.dll" />
+    <None Include="bin\Debug\net9.0\runtimes\win-x86\native\e_sqlite3.dll" />
+    <None Include="bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll" />
+    <None Include="bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net9.0\SQLitePCLRaw.batteries_v2.dll" />
+    <None Include="bin\Debug\net9.0\SQLitePCLRaw.core.dll" />
+    <None Include="bin\Debug\net9.0\SQLitePCLRaw.provider.e_sqlite3.dll" />
+    <None Include="bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll" />
+    <None Include="bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll" />
+    <None Include="bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll" />
+    <None Include="bin\Debug\net9.0\System.CodeDom.dll" />
+    <None Include="bin\Debug\net9.0\System.Composition.AttributedModel.dll" />
+    <None Include="bin\Debug\net9.0\System.Composition.Convention.dll" />
+    <None Include="bin\Debug\net9.0\System.Composition.Hosting.dll" />
+    <None Include="bin\Debug\net9.0\System.Composition.Runtime.dll" />
+    <None Include="bin\Debug\net9.0\System.Composition.TypedParts.dll" />
+    <None Include="bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll" />
+    <None Include="bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll" />
+    <None Include="bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll" />
+    <None Include="bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="motorMemoApiNew.sln" />
+    <None Include="obj\Debug\net9.0\apphost.exe" />
+    <None Include="obj\Debug\net9.0\MotorMemo.AssemblyInfoInputs.cache" />
+    <None Include="obj\Debug\net9.0\MotorMemo.assets.cache" />
+    <None Include="obj\Debug\net9.0\MotorMemo.csproj.AssemblyReference.cache" />
+    <None Include="obj\Debug\net9.0\MotorMemo.csproj.BuildWithSkipAnalyzers" />
+    <None Include="obj\Debug\net9.0\MotorMemo.csproj.CoreCompileInputs.cache" />
+    <None Include="obj\Debug\net9.0\MotorMemo.csproj.Up2Date" />
+    <None Include="obj\Debug\net9.0\MotorMemo.dll" />
+    <None Include="obj\Debug\net9.0\MotorMemo.GeneratedMSBuildEditorConfig.editorconfig" />
+    <None Include="obj\Debug\net9.0\MotorMemo.genruntimeconfig.cache" />
+    <None Include="obj\Debug\net9.0\MotorMemo.MvcApplicationPartsAssemblyInfo.cache" />
+    <None Include="obj\Debug\net9.0\MotorMemo.pdb" />
+    <None Include="obj\Debug\net9.0\refint\MotorMemo.dll" />
+    <None Include="obj\Debug\net9.0\ref\MotorMemo.dll" />
+    <None Include="obj\Debug\net9.0\staticwebassets\msbuild.build.MotorMemo.props" />
+    <None Include="obj\Debug\net9.0\staticwebassets\msbuild.buildMultiTargeting.MotorMemo.props" />
+    <None Include="obj\Debug\net9.0\staticwebassets\msbuild.buildTransitive.MotorMemo.props" />
+    <None Include="obj\MotorMemo.csproj.EntityFrameworkCore.targets" />
+    <None Include="obj\MotorMemo.csproj.nuget.g.props" />
+    <None Include="obj\MotorMemo.csproj.nuget.g.targets" />
+    <None Include="obj\project.nuget.cache" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="dsserp.commans">
+      <HintPath>Z:\LocalReference\dsserp.commans.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

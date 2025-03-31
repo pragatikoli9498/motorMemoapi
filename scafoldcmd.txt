@@ -1,0 +1,9 @@
+﻿
+Scaffold-DbContext "DataSource=C:\Users\Arjun\Source\Repos\motorMemo_Api\Data\motormemo.db" Microsoft.EntityFrameworkCore.Sqlite -context  MotorMemoDbContext -contextdir Models\Context  -o Models\MotorMemoEntities -force
+
+Scaffold-DbContext "DataSource=C:\Users\Arjun\Source\Repos\motorMemo_Api\Data\mymain.db" Microsoft.EntityFrameworkCore.Sqlite -context  MainDbContext -contextdir Models\Context  -o Models\MainDbEntities -force
+
+
+.............Gaurav.............
+
+Scaffold-DbContext "DataSource=C:\Users\New2PC\source\MotoreMemo\API\Data\motormemo.db" Microsoft.EntityFrameworkCore.Sqlite -context  MotorMemoDbContext -contextdir Models\Context  -o Models\MotorMemoEntities -force
