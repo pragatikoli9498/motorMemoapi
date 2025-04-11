@@ -20,6 +20,7 @@ namespace MotorMemo.Controllers.Master
         {
             _context = context;
         }
+
         [HttpPost]
         public ActionResult getStates(QueryStringParameters page)
         {
@@ -58,12 +59,15 @@ namespace MotorMemo.Controllers.Master
             }
             return Ok(rtn);
         }
+        
+        
+        
         [HttpGet]
         public async Task<ActionResult> list()
         {
             respayload respayload = rtn;
             respayload.data = await _context.Mst00603s.ToListAsync();
-            return Ok(rtn);
+            return Ok(respayload);
         }
     }
 }
