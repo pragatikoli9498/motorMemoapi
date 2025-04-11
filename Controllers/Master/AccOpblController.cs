@@ -22,7 +22,7 @@ namespace MotorMemo.Controllers.Master
             _context = context;
         }
 
-        [HttpPut]
+        [HttpPost]
         public ActionResult getList(QueryStringParameters page, int firm_id, string div_id)
        {
             try

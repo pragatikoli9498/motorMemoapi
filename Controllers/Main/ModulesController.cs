@@ -31,7 +31,7 @@ namespace MotorMemo.Controllers.Main
                 respayload respayload = rtn;
                 respayload.data = await db.Modules.OrderBy(o => o.Modulename).Select(s => new ModulePermission
                 {
-
+                    Id = s.Sys00207s.Where(w => w.UserId == userid).Select(i=>i.Id).FirstOrDefault(),
                     ModuleId = s.Id,
                     UserId = userid,
                     ModuleName = s.Modulename,
@@ -102,25 +102,29 @@ namespace MotorMemo.Controllers.Main
             {
                 foreach (var module in modulePermissions)
                 {
-                    var existingmodule = await db.ModuleUsers.Where(w => w.UserId == module.Id).SingleOrDefaultAsync();
-                    if (module.Status)
-                    {
-                        if (existingmodule == null)
-                            db.ModuleUsers.Add(module);
-                        else
-                            db.Entry(existingmodule).CurrentValues.SetValues(existingmodule);
-                    }
-                    else
+                    var existingmodule = await db.ModuleUsers.Where(w => w.Id == module.Id).SingleOrDefaultAsync();
 
-                    {
-                        if (existingmodule != null)
+
+                    
+                        if (module.Status)
                         {
+                            if (existingmodule == null)
+                                db.ModuleUsers.Add(module);
+                            else
+                                db.Entry(existingmodule).CurrentValues.SetValues(existingmodule);
+                        }
+                        else
 
-                            db.ModuleUsers.Remove(existingmodule);
+                        {
+                            if (existingmodule != null)
+                            {
+
+                                db.ModuleUsers.Remove(existingmodule);
+
+                            }
 
                         }
-
-                    }
+                    
                     await db.SaveChangesAsync();
                     rtn.data = modulePermissions;
                 }
