@@ -11,6 +11,7 @@ using System.Xml.Serialization;
   
 using MotorMemo.Models.Context;
 using MotorMemo.ReportModels;
+using MotorMemo.Models.Procedures;
 
 
 namespace MotorMemo
@@ -47,7 +48,7 @@ namespace MotorMemo
                 options.SuppressModelStateInvalidFilter = true;
             });
 
-          
+           
 
             services.AddDbContext<MotorMemoDbContext>(options =>
             {
@@ -69,7 +70,14 @@ namespace MotorMemo
 
             });
 
-           
+            IConfigurationSection connString = Configuration.GetSection("ConnectionStrings");
+
+            services.Configure<ConnectionString>(connString);
+
+            services.AddScoped<CommanProc>();
+            services.AddScoped<ReceiptProc>();
+            services.AddScoped<PaymentProc>();
+            services.AddScoped<MotorememoProc>();
 
             services.AddControllers();
 

@@ -47,7 +47,7 @@ namespace MotorMemo.ReportModels.Procedures
             oParams[1] = new SqliteParameter("branch_id", branch_id);
             oParams[2] = new SqliteParameter("div_id", div_id);
 
-            DataTable dataTable = await CreateTableRetailDesk(CommandText, oParams);
+            DataTable dataTable = await CreateTableMototrmemo(CommandText, oParams);
 
             return dataTable;
         }

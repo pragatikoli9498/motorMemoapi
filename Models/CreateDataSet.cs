@@ -2,7 +2,10 @@
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System.Data.Common;
-using System.Data; 
+using System.Data;
+using static SQLite.SQLite3;
+using BoldReports.Web.ReportViewer.Internal;
+using BoldReports.Web;
 using MotorMemo.Models.Context;
 using MotorMemo.ReportModels;
 
@@ -20,14 +23,14 @@ namespace MotorMemo.models
             MotormemoConnection = new SqliteConnection(string.Format(SqlLiteConnstring.Value.motormemoConnection, configuration["DataBaseName"]));
             _context = context;
         }
-        public async Task<DataTable> CreateTableRetailDesk(string CommandText, SqliteParameter[] oParams)
+        public async Task<DataTable> CreateTableMototrmemo(string CommandText, SqliteParameter[] oParams)
         {
             MotormemoConnection.Open();
             var ocmd = new SqliteCommand(CommandText, MotormemoConnection);
 
             ocmd.Parameters.AddRange(oParams);
 
-            var reader = await ocmd.ExecuteReaderAsync();
+            var reader =  ocmd.ExecuteReader();
             DataTable dataTable = createTable(reader);
             MotormemoConnection.Close();
 

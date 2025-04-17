@@ -50,7 +50,15 @@ namespace MotorMemo.Controllers.Transaction
 
             try
             {
-          
+                if (payment.VchNo == 0)
+                {
+                    var vch = db.Acc002s
+                         .Where(w => w.FirmId == payment.FirmId && w.DivId == payment.DivId)
+                         .Max(c => (int?)c.VchNo);
+
+                    payment.VchNo = (vch ?? 0) + 1;
+                }
+
                 var chlnNo = new dssFunctions(db, MainDb).GenerateChallanNo(payment.FirmId, payment.DivId, 03, payment.VchNo, "");
 
                 if (chlnNo.status_cd == 0)
