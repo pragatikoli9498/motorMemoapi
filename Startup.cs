@@ -78,6 +78,8 @@ namespace MotorMemo
             services.AddScoped<ReceiptProc>();
             services.AddScoped<PaymentProc>();
             services.AddScoped<MotorememoProc>();
+            services.AddScoped<CashBankBookProc>();
+            services.AddScoped<DayBookProc>();
 
             services.AddControllers();
 

@@ -7,9 +7,9 @@ public partial class MotormemoAudit
 {
     public int VchId { get; set; }
 
-    public string CreatedUser { get; set; } = null!;
+    public string? CreatedUser { get; set; }
 
-    public string CreatedDt { get; set; } = null!;
+    public string? CreatedDt { get; set; }
 
     public string? ModifiedUser { get; set; }
 

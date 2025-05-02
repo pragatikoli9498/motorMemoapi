@@ -24,19 +24,26 @@ namespace MotorMemo.Models.Procedures
             using (var ocomm = new SqliteConnection(_context.Database.GetConnectionString()))
             {
 
-                var CommandText = @"select row_number() OVER (PARTITION by acc002.vch_id ORDER BY acc002_01.detl_id) AS Sr_No,acc002.vch_id,acc002.vch_date,acc002.vch_no,acc002.challan_no,cr.Acc_name,acc002.amount as net_amt,acc002.Nar,
-                                    case when acc002.txn_type=1 then 'Cheque' when acc002.txn_type=2 then 'RTGS' when acc002.txn_type=3 then 'NEFT'
-			                                    when acc002.txn_type=4 then 'Debit Card' when acc002.txn_type=5 then 'Credit Card' else 'Other' end as trns_type,
-                                    acc002.txn_no,acc002.txn_date,acc002.txn_drawnon,acc002.txn_bywhome,
-                                    case when acc002.against=2 then'Purchase' when acc002.against=3 
-                                    then 'Advanced' else 'Unknow' end as against,acc002.ref_no,acc002.ref_date,dr.Acc_name as bank_name,dr.City_name,acc002_01.rec_amt as dr_amount,
-                                    acc002_01.tds_rate,acc002_01.tds_amt,acc002_01.amount,mst010.I_Name,acc002_01.detl_id
-                                    from acc002
-                                    INNER JOIN acc002_01 on acc002.vch_id=acc002_01.vch_id
-                                    INNER JOIN Accmst as cr on acc002.acc_code=cr.acc_code
-                                    INNER join Accmst as dr on acc002_01.acc_code=dr.acc_code
-                                    LEFT JOIN mst010 on acc002_01.cost_id=mst010.I_id
---                                  where acc002.vch_id=@vch_id";
+                var CommandText = @"SELECT motormemo.*, d.type,d.commodity,d.uom,d.qty,d.chrgWeight,d.actWeight,d.rate,d.freight,
+	                                    motormemo_details.ReceiverGstin,motormemo_details.ReceiverName,motormemo_details.ReceiverMobileNo,motormemo_details.ReceiverMail,motormemo_details.EwayNo,
+	                                    motormemo_details.SenderName,motormemo_details.SenderGstin,motormemo_details.SenderMobileNo,motormemo_details.SenderMail,motormemo_details.SenderBillNo,motormemo_details.SenderBillDt
+                                        FROM motormemo
+                                    INNER JOIN (
+                                        SELECT 'Common' AS type,motormemo_commodity.vch_id,motormemo_commodity.commodity,motormemo_commodity.uom,motormemo_commodity.qty,motormemo_commodity.chrgWeight,
+                                            motormemo_commodity.actWeight,motormemo_commodity.rate,motormemo_commodity.freight
+                                            FROM motormemo_commodity 
+                                    WHERE motormemo_commodity.vch_id = @vch_id
+ 
+                                        UNION ALL
+
+                                    SELECT 'Expenses' AS type,motormemo_expense.vch_id,Sundry.sundry_name AS commodity,NULL AS uom,NULL AS qty,NULL AS chrgWeight,NULL AS actWeight,
+                                        NULL AS rate,-motormemo_expense.charges AS freight
+                                        FROM motormemo_expense
+                                    INNER JOIN Sundry ON motormemo_expense.Expacc_code = Sundry.S_Id
+                                    WHERE motormemo_expense.vch_id = @vch_id
+                                    ) d ON motormemo.vch_id = d.vch_id
+                                    inner join motormemo_details on motormemo.vch_id=motormemo_details.vch_id
+                                    WHERE motormemo.vch_id = @vch_id";
 
                 //oParams[0] = new SqliteParameter("vch_id", vch_id);
 

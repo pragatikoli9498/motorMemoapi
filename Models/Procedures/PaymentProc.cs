@@ -36,7 +36,7 @@ namespace MotorMemo.Models.Procedures
                                     INNER JOIN Accmst as cr on acc002.acc_code=cr.acc_code
                                     INNER join Accmst as dr on acc002_01.acc_code=dr.acc_code
                                     LEFT JOIN mst010 on acc002_01.cost_id=mst010.I_id
---                                  where acc002.vch_id=@vch_id";
+                                   where acc002.vch_id=@vch_id";
 
                 //oParams[0] = new SqliteParameter("vch_id", vch_id);
 

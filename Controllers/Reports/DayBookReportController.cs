@@ -12,7 +12,7 @@ using System.Data;
 namespace MotorMemo.Controllers.Reports
 {
     [Route("[controller]")]
-    public class MetormemoReportController : ControllerBase
+    public class DayBookReportController : ControllerBase
     {
         private IMemoryCache _cache;
         private IWebHostEnvironment Environment;
@@ -20,17 +20,16 @@ namespace MotorMemo.Controllers.Reports
         // private string? _mobileno;
         private string? _exportType = "PDF";
         private string? _reportCacheId;
-        public readonly MotorememoProc _proc;
+        public readonly DayBookProc _proc;
         public readonly CommanProc _comman;
         private respayload rtn = new respayload();
-        public MetormemoReportController(IMemoryCache cache, IWebHostEnvironment environment, MotorememoProc proc, CommanProc comman)
+        public DayBookReportController(IMemoryCache cache, IWebHostEnvironment environment, DayBookProc proc, CommanProc comman)
         {
             _cache = cache;
             Environment = environment;
             _proc = proc;
             _comman = comman;
         }
-
         [HttpPost]
         public async Task<IActionResult> Report([FromBody] Dictionary<string, object> jsonArray)
         {
@@ -59,15 +58,15 @@ namespace MotorMemo.Controllers.Reports
 
 
 
-                string[] DbParamNames = new string[] { "vch_id", "firm_id" };
+                string[] DbParamNames = new string[] { "firm_id", "div_id", "sdt", "edt" };
                 var DbParamsWithValue = repoService.getdbParams(reportParams, DbParamNames);
 
-                string[] RpParamNames = new string[] { "vch_id", "firm_id" };
+                string[] RpParamNames = new string[] { "sdt", "edt" };
                 var RpParamsWithValue = repoService.getReportParams(reportParams, RpParamNames);
 
                 string basePath = Environment.ContentRootPath;
 
-                string RdlPath = basePath + @"\\Models\\Rdlc\\motormemo.rdl";
+                string RdlPath = basePath + @"\\Models\\Rdlc\\day_book.rdl";
 
 
                 string MemType = "PDF";
@@ -82,7 +81,12 @@ namespace MotorMemo.Controllers.Reports
                     {
                         ReportData = new CacheData();
 
-                        object dataset1 = await _proc.Data(Convert.ToInt16(DbParamsWithValue["vch_id"]));
+                        object dataset1 =
+                                       await _proc.Data(Convert.ToInt16(DbParamsWithValue?["firm_id"]),
+                                           DbParamsWithValue["div_id"].ToString(),
+                                           Convert.ToDateTime(DbParamsWithValue["sdt"]),
+                                           Convert.ToDateTime(DbParamsWithValue["edt"])
+                                          );
                         object dataset2 = await _comman.firm(Convert.ToInt32(DbParamsWithValue["firm_id"]));
 
                         var rdc = new List<ReportDataSource>();
@@ -113,7 +117,7 @@ namespace MotorMemo.Controllers.Reports
                         }
 
                         ReportData.DataSources = rdc;
-                        ReportData.Parameters = parameters;
+                        ReportData.Parameters = RpParamsWithValue;
                         ReportData.ExportType = MemType;
                         ReportData.ContentType = contentType;
 

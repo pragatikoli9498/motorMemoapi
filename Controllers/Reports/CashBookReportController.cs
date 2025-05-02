@@ -12,7 +12,7 @@ using System.Data;
 namespace MotorMemo.Controllers.Reports
 {
     [Route("[controller]")]
-    public class MetormemoReportController : ControllerBase
+    public class CashBookReportController : ControllerBase
     {
         private IMemoryCache _cache;
         private IWebHostEnvironment Environment;
@@ -20,10 +20,10 @@ namespace MotorMemo.Controllers.Reports
         // private string? _mobileno;
         private string? _exportType = "PDF";
         private string? _reportCacheId;
-        public readonly MotorememoProc _proc;
+        public readonly CashBankBookProc _proc;
         public readonly CommanProc _comman;
         private respayload rtn = new respayload();
-        public MetormemoReportController(IMemoryCache cache, IWebHostEnvironment environment, MotorememoProc proc, CommanProc comman)
+        public CashBookReportController(IMemoryCache cache, IWebHostEnvironment environment, CashBankBookProc proc, CommanProc comman)
         {
             _cache = cache;
             Environment = environment;
@@ -59,15 +59,61 @@ namespace MotorMemo.Controllers.Reports
 
 
 
-                string[] DbParamNames = new string[] { "vch_id", "firm_id" };
+                string[] DbParamNames = new string[] { "firm_id","div_id","sdt","edt","acc_code" };
                 var DbParamsWithValue = repoService.getdbParams(reportParams, DbParamNames);
 
-                string[] RpParamNames = new string[] { "vch_id", "firm_id" };
-                var RpParamsWithValue = repoService.getReportParams(reportParams, RpParamNames);
+                //string[] RpParamNames = new string[] {"firm_id" };
+                
 
+                int firm_id = Convert.ToInt16(DbParamsWithValue?["firm_id"]);
+                string div_id = DbParamsWithValue["div_id"].ToString();
+                DateTime sdt = Convert.ToDateTime(DbParamsWithValue["sdt"]);
+                DateTime edt = Convert.ToDateTime(DbParamsWithValue["edt"]);
+                int? acc_code = (DbParamsWithValue["acc_code"].ToString() == "" ? 0 : Convert.ToInt16(DbParamsWithValue["acc_code"]));
+                var opBal = await _proc.getCashBankOpening(firm_id, div_id, sdt, edt, acc_code) as IEnumerable<dynamic>;
+                decimal? balance = 0.00m;
+                decimal? opblAmt = 0.00m;
+
+                //try
+                //{
+                //    if (opBal !=null)
+                //    {
+                //        balance = Convert.ToDecimal(opBal);
+                //        opblAmt = balance;
+                //    }
+
+
+                //}
+                try
+                {
+                    if (opBal != null)
+                    {
+                        var firstRow = opBal.FirstOrDefault();
+                        if (firstRow != null && firstRow.balance != null)
+                        {
+                            balance = Convert.ToDecimal(firstRow.balance);
+                            opblAmt = balance;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+
+
+                string[] RpParamNames = { "sdt", "edt", "acc_code", "opblAmt" };
+
+                reportParams.Add(new ReportParams
+                {
+                    key = "opblAmt",
+                    value = opblAmt.ToString(),
+                });
+                var RpParamsWithValue = repoService.getReportParams(reportParams, RpParamNames);
                 string basePath = Environment.ContentRootPath;
 
-                string RdlPath = basePath + @"\\Models\\Rdlc\\motormemo.rdl";
+                string RdlPath = basePath + @"\\Models\\Rdlc\\cash_bank_book.rdl";
 
 
                 string MemType = "PDF";
@@ -75,15 +121,19 @@ namespace MotorMemo.Controllers.Reports
 
 
                 try
-                {
+               {
                     CacheData? ReportData = repoService.ExistingCache(_reportCacheId, _cache, _exportType, _mailArray, _wappArray);
 
                     if (ReportData == null)
                     {
                         ReportData = new CacheData();
 
-                        object dataset1 = await _proc.Data(Convert.ToInt16(DbParamsWithValue["vch_id"]));
-                        object dataset2 = await _comman.firm(Convert.ToInt32(DbParamsWithValue["firm_id"]));
+                        object dataset1 = await _proc.getCashBankBook(Convert.ToInt16(DbParamsWithValue["firm_id"]),
+                                                            DbParamsWithValue["div_id"].ToString(),
+                                            Convert.ToDateTime(DbParamsWithValue["sdt"]),
+                                            Convert.ToDateTime(DbParamsWithValue["edt"]),
+                                           (DbParamsWithValue["acc_code"].ToString() == "" ? 0 : Convert.ToInt16(DbParamsWithValue["acc_code"])));
+                       object dataset2 = await _comman.firm(Convert.ToInt32(DbParamsWithValue["firm_id"]));
 
                         var rdc = new List<ReportDataSource>();
                         rdc.Add(new ReportDataSource("DataSet1", dataset1));
