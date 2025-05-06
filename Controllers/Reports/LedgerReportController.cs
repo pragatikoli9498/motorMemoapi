@@ -12,7 +12,7 @@ using System.Data;
 namespace MotorMemo.Controllers.Reports
 {
     [Route("[controller]")]
-    public class PaymentReportController : ControllerBase
+    public class LedgerReportController : ControllerBase
     {
         private IMemoryCache _cache;
         private IWebHostEnvironment Environment;
@@ -20,10 +20,10 @@ namespace MotorMemo.Controllers.Reports
         // private string? _mobileno;
         private string? _exportType = "PDF";
         private string? _reportCacheId;
-        public readonly PaymentProc _proc;
+        public readonly LedgerProc _proc;
         public readonly CommanProc _comman;
         private respayload rtn = new respayload();
-        public PaymentReportController(IMemoryCache cache, IWebHostEnvironment environment, PaymentProc proc, CommanProc comman)
+        public LedgerReportController(IMemoryCache cache, IWebHostEnvironment environment, LedgerProc proc, CommanProc comman)
         {
             _cache = cache;
             Environment = environment;
@@ -59,15 +59,15 @@ namespace MotorMemo.Controllers.Reports
 
 
 
-                string[] DbParamNames = new string[] { "vch_id", "firm_id" };
+                string[] DbParamNames = new string[] { "firm_id", "div_id", "acc_code", "sdt", "edt", "inventory", "isPageBreak", "sg_code" };
                 var DbParamsWithValue = repoService.getdbParams(reportParams, DbParamNames);
 
-                string[] RpParamNames = new string[] { "vch_id", "firm_id" };
+                string[] RpParamNames = new string[] { "sdt", "edt", "isPageBreak" };
                 var RpParamsWithValue = repoService.getReportParams(reportParams, RpParamNames);
 
                 string basePath = Environment.ContentRootPath;
 
-                string RdlPath = basePath + @"\\Models\\Rdlc\\Payment.rdl";
+                string RdlPath = basePath + @"\\Models\\Rdlc\\LedgerReport.rdl";
 
 
                 string MemType = "PDF";
@@ -82,7 +82,16 @@ namespace MotorMemo.Controllers.Reports
                     {
                         ReportData = new CacheData();
 
-                        object dataset1 = await _proc.Data(Convert.ToInt16(DbParamsWithValue["vch_id"]));
+                        object dataset1 = await _proc.Data(Convert.ToInt16(DbParamsWithValue["firm_id"]),
+                                            DbParamsWithValue["div_id"].ToString(),
+                                            (DbParamsWithValue["sg_code"].ToString() == "" ? null : Convert.ToInt16(DbParamsWithValue["sg_code"])),
+                                           (DbParamsWithValue["acc_code"].ToString() == "" ? null : Convert.ToInt16(DbParamsWithValue["acc_code"])),
+                                             Convert.ToDateTime(DbParamsWithValue["sdt"]),
+                                             Convert.ToDateTime(DbParamsWithValue["edt"]),
+                                              Convert.ToBoolean(DbParamsWithValue["inventory"])
+
+                                              );
+
                         object dataset2 = await _comman.firm(Convert.ToInt32(DbParamsWithValue["firm_id"]));
 
                         var rdc = new List<ReportDataSource>();
@@ -162,5 +171,6 @@ namespace MotorMemo.Controllers.Reports
 
             return Ok(rtn);
         }
+
     }
 }

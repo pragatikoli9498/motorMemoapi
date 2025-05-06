@@ -80,6 +80,8 @@ namespace MotorMemo
             services.AddScoped<MotorememoProc>();
             services.AddScoped<CashBankBookProc>();
             services.AddScoped<DayBookProc>();
+            services.AddScoped<LedgerProc>();
+            services.AddScoped<SubGroupListProc>();
 
             services.AddControllers();
 

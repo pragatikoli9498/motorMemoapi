@@ -113,7 +113,7 @@ namespace MotorMemo.Controllers.Reports
                         }
 
                         ReportData.DataSources = rdc;
-                        ReportData.Parameters = parameters;
+                        ReportData.Parameters = RpParamsWithValue;
                         ReportData.ExportType = MemType;
                         ReportData.ContentType = contentType;
 
