@@ -82,6 +82,8 @@ namespace MotorMemo
             services.AddScoped<DayBookProc>();
             services.AddScoped<LedgerProc>();
             services.AddScoped<SubGroupListProc>();
+            services.AddScoped<TrialBalanceProc>();
+            services.AddScoped<TrialBalance1Proc>();
 
             services.AddControllers();
 
