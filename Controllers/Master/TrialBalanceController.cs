@@ -53,30 +53,30 @@ namespace MotorMemo.Controllers.Master
                 }
 
                 var trialDash = data
-    .GroupBy(g => new
-    {
-        sg_code = (int?)g.sg_code,
-        sg_sr_no = (int?)g.sg_sr_no,
-        sg_name = (string)g.sg_name
-    })
-    .Select(s => new
-    {
-        srNo = s.Key.sg_sr_no ?? 0,
-        sg_code = s.Key.sg_code ?? 0,
-        Group = s.Key.sg_name,
-        Debit = s.Sum(a =>
-        {
-            var bal = a.balance;
-            if (bal == null || Convert.ToDecimal(bal) >= 0) return 0m;
-            return -Convert.ToDecimal(bal);
-        }),
-        Credit = s.Sum(a =>
-        {
-            var bal = a.balance;
-            if (bal == null || Convert.ToDecimal(bal) <= 0) return 0m;
-            return Convert.ToDecimal(bal);
-        })
-    });
+                    .GroupBy(g => new
+                    {
+                        sg_code = (int?)g.sg_code,
+                        sg_sr_no = (int?)g.sg_sr_no,
+                        sg_name = (string)g.sg_name
+                    })
+                    .Select(s => new
+                    {
+                        srNo = s.Key.sg_sr_no ?? 0,
+                        sg_code = s.Key.sg_code ?? 0,
+                        Group = s.Key.sg_name,
+                        Debit = s.Sum(a =>
+                        {
+                            var bal = a.balance;
+                            if (bal == null || Convert.ToDecimal(bal) >= 0) return 0m;
+                            return -Convert.ToDecimal(bal);
+                        }),
+                        Credit = s.Sum(a =>
+                        {
+                            var bal = a.balance;
+                            if (bal == null || Convert.ToDecimal(bal) <= 0) return 0m;
+                            return Convert.ToDecimal(bal);
+                        })
+                    });
 
                 rtn.data = trialDash.ToList();
             }

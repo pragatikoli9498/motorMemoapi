@@ -120,8 +120,6 @@ namespace MotorMemo.Controllers.Master
         {
             try
             {
-
-
                 var filter = new EntityFrameworkFilter<Mst003>();
 
                 var query = db.Mst003s.Include(i => i.GrpCodeNavigation);

@@ -67,13 +67,13 @@ namespace MotorMemo.Models.Procedures
                                          CASE WHEN (SUM(cramt) - SUM(dramt)) > 0 THEN SUM(cramt) - SUM(dramt) ELSE 0 END AS op_credit, 
                                          CASE WHEN (SUM(cramt) - SUM(dramt)) < 0 THEN (SUM(cramt) - SUM(dramt)) * - 1 ELSE 0 END AS op_debit, 0 as curr_credit, 0 as curr_debit
                                          FROM Ledger 
-                                          WHERE	(firm_id = @firm_id) AND (@branch_id IS NULL OR branch_id = @branch_id) AND (div_id = @div_id)  AND ( sg_code=@sg_code)
+                                          WHERE	(firm_id = @firm_id)  AND (div_id = @div_id)  AND ( sg_code=@sg_code)
 		                                GROUP BY  sg_code, sg_name, acc_code, Acc_name, City_name, contact_mobile_no,email_id
                                         union all
                                         SELECT	sg_code, sg_name, acc_code, Acc_name, City_name, contact_mobile_no as mobile_no,email_id, 0 as op_credit, 0 as op_debit,
                                         SUM(cramt) AS curr_credit, SUM(dramt) AS curr_debit
                                         FROM Ledger 
-                                        WHERE	(firm_id = @firm_id) AND (@branch_id IS NULL OR branch_id = @branch_id) AND (div_id = @div_id)  AND ( sg_code=@sg_code)                                  
+                                        WHERE	(firm_id = @firm_id)  AND (div_id = @div_id)  AND ( sg_code=@sg_code)                                  
                                          GROUP BY  sg_code, sg_name, acc_code, Acc_name, City_name, contact_mobile_no,email_id
                                          ) as drlst
                                         

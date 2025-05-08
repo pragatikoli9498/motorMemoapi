@@ -20,7 +20,7 @@ namespace MotorMemo.Models.Procedures
 
         public async Task<object> firm(int? firm_id)
         {
-            //var oParams = new SqliteParameter[1];
+         
 
             using (var ocomm = new SqliteConnection(_context.Database.GetConnectionString()))
             {
@@ -30,14 +30,10 @@ namespace MotorMemo.Models.Procedures
                                     FROM mst004
                                     INNER JOIN mst004_01 on mst004_01.firm_code=mst004.firm_code";
 
-            //oParams[0] = new SqliteParameter("firm_code", firm_id);
-
                 var data = await ocomm.QueryAsync<object>(CommandText, new { firm_id });
                 return data;
             }
-            //DataTable dataTable = await CreateTableMainDb(CommandText, oParams);
-
-            //return dataTable;
+           
         }
     }
 }
