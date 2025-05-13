@@ -49,7 +49,7 @@ INNER JOIN (
         NULL AS rate,
         -motormemo_expense.charges AS freight
     FROM motormemo_expense
-    INNER JOIN Sundry ON motormemo_expense.Expacc_code = Sundry.S_Id
+    INNER JOIN Sundry ON motormemo_expense.s_id = Sundry.S_Id
     WHERE motormemo_expense.vch_id = 3
 ) d ON motormemo.vch_id = d.vch_id
 inner join motormemo_details on motormemo.vch_id=motormemo_details.vch_id
@@ -65,12 +65,12 @@ WHERE motormemo.vch_id = 3</CommandText>
           <DataField>dt</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="from">
-          <DataField>from</DataField>
+        <Field Name="from_dstn">
+          <DataField>from_dstn</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="to">
-          <DataField>to</DataField>
+        <Field Name="to_dstn">
+          <DataField>to_dstn</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="vehicle_no">
@@ -105,8 +105,8 @@ WHERE motormemo.vch_id = 3</CommandText>
           <DataField>selectfreightType</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="buildtotalamt">
-          <DataField>buildtotalamt</DataField>
+        <Field Name="billAmt">
+          <DataField>billAmt</DataField>
           <rd:TypeName>System.Double</rd:TypeName>
         </Field>
         <Field Name="type">
@@ -1310,7 +1310,7 @@ WHERE motormemo.vch_id = 3</CommandText>
             <DataSetName>DataSet1</DataSetName>
             <Top>0in</Top>
             <Left>0in</Left>
-            <Height>0.77083in</Height>
+            <Height>0.77084in</Height>
             <Width>7.75695in</Width>
             <Style>
               <Border>
@@ -1352,7 +1352,7 @@ WHERE motormemo.vch_id = 3</CommandText>
           </RightBorder>
         </Style>
       </Body>
-      <Width>197.02647mm</Width>
+      <Width>197.02653mm</Width>
       <Page>
         <PageHeader>
           <Height>54.38422mm</Height>
@@ -1559,7 +1559,7 @@ WHERE motormemo.vch_id = 3</CommandText>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value>=First(Fields!from.Value, "DataSet1")</Value>
+                      <Value>=First(Fields!from_dstn.Value, "DataSet1")</Value>
                       <Style>
                         <FontSize>9pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -1691,7 +1691,7 @@ WHERE motormemo.vch_id = 3</CommandText>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value>=First(Fields!to.Value, "DataSet1")</Value>
+                      <Value>=First(Fields!to_dstn.Value, "DataSet1")</Value>
                       <Style>
                         <FontSize>9pt</FontSize>
                         <FontWeight>Bold</FontWeight>

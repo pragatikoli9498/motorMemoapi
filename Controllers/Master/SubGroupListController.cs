@@ -58,8 +58,8 @@ namespace MotorMemo.Controllers.Master
                         sg_code = (int)g.sg_code,
                         sg_name = (string)g.sg_name,
                         acc_code = (int)g.acc_code,
-                        acc_name = g.Acc_name?.ToString(),     // <-- Use the correct casing!
-                        city_name = g.City_name?.ToString(),   //
+                        acc_name = g.Acc_name?.ToString(),     
+                        city_name = g.City_name?.ToString(),   
                         mobile_no = g.mobile_no.ToString(),
                         email_id = (string)g.email_id,
                         op_credit = (double)g.op_credit,

@@ -192,7 +192,7 @@ namespace MotorMemo.Controllers.Transaction
                     .Take(page.PageSize).Select(i => new
                     {
                         i.SundryName,
-                        i.SId,
+                        i.S_Id,
                         i.AccCodeNavigation,
 
 

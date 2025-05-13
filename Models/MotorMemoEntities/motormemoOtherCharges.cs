@@ -8,7 +8,7 @@
          
         public string? otherchag { get; set; }
 
-        public int? ExpaccCode { get; set; }
+        public int? S_Id { get; set; }
 
         public int AccCode { get; set; }
 

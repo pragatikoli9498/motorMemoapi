@@ -38,7 +38,7 @@ namespace MotorMemo.Models.Procedures
                             		WHERE mst001.mg_bs in(5,6) and acc999.div_id=@div_id and  acc999.firm_id=@firm_id 	
                             				and acc999.vch_date<=@edt
                             		GROUP BY mst011.Acc_name, mst003.sg_name,
-                                            mst003.sr_no,mst011.acc_code,mst003.sg_code,mst003.show,mst001.mg_bs,   mst002.mg_code,mst002.sr_no 
+                                            mst003.sr_no,mst011.acc_code,mst003.sg_code,mst003.show,mst001.mg_bs,mst002.mg_code,mst002.sr_no 
                                      having SUM(acc999_01.cramt - acc999_01.dramt)<>0";
 
                 var data = await ocomm.QueryAsync<object>(CommandText, new { firm_id, div_id, edt });

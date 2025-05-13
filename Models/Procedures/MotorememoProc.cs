@@ -39,7 +39,7 @@ namespace MotorMemo.Models.Procedures
                                     SELECT 'Expenses' AS type,motormemo_expense.vch_id,Sundry.sundry_name AS commodity,NULL AS uom,NULL AS qty,NULL AS chrgWeight,NULL AS actWeight,
                                         NULL AS rate,-motormemo_expense.charges AS freight
                                         FROM motormemo_expense
-                                    INNER JOIN Sundry ON motormemo_expense.Expacc_code = Sundry.S_Id
+                                    INNER JOIN Sundry ON motormemo_expense.S_id = Sundry.S_Id
                                     WHERE motormemo_expense.vch_id = @vch_id
                                     ) d ON motormemo.vch_id = d.vch_id
                                     inner join motormemo_details on motormemo.vch_id=motormemo_details.vch_id

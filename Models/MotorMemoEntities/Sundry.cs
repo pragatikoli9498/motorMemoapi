@@ -5,7 +5,7 @@ namespace MotorMemo.Models.MotorMemoEntities;
 
 public partial class Sundry
 {
-    public int SId { get; set; }
+    public int S_Id { get; set; }
 
     public string SundryName { get; set; } = null!;
 

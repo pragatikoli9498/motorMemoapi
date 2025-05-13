@@ -13,23 +13,23 @@ public partial class Motormemo
 
     public string? Dt { get; set; }
 
-    public string? From { get; set; }
+    public string? From_Dstn { get; set; }
 
-    public string? To { get; set; } 
+    public string? To_Dstn { get; set; } 
 
     public string VehicleNo { get; set; } = null!;
 
     public int? MemoNo { get; set; }
 
-    public int? ownerCreditAmout { get; set; }
+    public int? LeftAmount { get; set; }
 
-    public decimal? freightdeductAmount { get; set; }
+    public decimal? TotalFreight { get; set; }
      
-    public decimal? advanceAmount { get; set; }
+    public decimal? AdvAmount { get; set; }
 
-    public int? selectfreightType { get; set; }
+    public int? FreightType { get; set; }
 
-    public int? buildtotalamt { get; set; }
+    public int? BillAmt { get; set; }
 
     public virtual MotormemoAudit? MotormemoAudit { get; set; }
 

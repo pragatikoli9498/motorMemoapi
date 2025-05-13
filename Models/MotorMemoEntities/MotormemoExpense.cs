@@ -9,7 +9,7 @@ public partial class MotormemoExpense
 
     public int VchId { get; set; } 
 
-    public int? ExpaccCode { get; set; }
+    public int? S_Id { get; set; }
 
     public int AccCode { get; set; }
 
@@ -17,7 +17,7 @@ public partial class MotormemoExpense
 
     public int Action { get; set; }
 
-    public Boolean expensesisChecked { get; set; }
+    public Boolean IsChecked { get; set; }
 
     public virtual Mst011 AccCodeNavigation { get; set; } = null!;
 

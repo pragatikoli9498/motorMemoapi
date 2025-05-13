@@ -646,13 +646,16 @@ public partial class MotorMemoDbContext : DbContext
             entity.Property(e => e.FirmId).HasColumnName("firm_id");
             entity.Property(e => e.DivId).HasColumnName("div_id");
 
-            entity.Property(e => e.From).HasColumnName("from");
+            entity.Property(e => e.From_Dstn).HasColumnName("from_dstn");
             entity.Property(e => e.MemoNo).HasColumnType("NUMERIC").HasColumnName("memo_No"); 
-            entity.Property(e => e.To).HasColumnName("to");
+            entity.Property(e => e.To_Dstn).HasColumnName("to_dstn");
             entity.Property(e => e.VehicleNo).HasColumnName("vehicle_no");
-            entity.Property(e => e.freightdeductAmount).HasColumnType("NUMERIC").HasColumnName("freightdeductAmount");
-            entity.Property(e => e.advanceAmount).HasColumnType("NUMERIC").HasColumnName("advanceAmount");
-            entity.Property(e => e.ownerCreditAmout).HasColumnType("NUMERIC").HasColumnName("ownerCreditAmout");
+            entity.Property(e => e.TotalFreight).HasColumnType("NUMERIC").HasColumnName("TotalFreight");
+            entity.Property(e => e.AdvAmount).HasColumnType("NUMERIC").HasColumnName("AdvAmount");
+            entity.Property(e => e.LeftAmount).HasColumnType("NUMERIC").HasColumnName("LeftAmount");
+            entity.Property(e => e.FreightType).HasColumnType("NUMERIC").HasColumnName("FreightType");
+            entity.Property(e => e.BillAmt).HasColumnType("NUMERIC").HasColumnName("BillAmt");
+
         });
 
         modelBuilder.Entity<MotormemoAudit>(entity =>
@@ -682,7 +685,7 @@ public partial class MotorMemoDbContext : DbContext
 
            
             entity.Property(e => e.otherchag).HasColumnType("NUMERIC").HasColumnName("otherchag");
-            entity.Property(e => e.ExpaccCode).HasColumnName("Expacc_code");
+            entity.Property(e => e.S_Id).HasColumnName("s_id");
 
             entity.Property(e => e.AccCode).HasColumnName("acc_code");
 
@@ -691,7 +694,7 @@ public partial class MotorMemoDbContext : DbContext
               .OnDelete(DeleteBehavior.ClientSetNull);
 
             entity.HasOne(d => d.Sundries).WithMany(p => p.MotormemoOtherCharges)
-             .HasForeignKey(d => d.ExpaccCode)
+             .HasForeignKey(d => d.S_Id)
              .OnDelete(DeleteBehavior.ClientSetNull);
 
 
@@ -777,7 +780,7 @@ public partial class MotorMemoDbContext : DbContext
                 .HasColumnType("NUMERIC")
                 .HasColumnName("charges");
 
-            entity.Property(e => e.ExpaccCode).HasColumnName("Expacc_code");
+            entity.Property(e => e.S_Id).HasColumnName("s_id");
             entity.Property(e => e.VchId).HasColumnName("vch_id");
 
             entity.HasOne(d => d.AccCodeNavigation).WithMany(p => p.MotormemoExpenses)
@@ -785,7 +788,7 @@ public partial class MotorMemoDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull);
              
             entity.HasOne(d => d.Vch).WithMany(p => p.MotormemoExpenses).HasForeignKey(d => d.VchId);
-            entity.HasOne(d => d.Sundries).WithMany(p => p.MotormemoExpenses).HasForeignKey(d => d.ExpaccCode);
+            entity.HasOne(d => d.Sundries).WithMany(p => p.MotormemoExpenses).HasForeignKey(d => d.S_Id);
         });
 
         modelBuilder.Entity<Mst001>(entity =>
@@ -1436,11 +1439,11 @@ public partial class MotorMemoDbContext : DbContext
          
         modelBuilder.Entity<Sundry>(entity =>
         {
-            entity.HasKey(e => e.SId);
+            entity.HasKey(e => e.S_Id);
 
             entity.ToTable("Sundry");
 
-            entity.Property(e => e.SId).HasColumnName("S_Id");
+            entity.Property(e => e.S_Id).HasColumnName("S_Id");
             entity.Property(e => e.ExpaccCode).HasColumnName("Expacc_code");
             entity.Property(e => e.Operation).HasColumnName("operation");
             entity.Property(e => e.SundryName).HasColumnName("sundry_name");

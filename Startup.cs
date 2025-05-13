@@ -86,6 +86,7 @@ namespace MotorMemo
             services.AddScoped<TrialBalance1Proc>();
             services.AddScoped<BalanceSheetProc>();
             services.AddScoped<ProfitLossProc>();
+            services.AddScoped<MotormemoRegProc>();
 
             services.AddControllers();
 
