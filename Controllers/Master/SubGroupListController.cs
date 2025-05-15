@@ -47,28 +47,28 @@ namespace MotorMemo.Controllers.Master
             {
 
                 var data = await _proc.Data(firm_id, div_id, sg_code, sdt, edt) as IEnumerable<dynamic>;
-                if (data == null)
-                {
-                    throw new Exception("Data returned is not a valid enumerable object.");
-                }
+                //if (data == null)
+                //{
+                //    throw new Exception("Data returned is not a valid enumerable object.");
+                //}
 
                 var grplist = data
-                    .GroupBy(g => new
-                    {
-                        sg_code = (int)g.sg_code,
-                        sg_name = (string)g.sg_name,
-                        acc_code = (int)g.acc_code,
-                        acc_name = g.Acc_name?.ToString(),     
-                        city_name = g.City_name?.ToString(),   
-                        mobile_no = g.mobile_no.ToString(),
-                        email_id = (string)g.email_id,
-                        op_credit = (double)g.op_credit,
-                        op_debit = (double)g.op_debit,
-                        curr_credit = (double)g.curr_credit,
-                        curr_debit = (double)g.curr_debit,
-                        cl_credit = (double)g.cl_credit,
-                        cl_debit = (double)g.cl_debit,
-                    })
+                   .GroupBy(g => new
+                   {
+                       sg_code = g.sg_code != null ? (int)(long)g.sg_code : 0,
+                       sg_name = g.sg_name?.ToString() ?? "",
+                       acc_code = g.acc_code != null ? (int)(long)g.acc_code : 0,
+                       acc_name = g.Acc_name?.ToString() ?? "",
+                       city_name = g.City_name?.ToString() ?? "",
+                       mobile_no = g.mobile_no?.ToString() ?? "",
+                       email_id = g.email_id?.ToString() ?? "",
+                       op_credit = g.op_credit != null ? (double)g.op_credit : 0.00,
+                       op_debit = g.op_debit != null ? (double)g.op_debit : 0.00,
+                       curr_credit = g.curr_credit != null ? (double)g.curr_credit : 0.00,
+                       curr_debit = g.curr_debit != null ? (double)g.curr_debit : 0.00,
+                       cl_credit = g.cl_credit != null ? (double)g.cl_credit : 0.00,
+                       cl_debit = g.cl_debit != null ? (double)g.cl_debit : 0.00,
+                   })
                     .Select(c => new
                     {
                         c.Key.sg_code,
