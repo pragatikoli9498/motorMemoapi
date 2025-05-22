@@ -50,6 +50,16 @@ public partial class MotorMemoDbContext : DbContext
 
     public virtual DbSet<Acc99901> Acc99901s { get; set; }
 
+    public virtual DbSet<Bilty> Bilties { get; set; }
+
+    public virtual DbSet<BiltyAudit> BiltyAudits { get; set; }
+
+    public virtual DbSet<BiltyCommodity> BiltyCommodities { get; set; }
+
+    public virtual DbSet<BIltyDetails> BIltyDetails { get; set; }
+
+    public virtual DbSet<BiltyGstDetails> BiltyGstDetails { get; set; }
+
     public virtual DbSet<Motormemo> Motormemos { get; set; }
 
     public virtual DbSet<MotormemoAudit> MotormemoAudits { get; set; }
@@ -633,6 +643,40 @@ public partial class MotorMemoDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
             entity.HasOne(d => d.Vch).WithMany(p => p.Acc99901s).HasForeignKey(d => d.VchId);
+        });
+
+        modelBuilder.Entity<Bilty>(entity =>
+        {
+            entity.HasKey(e => e.VchId);
+
+            entity.ToTable("bilty");
+
+            entity.Property(e => e.VchId).HasColumnName("vch_id");
+            entity.Property(e => e.Date).HasColumnName("date");
+            entity.Property(e => e.BillNo).HasColumnName("bill_no");
+            entity.Property(e => e.BillDate).HasColumnName("bill_dt");
+            entity.Property(e => e.FirmId).HasColumnName("firm_id");
+            entity.Property(e => e.DivId).HasColumnName("div_id");
+            entity.Property(e => e.From_Dstn).HasColumnName("from_dstn");
+            entity.Property(e => e.BiltyNo).HasColumnType("NUMERIC").HasColumnName("bilty_no");
+            entity.Property(e => e.To_Dstn).HasColumnName("to_dstn");
+          
+        });
+
+        modelBuilder.Entity<BiltyAudit>(entity =>
+        {
+            entity.HasKey(e => e.VchId);
+
+            entity.ToTable("bilty_audit");
+
+            entity.Property(e => e.VchId)
+                .ValueGeneratedNever()
+                .HasColumnName("vch_id");
+            entity.Property(e => e.CreatedUser).UseCollation("NOCASE");
+            entity.Property(e => e.ModifiedUser).UseCollation("NOCASE");
+
+
+            entity.HasOne(d => d.Bilty).WithOne(p => p.BiltyAudit).HasForeignKey<BiltyAudit>(d => d.VchId);
         });
 
         modelBuilder.Entity<Motormemo>(entity =>
