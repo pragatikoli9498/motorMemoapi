@@ -1,6 +1,6 @@
 ﻿namespace MotorMemo.Models.MotorMemoEntities
 {
-    public partial class BIltyDetails
+    public partial class BiltyDetail
     {
         public int DetlId { get; set; }
 
@@ -12,7 +12,7 @@
 
         public string SenderName { get; set; } = null!;
 
-        public string SenderAddress1 { get; set; } = null!;
+        public string SenderAddress { get; set; } = null!;
 
         public string SenderPin { get; set; } = null!;
 

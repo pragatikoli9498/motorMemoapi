@@ -18,6 +18,6 @@ namespace MotorMemo.Models.MotorMemoEntities
 
         public decimal CESS { get; set; }
 
-        public virtual Bilty Bilty { get; set; } = new Bilty();
+        public virtual Bilty Bilty { get; set; }= null!;
     }
 }

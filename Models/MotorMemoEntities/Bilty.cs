@@ -22,7 +22,7 @@
 
         public virtual BiltyAudit? BiltyAudit { get; set; }
 
-        public virtual BIltyDetails? BIltyDetails { get; set; }
+        public virtual BiltyDetail? BiltyDetails { get; set; }
 
         public virtual ICollection<BiltyCommodity> BiltyCommodities { get; set; } = new List<BiltyCommodity>();
 

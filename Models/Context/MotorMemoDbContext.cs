@@ -56,7 +56,7 @@ public partial class MotorMemoDbContext : DbContext
 
     public virtual DbSet<BiltyCommodity> BiltyCommodities { get; set; }
 
-    public virtual DbSet<BIltyDetails> BIltyDetails { get; set; }
+    public virtual DbSet<BiltyDetail> BiltyDetails { get; set; }
 
     public virtual DbSet<BiltyGstDetails> BiltyGstDetails { get; set; }
 
@@ -675,11 +675,86 @@ public partial class MotorMemoDbContext : DbContext
             entity.Property(e => e.CreatedUser).UseCollation("NOCASE");
             entity.Property(e => e.ModifiedUser).UseCollation("NOCASE");
 
-
             entity.HasOne(d => d.Bilty).WithOne(p => p.BiltyAudit).HasForeignKey<BiltyAudit>(d => d.VchId);
         });
 
-        modelBuilder.Entity<Motormemo>(entity =>
+        modelBuilder.Entity<BiltyCommodity>(entity =>
+        {
+            entity.HasKey(e => e.DetlId);
+
+            entity.ToTable("bilty_commodity");
+
+            entity.Property(e => e.DetlId).HasColumnName("Detl_Id");
+            entity.Property(e => e.ActWeight)
+                .HasColumnType("NUMERIC")
+                .HasColumnName("actWeight");
+            entity.Property(e => e.ChrgWeight)
+                .HasColumnType("NUMERIC")
+                .HasColumnName("chrgWeight");
+            entity.Property(e => e.Commodity).HasColumnName("commodity");
+            entity.Property(e => e.Freight)
+                .HasColumnType("NUMERIC")
+                .HasColumnName("freight");
+            entity.Property(e => e.Qty)
+                .HasColumnType("NUMERIC")
+                .HasColumnName("qty");
+            entity.Property(e => e.Rate)
+                .HasColumnType("NUMERIC")
+                .HasColumnName("rate");
+            entity.Property(e => e.Uom).HasColumnName("uom");
+            entity.Property(e => e.VchId).HasColumnName("vch_id");
+
+            entity.HasOne(d => d.Bilty).WithMany(p => p.BiltyCommodities).HasForeignKey(d => d.VchId);
+        });
+
+
+        modelBuilder.Entity<BiltyDetail>(entity =>
+        {
+            entity.HasKey(e => e.DetlId);
+
+            entity.ToTable("bilty_details");
+
+            entity.Property(e => e.DetlId).HasColumnName("Detl_Id");
+            entity.Property(e => e.VchId).HasColumnName("vch_id");
+
+            entity.Property(e => e.SenderGstin).HasColumnName("SenderGstin");
+            entity.Property(e => e.SenderMobileNo).HasColumnType("NUMERIC").HasColumnName("SenderMobileNo");
+            entity.Property(e => e.SenderName).HasColumnName("SenderName");
+            entity.Property(e => e.SenderAddress).HasColumnName("SenderAddress");
+            entity.Property(e => e.SenderPin).HasColumnType("NUMERIC").HasColumnName("SenderPin");
+            entity.Property(e => e.SenderStateId).HasColumnType("NUMERIC").HasColumnName("SenderStateId");
+            entity.Property(e => e.SenderMail).HasColumnName("SenderMail");
+            entity.Property(e => e.SenderBillNo).HasColumnType("NUMERIC").HasColumnName("SenderBillNo");
+            entity.Property(e => e.SenderBillDt).HasColumnName("SenderBillDt");
+            entity.Property(e => e.ReceiverGstin).HasColumnName("ReceiverGstin");
+            entity.Property(e => e.ReceiverMobileNo).HasColumnType("NUMERIC").HasColumnName("ReceiverMobileNo");
+            entity.Property(e => e.ReceiverName).HasColumnName("ReceiverName");
+            entity.Property(e => e.ReceiverAddress).HasColumnName("ReceiverAddress");
+            entity.Property(e => e.ReceiverPin).HasColumnType("NUMERIC").HasColumnName("ReceiverPin");
+            entity.Property(e => e.ReceiverStateId).HasColumnType("NUMERIC").HasColumnName("ReceiverStateId");
+            entity.Property(e => e.ReceiverMail).HasColumnName("ReceiverMail");
+            entity.Property(e => e.EwayNo).HasColumnType("NUMERIC").HasColumnName("EwayNo");
+
+            entity.HasOne(d => d.Bilty).WithOne(p => p.BiltyDetails).HasForeignKey<BiltyDetail>(d => d.VchId);
+        });
+
+        modelBuilder.Entity<BiltyGstDetails>(entity =>
+        {
+            entity.HasKey(e => e.DetlId);
+
+            entity.ToTable("bilty_Gst");
+            entity.Property(e => e.DetlId).HasColumnName("detl_id").ValueGeneratedOnAdd();
+            entity.Property(e => e.VchId).HasColumnName("vch_id");
+            entity.Property(e => e.EffDate).HasColumnName("EffDate");
+            entity.Property(e => e.IGST).HasColumnName("igst");
+            entity.Property(e => e.CGST).HasColumnName("cgst");
+            entity.Property(e => e.SGST).HasColumnName("sgst");
+            entity.Property(e => e.CESS).HasColumnName("cess");
+
+            entity.HasOne(d => d.Bilty).WithMany(p => p.BiltyGstDetails).HasForeignKey(d => d.VchId);
+        });
+
+            modelBuilder.Entity<Motormemo>(entity =>
         {
             entity.HasKey(e => e.VchId);
 
