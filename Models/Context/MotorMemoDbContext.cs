@@ -660,6 +660,7 @@ public partial class MotorMemoDbContext : DbContext
             entity.Property(e => e.From_Dstn).HasColumnName("from_dstn");
             entity.Property(e => e.BiltyNo).HasColumnType("NUMERIC").HasColumnName("bilty_no");
             entity.Property(e => e.To_Dstn).HasColumnName("to_dstn");
+            entity.Property(e => e.TotalFreight).HasColumnName("TotalFreight");
           
         });
 
@@ -674,6 +675,8 @@ public partial class MotorMemoDbContext : DbContext
                 .HasColumnName("vch_id");
             entity.Property(e => e.CreatedUser).UseCollation("NOCASE");
             entity.Property(e => e.ModifiedUser).UseCollation("NOCASE");
+            entity.Property(e => e.CreatedDt).HasColumnName("CreatedDate");
+            entity.Property(e => e.ModifiedDt).HasColumnName("ModifiedDate");
 
             entity.HasOne(d => d.Bilty).WithOne(p => p.BiltyAudit).HasForeignKey<BiltyAudit>(d => d.VchId);
         });
@@ -746,12 +749,18 @@ public partial class MotorMemoDbContext : DbContext
             entity.Property(e => e.DetlId).HasColumnName("detl_id").ValueGeneratedOnAdd();
             entity.Property(e => e.VchId).HasColumnName("vch_id");
             entity.Property(e => e.EffDate).HasColumnName("EffDate");
-            entity.Property(e => e.IGST).HasColumnName("igst");
-            entity.Property(e => e.CGST).HasColumnName("cgst");
-            entity.Property(e => e.SGST).HasColumnName("sgst");
-            entity.Property(e => e.CESS).HasColumnName("cess");
+            entity.Property(e => e.Igst).HasColumnName("igst");
+            entity.Property(e => e.Cgst).HasColumnName("cgst");
+            entity.Property(e => e.Sgst).HasColumnName("sgst");
+            entity.Property(e => e.Cess).HasColumnName("cess");
+            entity.Property(e => e.GstAmt).HasColumnName("GstAmt");
+            entity.Property(e => e.TotalAmt).HasColumnName("TotalAmt");
+            entity.Property(e => e.IgstAmt).HasColumnName("IgstAmt");
+            entity.Property(e => e.CgstAmt).HasColumnName("CgstAmt");
+            entity.Property(e => e.SgstAmt).HasColumnName("SgstAmt");
+            entity.Property(e => e.CessAmt).HasColumnName("CessAmt");
 
-            entity.HasOne(d => d.Bilty).WithMany(p => p.BiltyGstDetails).HasForeignKey(d => d.VchId);
+            entity.HasOne(d => d.Bilty).WithOne(p => p.BiltyGstDetails).HasForeignKey<BiltyGstDetails>(d => d.VchId);
         });
 
             modelBuilder.Entity<Motormemo>(entity =>

@@ -20,13 +20,15 @@
 
         public int? BiltyNo { get; set; }
 
+        public decimal? TotalFreight { get; set; }
+
         public virtual BiltyAudit? BiltyAudit { get; set; }
 
         public virtual BiltyDetail? BiltyDetails { get; set; }
 
         public virtual ICollection<BiltyCommodity> BiltyCommodities { get; set; } = new List<BiltyCommodity>();
 
-        public virtual ICollection<BiltyGstDetails> BiltyGstDetails { get; set; } = new List<BiltyGstDetails>();
+        public virtual BiltyGstDetails? BiltyGstDetails { get; set; } 
 
     }
 }

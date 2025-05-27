@@ -31,7 +31,7 @@ namespace MotorMemo.Controllers.Transaction
 
         [HttpPost]
         public ActionResult getList(QueryStringParameters page, int firm_id, string div_id)
-        {
+          {
             try
             {
 
@@ -237,38 +237,39 @@ namespace MotorMemo.Controllers.Transaction
 
                     // _context.Entry(s.MotormemoExpenses).CurrentValues.SetValues(data.MotormemoExpenses);
 
-                    foreach (var existingChild in s.BiltyGstDetails.ToList())
-                    {
-                        if (!data.BiltyGstDetails.Any(a => a.DetlId == existingChild.DetlId))
-                            db.BiltyGstDetails.Remove(existingChild);
-                    }
+                    //foreach (var existingChild in s.BiltyGstDetails.ToList())
+                    //{
+                    //    if (!data.BiltyGstDetails.Any(a => a.DetlId == existingChild.DetlId))
+                    //        db.BiltyGstDetails.Remove(existingChild);
+                    //}
 
-                    foreach (var childModel in data.BiltyGstDetails.ToList())
-                    {
-                        //childModel.AccCodeNavigation = null;
-                        //childModel.Sundries = null;
+                    //foreach (var childModel in data.BiltyGstDetails.ToList())
+                    //{
+                    //    //childModel.AccCodeNavigation = null;
+                    //    //childModel.Sundries = null;
 
-                        var existingChild = s.BiltyGstDetails
-                            .Where(a => a.DetlId == childModel.DetlId)
-                            .SingleOrDefault();
+                    //    var existingChild = s.BiltyGstDetails
+                    //        .Where(a => a.DetlId == childModel.DetlId)
+                    //        .SingleOrDefault();
 
-                        if (existingChild != null)
-                        {
-                            db.Entry(existingChild).CurrentValues.SetValues(childModel);
+                    //    if (existingChild != null)
+                    //    {
+                    //        db.Entry(existingChild).CurrentValues.SetValues(childModel);
 
-                        }
-                        else
-                        {
-                            childModel.VchId = data.VchId;
+                    //    }
+                    //    else
+                    //    {
+                    //        childModel.VchId = data.VchId;
 
-                            s.BiltyGstDetails.Add(childModel);
-                        }
+                    //        s.BiltyGstDetails.Add(childModel);
+                    //    }
 
-                    }
+                    //}
+                    db.Entry(s.BiltyGstDetails).CurrentValues.SetValues(data.BiltyGstDetails);
 
                     //_context.Entry(s.MotormemoOtherCharges).CurrentValues.SetValues(data.MotormemoOtherCharges);
 
-                 
+
 
                 }
                 else
