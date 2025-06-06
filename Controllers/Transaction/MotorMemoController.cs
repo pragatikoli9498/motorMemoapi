@@ -75,14 +75,9 @@ namespace MotorMemo.Controllers.Transaction
         [HttpPost]
         public async Task<IActionResult> insert(Motormemo motormemo)
         {
-              
             rtn.status_cd = 1;
 
-          
-             
-            
-            
-                foreach (var childModel in motormemo.MotormemoExpenses)
+            foreach (var childModel in motormemo.MotormemoExpenses)
             {
                 childModel.AccCodeNavigation = null;
                 childModel.Sundries = null;

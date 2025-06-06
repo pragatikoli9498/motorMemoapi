@@ -62,6 +62,12 @@ public partial class MotorMemoDbContext : DbContext
 
     public virtual DbSet<Motormemo> Motormemos { get; set; }
 
+    public virtual DbSet<motormemo2> Motormemo2s { get; set; }
+
+    public virtual DbSet<Motormemo2Audit> Motormemo2Audits { get; set; }
+
+    public virtual DbSet<Motormemo2Childe> Motormemo2Childes { get; set; }
+
     public virtual DbSet<MotormemoAudit> MotormemoAudits { get; set; }
 
     public virtual DbSet<MotormemoCommodity> MotormemoCommodities { get; set; }
@@ -651,17 +657,19 @@ public partial class MotorMemoDbContext : DbContext
 
             entity.ToTable("bilty");
 
-            entity.Property(e => e.VchId).HasColumnName("vch_id");
-            entity.Property(e => e.Date).HasColumnName("date");
+            entity.Property(e => e.VchId).HasColumnName("vch_id").ValueGeneratedOnAdd();
+            entity.Property(e => e.vchDate).HasColumnName("vch_date");
             entity.Property(e => e.BillNo).HasColumnName("bill_no");
             entity.Property(e => e.BillDate).HasColumnName("bill_dt");
             entity.Property(e => e.FirmId).HasColumnName("firm_id");
             entity.Property(e => e.DivId).HasColumnName("div_id");
             entity.Property(e => e.From_Dstn).HasColumnName("from_dstn");
-            entity.Property(e => e.BiltyNo).HasColumnType("NUMERIC").HasColumnName("bilty_no");
+            entity.Property(e => e.BiltyNo).HasColumnName("bilty_no");
             entity.Property(e => e.To_Dstn).HasColumnName("to_dstn");
             entity.Property(e => e.TotalFreight).HasColumnName("TotalFreight");
+
           
+
         });
 
         modelBuilder.Entity<BiltyAudit>(entity =>
@@ -673,8 +681,8 @@ public partial class MotorMemoDbContext : DbContext
             entity.Property(e => e.VchId)
                 .ValueGeneratedNever()
                 .HasColumnName("vch_id");
-            entity.Property(e => e.CreatedUser).UseCollation("NOCASE");
-            entity.Property(e => e.ModifiedUser).UseCollation("NOCASE");
+            entity.Property(e => e.CreatedUser).HasColumnName("CreatedUser");
+            entity.Property(e => e.ModifiedUser).HasColumnName("ModifiedUser");
             entity.Property(e => e.CreatedDt).HasColumnName("CreatedDate");
             entity.Property(e => e.ModifiedDt).HasColumnName("ModifiedDate");
 
@@ -763,6 +771,8 @@ public partial class MotorMemoDbContext : DbContext
             entity.HasOne(d => d.Bilty).WithOne(p => p.BiltyGstDetails).HasForeignKey<BiltyGstDetails>(d => d.VchId);
         });
 
+
+
             modelBuilder.Entity<Motormemo>(entity =>
         {
             entity.HasKey(e => e.VchId);
@@ -783,6 +793,59 @@ public partial class MotorMemoDbContext : DbContext
             entity.Property(e => e.LeftAmount).HasColumnType("NUMERIC").HasColumnName("LeftAmount");
             entity.Property(e => e.FreightType).HasColumnType("NUMERIC").HasColumnName("FreightType");
             entity.Property(e => e.BillAmt).HasColumnType("NUMERIC").HasColumnName("BillAmt");
+
+        });
+
+        modelBuilder.Entity<motormemo2>(entity =>
+        {
+            entity.HasKey(e => e.VchId);
+
+            entity.ToTable("motormemo2");
+
+            entity.Property(e => e.VchId).HasColumnName("vch_id");
+            entity.Property(e => e.VchDate).HasColumnName("Vch_date");
+            entity.Property(e => e.FirmId).HasColumnName("Firm_id");
+            entity.Property(e => e.DivId).HasColumnName("Div_id");
+            entity.Property(e => e.From_Dstn).HasColumnName("From_dstn");
+            entity.Property(e => e.To_Dstn).HasColumnName("To_dstn");
+            entity.Property(e => e.VehicleNo).HasColumnName("Vehicle_no");
+
+
+        });
+
+        modelBuilder.Entity<Motormemo2Audit>(entity =>
+        {
+            entity.HasKey(e => e.VchId);
+
+            entity.ToTable("motormemo2_audit");
+
+            entity.Property(e => e.VchId)
+                .ValueGeneratedNever()
+                .HasColumnName("vch_id");
+            entity.Property(e => e.CreatedUser).HasColumnName("CreatedUser");
+            entity.Property(e => e.ModifiedUser).HasColumnName("ModifiedUser");
+
+
+            entity.HasOne(d => d.Motormemo2).WithOne(p => p.Motormemo2Audit).HasForeignKey<Motormemo2Audit>(d => d.VchId);
+        });
+
+        modelBuilder.Entity<Motormemo2Childe>(entity =>
+        {
+            entity.HasKey(e => e.DetlId);
+
+            entity.ToTable("motormemo2_child");
+
+            entity.Property(e => e.DetlId).HasColumnName("Detl_id");
+            entity.Property(e => e.VchId).HasColumnName("vch_id");
+            entity.Property(e => e.BiltyId).HasColumnName("bilty_id");
+            entity.Property(e => e.Weight).HasColumnName("Weight");
+            entity.Property(e => e.EwayNo).HasColumnName("EwayNo");
+            entity.Property(e => e.ValidUpTo).HasColumnName("ValidUpTo");
+           
+
+            entity.HasOne(d => d.Motormemo2).WithMany(p => p.Motormemo2Childe).HasForeignKey(d => d.VchId);
+
+            entity.HasOne(d => d.Bilty).WithMany(p => p.Motormemo2Childe).HasForeignKey(d => d.BiltyId);
 
         });
 

@@ -11,6 +11,8 @@ using System.Diagnostics.Contracts;
 using static MotorMemo.Models.Helper;
 using System.Security.Claims;
 using SkiaSharp;
+using MotorMemo.Models.MainDbEntities;
+using Syncfusion.XlsIO.Implementation.PivotAnalysis;
 
 namespace MotorMemo.Controllers.Transaction
 {
@@ -127,7 +129,7 @@ namespace MotorMemo.Controllers.Transaction
                             i.BiltyCommodities,
                             i.BiltyDetails,
                             i.BiltyGstDetails,
-                            i.Date,
+                            i.vchDate,
                             i.From_Dstn,
                             i.To_Dstn,
                             i.VchId,
@@ -290,5 +292,76 @@ namespace MotorMemo.Controllers.Transaction
             }
             return Ok(rtn);
         }
+
+        
+
+
+        [HttpGet]
+        public async Task<ActionResult> pendinglists(int firmCode,string div_id)
+        {
+            try
+            {
+                rtn.data = await db.Bilties
+             .Where(w => w.FirmId == firmCode && w.DivId == div_id && !w.Motormemo2Childe.Any(m => m.BiltyId == w.VchId))
+             .Include(s => s.BiltyDetails)
+             .Include(s => s.BiltyAudit)
+             .Include(s => s.BiltyCommodities)
+             .Include(s => s.BiltyGstDetails)
+             .AsNoTracking()
+             .Select(s=> new
+             {
+                 BiltyId= s.VchId,
+                  s.BiltyNo,
+                  s.vchDate,
+                  s.To_Dstn,
+                 SenderName= s.BiltyDetails.SenderName,
+                 ReceiverName=s.BiltyDetails.ReceiverName,
+                 Weight=s.BiltyCommodities.Sum(sm=>sm.ActWeight),
+                 EwayNo=s.BiltyDetails.EwayNo,
+                 
+             }).ToListAsync();
+
+            }
+            catch (Exception ex)
+            {
+                rtn.status_cd = 0;
+                rtn.errors.exception = ex;
+            }
+            return Ok(rtn);
+
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> list()
+        {
+            try
+            {
+                respayload respayload = rtn;
+
+                respayload.data = await (from i in db.Mst011s.AsNoTracking()
+                                         .Include((Mst011 s) => s.Mst01109).AsNoTracking()
+                                         .Include((Mst011 s) => s.SgCodeNavigation).AsNoTracking()
+                                        .Include((Mst011 s) => s.Place).AsNoTracking()
+                                         select new
+                                         {
+                                             i.AccCode,
+                                             i.AccAlias,
+                                             i.AccName,
+                                             i.SgCodeNavigation,
+                                             i.Place,
+                                             i.Mst01109
+                                         }).ToListAsync();
+
+            }
+            catch (Exception ex2)
+            {
+                Exception ex = ex2;
+                rtn.status_cd = 0;
+                rtn.errors.exception = ex;
+                return Ok(rtn);
+            }
+            return Ok(rtn);
+        }
+
     }
 }
