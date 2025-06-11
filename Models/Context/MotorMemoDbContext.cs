@@ -64,6 +64,8 @@ public partial class MotorMemoDbContext : DbContext
 
     public virtual DbSet<motormemo2> Motormemo2s { get; set; }
 
+    public virtual DbSet<Motormemo2AdvDetails> Motormemo2AdvDetails { get; set; }
+
     public virtual DbSet<Motormemo2Audit> Motormemo2Audits { get; set; }
 
     public virtual DbSet<Motormemo2Childe> Motormemo2Childes { get; set; }
@@ -718,7 +720,6 @@ public partial class MotorMemoDbContext : DbContext
             entity.HasOne(d => d.Bilty).WithMany(p => p.BiltyCommodities).HasForeignKey(d => d.VchId);
         });
 
-
         modelBuilder.Entity<BiltyDetail>(entity =>
         {
             entity.HasKey(e => e.DetlId);
@@ -771,9 +772,7 @@ public partial class MotorMemoDbContext : DbContext
             entity.HasOne(d => d.Bilty).WithOne(p => p.BiltyGstDetails).HasForeignKey<BiltyGstDetails>(d => d.VchId);
         });
 
-
-
-            modelBuilder.Entity<Motormemo>(entity =>
+        modelBuilder.Entity<Motormemo>(entity =>
         {
             entity.HasKey(e => e.VchId);
 
@@ -802,14 +801,37 @@ public partial class MotorMemoDbContext : DbContext
 
             entity.ToTable("motormemo2");
 
-            entity.Property(e => e.VchId).HasColumnName("vch_id");
+            entity.Property(e => e.VchId).HasColumnName("vch_id").ValueGeneratedOnAdd();
             entity.Property(e => e.VchDate).HasColumnName("Vch_date");
             entity.Property(e => e.FirmId).HasColumnName("Firm_id");
             entity.Property(e => e.DivId).HasColumnName("Div_id");
             entity.Property(e => e.From_Dstn).HasColumnName("From_dstn");
             entity.Property(e => e.To_Dstn).HasColumnName("To_dstn");
             entity.Property(e => e.VehicleNo).HasColumnName("Vehicle_no");
+            entity.Property(e => e.TotalWet).HasColumnName("TotalWet");
+            entity.Property(e => e.FreightperWet).HasColumnName("FreightperWet");
+            entity.Property(e => e.FreightTotal).HasColumnName("FreightTotal");
+            entity.Property(e => e.TotalAdv).HasColumnName("TotalAdv");
+            entity.Property(e => e.RemAmt).HasColumnName("RemAmt");
 
+
+        });
+
+        modelBuilder.Entity<Motormemo2AdvDetails>(entity =>
+        {
+            entity.HasKey(e => e.DetlId);
+
+            entity.ToTable("motormemo2_AdvDetail");
+
+            entity.Property(e => e.DetlId).HasColumnName("Detl_id");
+            entity.Property(e => e.VchId).HasColumnName("Vch_id");
+            entity.Property(e => e.AccCode).HasColumnName("Acc_code");
+            entity.Property(e => e.Amount).HasColumnName("Amount");
+            entity.Property(e => e.Narration).HasColumnName("Narration");
+
+            entity.HasOne(d => d.Motormemo2).WithMany(p => p.Motormemo2AdvDetails).HasForeignKey(d => d.VchId).OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(d => d.AccCodeNavigation).WithMany(p => p.Motormemo2AdvDetails).HasForeignKey(d => d.AccCode); 
 
         });
 
@@ -824,6 +846,8 @@ public partial class MotorMemoDbContext : DbContext
                 .HasColumnName("vch_id");
             entity.Property(e => e.CreatedUser).HasColumnName("CreatedUser");
             entity.Property(e => e.ModifiedUser).HasColumnName("ModifiedUser");
+            entity.Property(e => e.CreatedDt).HasColumnName("CreatedDate");
+            entity.Property(e => e.ModifiedDt).HasColumnName("ModifiedDate");
 
 
             entity.HasOne(d => d.Motormemo2).WithOne(p => p.Motormemo2Audit).HasForeignKey<Motormemo2Audit>(d => d.VchId);

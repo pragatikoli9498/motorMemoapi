@@ -85,4 +85,6 @@ public partial class Mst011
      
 
     public virtual ICollection<Sys010> Sys010s { get; set; } = new List<Sys010>();
+
+    public virtual ICollection<Motormemo2AdvDetails> Motormemo2AdvDetails { get; set; } = new List<Motormemo2AdvDetails>();
 }

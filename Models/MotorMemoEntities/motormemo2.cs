@@ -18,8 +18,18 @@
 
         public decimal TotalWet { get; set; }
 
+        public decimal FreightperWet { get; set; }
+
+        public decimal FreightTotal { get; set; }
+
+        public decimal TotalAdv { get; set; }
+
+        public decimal RemAmt { get; set; }
+
         public virtual Motormemo2Audit? Motormemo2Audit { get; set; }
 
         public virtual ICollection<Motormemo2Childe> Motormemo2Childe { get; set; } = new List<Motormemo2Childe>();
+
+        public virtual ICollection<Motormemo2AdvDetails> Motormemo2AdvDetails { get; set; } = new List<Motormemo2AdvDetails>();
     }
 }
