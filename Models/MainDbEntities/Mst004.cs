@@ -27,7 +27,7 @@ public partial class Mst004
 
     public string? Jurisdiction { get; set; }
 
-    public string? FirmCin { get; set; }
+    public string? TransactionId { get; set; }
 
     public string? FirmPan { get; set; }
 

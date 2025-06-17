@@ -50,6 +50,7 @@ namespace MotorMemo.Controllers.Transaction
                     {
                        
                         i.VchId,
+                        i.VchNo,
                         i.Motormemo2Childe,
                         i.To_Dstn,
                         i.From_Dstn,
@@ -89,6 +90,15 @@ namespace MotorMemo.Controllers.Transaction
 
                 }
 
+                if (motormemo2.VchNo == 0)
+                {
+                    var vch = _context.Motormemo2s
+                         .Where(w => w.FirmId == motormemo2.FirmId && w.DivId == motormemo2.DivId)
+                         .Max(c => (int?)c.VchNo);
+
+                    motormemo2.VchNo = (vch ?? 0) + 1;
+                }
+
                 _context.Motormemo2s.Add(motormemo2);
                 
                 await _context.SaveChangesAsync(); 
@@ -114,6 +124,7 @@ namespace MotorMemo.Controllers.Transaction
                     .Select(i => new
                     {
                         i.VchId,
+                        i.VchNo,
                         i.From_Dstn,
                         i.To_Dstn,
                         i.VchDate,

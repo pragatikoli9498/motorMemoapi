@@ -746,6 +746,8 @@ public partial class MotorMemoDbContext : DbContext
             entity.Property(e => e.ReceiverStateId).HasColumnType("NUMERIC").HasColumnName("ReceiverStateId");
             entity.Property(e => e.ReceiverMail).HasColumnName("ReceiverMail");
             entity.Property(e => e.EwayNo).HasColumnType("NUMERIC").HasColumnName("EwayNo");
+            entity.Property(e => e.SenderPlace).HasColumnName("SenderPlace");
+            entity.Property(e => e.ReceiverPlace).HasColumnName("ReceiverPlace");
 
             entity.HasOne(d => d.Bilty).WithOne(p => p.BiltyDetails).HasForeignKey<BiltyDetail>(d => d.VchId);
         });
@@ -802,6 +804,7 @@ public partial class MotorMemoDbContext : DbContext
             entity.ToTable("motormemo2");
 
             entity.Property(e => e.VchId).HasColumnName("vch_id").ValueGeneratedOnAdd();
+            entity.Property(e => e.VchNo).HasColumnName("vch_no");
             entity.Property(e => e.VchDate).HasColumnName("Vch_date");
             entity.Property(e => e.FirmId).HasColumnName("Firm_id");
             entity.Property(e => e.DivId).HasColumnName("Div_id");

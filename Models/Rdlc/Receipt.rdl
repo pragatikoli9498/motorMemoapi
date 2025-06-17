@@ -2286,7 +2286,7 @@ mst004_01.firm_code=mst004.firm_code</CommandText>
                       <Style />
                     </TextRun>
                     <TextRun>
-                      <Value>=code.RupeesToWord(ReportItems!net_amt.Value)</Value>
+                      <Value>=code.RupeesToWord(ReportItems!cr_amount.Value)</Value>
                       <Style>
                         <FontSize>9pt</FontSize>
                         <FontWeight>Bold</FontWeight>

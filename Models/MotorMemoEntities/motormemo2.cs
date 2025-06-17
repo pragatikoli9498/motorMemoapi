@@ -6,6 +6,8 @@
 
         public DateTime VchDate { get; set; }
 
+        public int VchNo { get; set; }
+
         public int FirmId { get; set; }
 
         public string DivId { get; set; } = null!;

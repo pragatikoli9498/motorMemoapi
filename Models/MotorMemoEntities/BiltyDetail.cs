@@ -40,6 +40,10 @@
 
         public string? EwayNo { get; set; }
 
+        public string? SenderPlace { get; set; }
+
+        public string? ReceiverPlace { get; set; }
+
         public virtual Bilty Bilty { get; set; } = null!;
     }
 }

@@ -85,9 +85,8 @@ public partial class MainDbContext : DbContext
             entity.Property(e => e.FirmBankName)
                 .UseCollation("NOCASE")
                 .HasColumnName("firm_bank_name");
-            entity.Property(e => e.FirmCin)
-                .UseCollation("NOCASE")
-                .HasColumnName("firm_cin");
+            entity.Property(e => e.TransactionId)
+                .HasColumnName("Transaction_id");
             entity.Property(e => e.FirmFno)
                 .UseCollation("NOCASE")
                 .HasColumnName("firm_fno");

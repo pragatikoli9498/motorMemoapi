@@ -201,10 +201,6 @@ namespace MotorMemo.Controllers.Transaction
 
                     db.Entry(s.BiltyDetails).CurrentValues.SetValues(data.BiltyDetails);
 
-                    //  _context.Entry(s.MotormemoCommodities).CurrentValues.SetValues(data.MotormemoCommodities);
-
-
-
                     foreach (var existingChild in s.BiltyCommodities.ToList())
                     {
                         if (!data.BiltyCommodities.Any(a => a.DetlId == existingChild.DetlId))
