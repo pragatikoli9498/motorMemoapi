@@ -28,6 +28,8 @@
 
         public decimal RemAmt { get; set; }
 
+        public DateTime? ConfDate { get; set; }
+
         public virtual Motormemo2Audit? Motormemo2Audit { get; set; }
 
         public virtual ICollection<Motormemo2Childe> Motormemo2Childe { get; set; } = new List<Motormemo2Childe>();

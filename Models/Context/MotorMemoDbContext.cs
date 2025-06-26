@@ -794,6 +794,7 @@ public partial class MotorMemoDbContext : DbContext
             entity.Property(e => e.LeftAmount).HasColumnType("NUMERIC").HasColumnName("LeftAmount");
             entity.Property(e => e.FreightType).HasColumnType("NUMERIC").HasColumnName("FreightType");
             entity.Property(e => e.BillAmt).HasColumnType("NUMERIC").HasColumnName("BillAmt");
+            entity.Property(e => e.ConfDate).HasColumnName("ConfirmationDt");
 
         });
 
@@ -816,6 +817,7 @@ public partial class MotorMemoDbContext : DbContext
             entity.Property(e => e.FreightTotal).HasColumnName("FreightTotal");
             entity.Property(e => e.TotalAdv).HasColumnName("TotalAdv");
             entity.Property(e => e.RemAmt).HasColumnName("RemAmt");
+            entity.Property(e => e.ConfDate).HasColumnName("ConfirmationDt");
 
 
         });

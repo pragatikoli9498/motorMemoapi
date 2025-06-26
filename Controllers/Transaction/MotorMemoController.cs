@@ -27,7 +27,7 @@ namespace MotorMemo.Controllers.Transaction
        
         [HttpPost]
         public ActionResult getList(QueryStringParameters page, int firm_id, string div_id)
-        {
+      {
             try
             {
 
@@ -209,7 +209,7 @@ namespace MotorMemo.Controllers.Transaction
         }
 
         [HttpPut]
-        public async Task<IActionResult> update(int id, Motormemo data)
+        public async Task<IActionResult> update(int id,Motormemo data)
         {
             try
             {
@@ -385,5 +385,154 @@ namespace MotorMemo.Controllers.Transaction
             return Ok(rtn);
         }
 
+
+        [HttpGet]
+        public ActionResult PendingLorryRec(int firm_id, string div_id, string veh_no)
+        {
+            try
+            {
+
+                
+
+               rtn.data = _context.Motormemos.Where(w => w.FirmId == firm_id && w.DivId == div_id && w.VehicleNo==veh_no && w.LeftAmount > 0 && w.ConfDate == null).
+                Include((Motormemo s) => s.MotormemoDetails).AsNoTracking()
+                                         .Include((Motormemo s) => s.MotormemoAudit).AsNoTracking()
+                                         .Include((Motormemo s) => s.MotormemoCommodities).AsNoTracking()
+                                         .Include((Motormemo s) => s.MotormemoExpenses).AsNoTracking()
+                                         .Include((Motormemo s) => s.MotormemoOtherCharges).AsNoTracking()
+                        .Select(i => new
+                      {
+                        i.MemoNo,
+                        i.VchId,
+                        i.Dt,
+                        i.MotormemoAudit,
+                        weight=i.MotormemoCommodities.Sum(s => s.ActWeight),
+                        i.MotormemoDetails,
+                        i.MotormemoExpenses,
+                        i.VehicleNo,
+                        i.To_Dstn,
+                        i.From_Dstn,
+                        i.AdvAmount,
+                        i.LeftAmount,
+                        i.TotalFreight,
+                        i.MotormemoOtherCharges,
+
+                    }).ToList();
+                
+
+            }
+            catch (Exception ex2)
+            {
+
+                rtn.status_cd = 0;
+                rtn.errors.message = ex2.Message;
+
+            }
+            return Ok(rtn);
+        }
+
+
+        [HttpGet]
+        public async Task<ActionResult> PendingAmountedit(int id)
+        {
+            try
+            {
+
+                rtn.data = await _context.Motormemos.Where(s => s.VchId == id).Include(i=>i.MotormemoCommodities)
+                          .Include(s => s.Acc003s)
+                        .AsNoTracking().Select(i => new
+                        {
+                            i.MemoNo,
+                            i.MotormemoAudit,
+                            i.MotormemoCommodities,
+                            Weight = i.MotormemoCommodities.Sum(sm=>sm.ActWeight),
+                            i.TotalFreight,
+                            i.LeftAmount,
+                            i.AdvAmount,
+                            i.FreightType,
+                            i.MotormemoDetails,
+
+                            Acc003s = i.Acc003s.FirstOrDefault(),
+                            //i.MobileNo,
+                            i.BillAmt,
+                            i.VehicleNo,
+                            i.Dt,
+                            i.From_Dstn,
+                            i.To_Dstn,
+                            i.VchId,
+                            senderStateId = _context.Mst00603s.Where(w => w.StateCode == i.MotormemoDetails.SenderStateId).FirstOrDefault(),
+                            receiverStateId = _context.Mst00603s.Where(w => w.StateCode == i.MotormemoDetails.ReceiverStateId).FirstOrDefault(),
+
+                            senderaccount = _context.Mst011s.Where(w => w.AccCode == i.MotormemoDetails.senderAccount).FirstOrDefault(),
+                            receiveraccout = _context.Mst011s.Where(w => w.AccCode == i.MotormemoDetails.receiverAccount).FirstOrDefault(),
+
+                            oweraccount = _context.Mst011s.Where(w => w.AccCode == i.MotormemoDetails.ownerAccount).FirstOrDefault(),
+
+                        }).SingleOrDefaultAsync();
+                if (rtn.data == null)
+                {
+                    rtn.status_cd = 0;
+                    rtn.errors.message = "Record Not Found";
+                }
+            }
+            catch (Exception ex2)
+            {
+                Exception ex = ex2;
+                rtn.status_cd = 0;
+                rtn.errors.exception = ex;
+                return Ok(rtn);
+            }
+            return Ok(rtn);
+        }
+
+
+
+        [HttpPut]
+        public async Task<IActionResult> updatepayment(int id, Motormemo data)
+        {
+            try
+            {
+                data.Acc003s = null;
+
+                var s = await _context.Motormemos
+                    .Include(s => s.MotormemoExpenses)
+                    .Where(w => w.VchId == id)
+                    .FirstOrDefaultAsync();
+
+               
+                foreach (var item in data.MotormemoExpenses)
+                {
+                    item.AccCodeNavigation = null;
+                    item.Sundries = null;
+                  
+                }
+
+                if (s != null)
+                {
+                
+                    _context.Entry(s).CurrentValues.SetValues(data);
+
+                    foreach (var childModel in data.MotormemoExpenses)
+                    {
+                        childModel.VchId = data.VchId;
+                        _context.MotormemoExpenses.Add(childModel);
+                    }
+                }
+                else
+                {
+                    _context.Motormemos.Add(data);
+                }
+
+                await _context.SaveChangesAsync();
+                rtn.data = data;
+            }
+            catch (Exception ex)
+            {
+                rtn.status_cd = 0;
+                rtn.errors.exception = ex;
+                return Ok(rtn);
+            }
+            return Ok(rtn);
+        }
     }
 }

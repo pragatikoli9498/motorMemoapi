@@ -184,7 +184,7 @@ namespace MotorMemo.Controllers.Transaction
             {
 
 
-                var s = await _context.Motormemo2s.Include(s => s.Motormemo2Childe)
+                var s = await _context.Motormemo2s.Include(s => s.Motormemo2Childe).Include(s => s.Motormemo2Audit).Include(s => s.Motormemo2AdvDetails)
                     .Where(w => w.VchId == id).FirstOrDefaultAsync();
 
 
@@ -330,6 +330,151 @@ namespace MotorMemo.Controllers.Transaction
             return Ok(rtn);
         }
 
+        [HttpGet]
+        public ActionResult PendingLorryRec(int firm_id, string div_id, string veh_no)
+        {
+            try
+            {
+                rtn.data = _context.Motormemo2s.Where(w => w.FirmId == firm_id && w.DivId == div_id && w.VehicleNo == veh_no && w.RemAmt > 0 && w.ConfDate == null).
+                 Include((motormemo2 s) => s.Motormemo2Childe).ThenInclude(i => i.Bilty).ThenInclude(b => b.BiltyDetails).AsNoTracking()
+                                          .Include((motormemo2 s) => s.Motormemo2Audit).AsNoTracking()
+                                          .Include((motormemo2 s) => s.Motormemo2AdvDetails).AsNoTracking()
+
+                         .Select(i => new
+                         {
+                             i.VchId,
+                             i.VchNo,
+                             i.From_Dstn,
+                             i.To_Dstn,
+                             i.VchDate,
+                             i.VehicleNo,
+                             i.TotalWet,
+                             i.FreightperWet,
+                             i.FreightTotal,
+                             i.TotalAdv,
+                             i.RemAmt,
+                             i.Motormemo2Audit,
+
+
+                             Motormemo2Childe = i.Motormemo2Childe.Select(child => new
+                             {
+                                 child.DetlId,
+                                 child.VchId,
+                                 child.BiltyId,
+                                 child.Weight,
+                                 child.EwayNo,
+                                 BiltyNo = child.Bilty != null ? (int?)child.Bilty.BiltyNo : null,
+                                 VchDate = child.Bilty != null ? child.Bilty.vchDate.ToString() : null,
+                                 SenderName = child.Bilty != null ? child.Bilty.BiltyDetails.SenderName : null,
+                                 ReceiverName = child.Bilty != null ? child.Bilty.BiltyDetails.ReceiverName : null,
+                                 To_Dstn = child.Bilty != null ? child.Bilty.To_Dstn : null
+                             }),
+                             Motormemo2AdvDetails = i.Motormemo2AdvDetails.Select(s => new
+                             {
+                                 s.DetlId,
+                                 s.VchId,
+                                 s.AccCode,
+                                 s.Amount,
+                                 s.Narration,
+                                 s.AccCodeNavigation
+                             }).ToList()
+
+                         });
+
+
+            }
+            catch (Exception ex2)
+            {
+
+                rtn.status_cd = 0;
+                rtn.errors.message = ex2.Message;
+
+            }
+            return Ok(rtn);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> PendingAmountedit(int id)
+        {
+            try
+            {
+
+                rtn.data = await _context.Motormemo2s.Where(s => s.VchId == id)
+                    .Select(i => new
+                    {
+                        i.VchId,
+                        i.VchNo,
+                        i.From_Dstn,
+                        i.To_Dstn,
+                        i.VchDate,
+                        i.VehicleNo,
+                        i.TotalWet,
+                        i.FreightperWet,
+                        i.FreightTotal,
+                        i.TotalAdv,
+                        i.RemAmt,
+                        i.Motormemo2Audit
+                    })
+                   
+                        .SingleOrDefaultAsync();
+                if (rtn.data == null)
+                {
+                    rtn.status_cd = 0;
+                    rtn.errors.message = "Record Not Found";
+                }
+            }
+            catch (Exception ex2)
+            {
+                Exception ex = ex2;
+                rtn.status_cd = 0;
+                rtn.errors.exception = ex;
+                return Ok(rtn);
+            }
+            return Ok(rtn);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> updatepayment(int id, motormemo2 data)
+        {
+            try
+            {
+                var s = await _context.Motormemo2s
+                    .Include(s => s.Motormemo2AdvDetails)
+                    .Where(w => w.VchId == id)
+                    .FirstOrDefaultAsync();
+
+
+                foreach (var item in data.Motormemo2AdvDetails)
+                {
+                    item.AccCodeNavigation = null;
+                }
+
+                if (s != null)
+                {
+                    _context.Entry(s).CurrentValues.SetValues(data);
+
+                    foreach (var childModel in data.Motormemo2AdvDetails)
+                    {
+                        childModel.VchId = data.VchId;
+                        _context.Motormemo2AdvDetails.Add(childModel);
+                    }
+                }
+                else
+                {
+                    _context.Motormemo2s.Add(data);
+                }
+
+                await _context.SaveChangesAsync();
+                rtn.data = data;
+            }
+            catch (Exception ex)
+            {
+                rtn.status_cd = 0;
+                rtn.errors.exception = ex;
+                return Ok(rtn);
+            }
+            return Ok(rtn);
+        }
 
     }
 }

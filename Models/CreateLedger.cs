@@ -169,10 +169,6 @@ namespace MotorMemo.Models
 
             public   Acc999 receipt(Acc003 challan)
             {
-              
-
-          
-
                 string source = @"[{'value': 1,'name': 'Cheque'},{'value': 2,'name': 'RTGS'},{'value': 3,'name': 'NEFT'},{'value': 4,'name': 'Debit Card'},{'value': 5,'name': 'Credit Card'}]";
                 string output = JsonConvert.SerializeObject(source);
 
@@ -273,8 +269,7 @@ namespace MotorMemo.Models
                 return ledger;
         }
 
-
-        public Acc999 payment(Acc002 challan)
+            public Acc999 payment(Acc002 challan)
         {
 
             string source = @"[{'value': 1,'name': 'Cheque'},{'value': 2,'name': 'RTGS'},{'value': 3,'name': 'NEFT'},{'value': 4,'name': 'Debit Card'},{'value': 5,'name': 'Credit Card'}]";

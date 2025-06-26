@@ -31,6 +31,8 @@ public partial class Motormemo
 
     public int? BillAmt { get; set; }
 
+    public DateTime? ConfDate { get; set; }
+
     public virtual MotormemoAudit? MotormemoAudit { get; set; }
 
     public virtual MotormemoDetail? MotormemoDetails { get; set; }
