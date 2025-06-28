@@ -91,6 +91,7 @@ namespace MotorMemo
             services.AddScoped<BiltyProc>();
             services.AddScoped<motormemo2Proc>();
             services.AddScoped<LorryReceipt2RegProc>();
+            services.AddScoped<ExpensesProc>();
 
             services.AddControllers();
 
