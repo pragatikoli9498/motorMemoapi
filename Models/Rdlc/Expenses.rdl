@@ -293,9 +293,6 @@ where motormemo_expense.s_id = 1</CommandText>
                             <Border>
                               <Style>Solid</Style>
                             </Border>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -330,6 +327,7 @@ where motormemo_expense.s_id = 1</CommandText>
                           <rd:DefaultName>Acc_name</rd:DefaultName>
                           <Style>
                             <Border>
+                              <Color>Silver</Color>
                               <Style>Solid</Style>
                             </Border>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -364,11 +362,9 @@ where motormemo_expense.s_id = 1</CommandText>
                           <rd:DefaultName>charges</rd:DefaultName>
                           <Style>
                             <Border>
+                              <Color>Silver</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -416,11 +412,9 @@ where motormemo_expense.s_id = 1</CommandText>
                           <rd:DefaultName>charges1</rd:DefaultName>
                           <Style>
                             <Border>
+                              <Color>Silver</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -641,6 +635,7 @@ where motormemo_expense.s_id = 1</CommandText>
                         <rd:DefaultName>memo_No</rd:DefaultName>
                         <Style>
                           <Border>
+                            <Color>Silver</Color>
                             <Style>Solid</Style>
                           </Border>
                           <PaddingLeft>2pt</PaddingLeft>
@@ -689,6 +684,7 @@ where motormemo_expense.s_id = 1</CommandText>
                             <rd:DefaultName>dt</rd:DefaultName>
                             <Style>
                               <Border>
+                                <Color>Silver</Color>
                                 <Style>Solid</Style>
                               </Border>
                               <PaddingLeft>2pt</PaddingLeft>
@@ -734,6 +730,7 @@ where motormemo_expense.s_id = 1</CommandText>
                                 <rd:DefaultName>vehicle_no</rd:DefaultName>
                                 <Style>
                                   <Border>
+                                    <Color>Silver</Color>
                                     <Style>Solid</Style>
                                   </Border>
                                   <PaddingLeft>2pt</PaddingLeft>
