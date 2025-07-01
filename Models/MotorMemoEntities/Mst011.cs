@@ -73,8 +73,6 @@ public partial class Mst011
 
     public virtual ICollection<Mst10803>  ExpAccCodeNavigations { get; set; } = new List<Mst10803>();
 
-   
-
     public virtual ICollection<Mst108> Mst108s { get; set; } = new List<Mst108>();
 
     public virtual Mst006? Place { get; set; }

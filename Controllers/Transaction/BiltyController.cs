@@ -36,7 +36,6 @@ namespace MotorMemo.Controllers.Transaction
           {
             try
             {
-
                 var filter = new EntityFrameworkFilter<Bilty>();
 
                 var query = db.Bilties.Where(w => w.FirmId == firm_id && w.DivId == div_id).
@@ -78,7 +77,6 @@ namespace MotorMemo.Controllers.Transaction
         [HttpPost]
         public async Task<IActionResult> insert(Bilty bilty)
         {
-
             rtn.status_cd = 1;
 
             try
@@ -105,7 +103,6 @@ namespace MotorMemo.Controllers.Transaction
                 rtn.errors = new dssFunctions().getException(ex);
 
             }
-
             return Ok(rtn);
 
         }
@@ -115,13 +112,10 @@ namespace MotorMemo.Controllers.Transaction
         {
             try
             {
-
                 rtn.data = await db.Bilties.Where(s => s.VchId == id).Include(s => s.BiltyAudit).AsNoTracking()
                         .Include(s => s.BiltyCommodities).AsNoTracking()
                         .Include(s => s.BiltyDetails).AsNoTracking()
                         .Include(s => s.BiltyGstDetails).AsNoTracking()
-
-                       
                         .AsNoTracking().Select(i => new
                         {
                             i.BiltyNo,
@@ -185,14 +179,11 @@ namespace MotorMemo.Controllers.Transaction
             try
             {
                
-
                 var s = await db.Bilties.Include(s => s.BiltyDetails)
                     .Include(s => s.BiltyCommodities)
                     .Include(s => s.BiltyGstDetails)
                     .Include(s => s.BiltyAudit)
                     .Where(w => w.VchId == id).FirstOrDefaultAsync();
-
-               
 
                 if (s != null)
                 {
@@ -207,11 +198,8 @@ namespace MotorMemo.Controllers.Transaction
                             db.BiltyCommodities.Remove(existingChild);
                     }
 
-
-
                     foreach (var childModel in data.BiltyCommodities.ToList())
                     {
-
 
                         var existingChild = s.BiltyCommodities
                             .Where(a => a.DetlId == childModel.DetlId)
@@ -224,7 +212,6 @@ namespace MotorMemo.Controllers.Transaction
                         }
                         else
                         {
-
                             childModel.VchId = data.VchId;
 
                             s.BiltyCommodities.Add(childModel);
@@ -233,40 +220,7 @@ namespace MotorMemo.Controllers.Transaction
 
                     }
 
-                    // _context.Entry(s.MotormemoExpenses).CurrentValues.SetValues(data.MotormemoExpenses);
-
-                    //foreach (var existingChild in s.BiltyGstDetails.ToList())
-                    //{
-                    //    if (!data.BiltyGstDetails.Any(a => a.DetlId == existingChild.DetlId))
-                    //        db.BiltyGstDetails.Remove(existingChild);
-                    //}
-
-                    //foreach (var childModel in data.BiltyGstDetails.ToList())
-                    //{
-                    //    //childModel.AccCodeNavigation = null;
-                    //    //childModel.Sundries = null;
-
-                    //    var existingChild = s.BiltyGstDetails
-                    //        .Where(a => a.DetlId == childModel.DetlId)
-                    //        .SingleOrDefault();
-
-                    //    if (existingChild != null)
-                    //    {
-                    //        db.Entry(existingChild).CurrentValues.SetValues(childModel);
-
-                    //    }
-                    //    else
-                    //    {
-                    //        childModel.VchId = data.VchId;
-
-                    //        s.BiltyGstDetails.Add(childModel);
-                    //    }
-
-                    //}
                     db.Entry(s.BiltyGstDetails).CurrentValues.SetValues(data.BiltyGstDetails);
-
-                    //_context.Entry(s.MotormemoOtherCharges).CurrentValues.SetValues(data.MotormemoOtherCharges);
-
 
 
                 }
@@ -347,7 +301,6 @@ namespace MotorMemo.Controllers.Transaction
                                              i.Place,
                                              i.Mst01109
                                          }).ToListAsync();
-
             }
             catch (Exception ex2)
             {

@@ -17,7 +17,6 @@ namespace MotorMemo.Controllers.Reports
         private IMemoryCache _cache;
         private IWebHostEnvironment Environment;
 
-        // private string? _mobileno;
         private string? _exportType = "PDF";
         private string? _reportCacheId;
         public readonly MotorememoProc _proc;
@@ -35,7 +34,6 @@ namespace MotorMemo.Controllers.Reports
         public async Task<IActionResult> Report([FromBody] Dictionary<string, object> jsonArray)
         {
             var repoService = new ReportService();
-
 
             List<ReportParams> reportParams = JsonConvert.DeserializeObject<List<ReportParams>>(jsonArray["reportParams"].ToString());
 
@@ -57,8 +55,6 @@ namespace MotorMemo.Controllers.Reports
                 if (jsonArray.ContainsKey("docName"))
                     docName = jsonArray["docName"].ToString();
 
-
-
                 string[] DbParamNames = new string[] { "vch_id", "firm_id" };
                 var DbParamsWithValue = repoService.getdbParams(reportParams, DbParamNames);
 
@@ -69,10 +65,8 @@ namespace MotorMemo.Controllers.Reports
 
                 string RdlPath = basePath + @"\\Models\\Rdlc\\motormemo.rdl";
 
-
                 string MemType = "PDF";
                 string contentType = "application/pdf";
-
 
                 try
                 {
@@ -90,7 +84,6 @@ namespace MotorMemo.Controllers.Reports
                         rdc.Add(new ReportDataSource("DataSet2", dataset2));
 
                         var parameters = new List<ReportParameter>(); //RpParamsWithValue
-
 
                         if (_mailArray == null && _wappArray == null)
                         {
@@ -129,10 +122,8 @@ namespace MotorMemo.Controllers.Reports
 
                     }
 
-
                     if (_mailArray == null && _wappArray == null)
                         rtn.data = new { ArrayBuffer = File(ReportData.Data, contentType), ContentType = contentType, FileType = _exportType };
-
 
                     else
                     {

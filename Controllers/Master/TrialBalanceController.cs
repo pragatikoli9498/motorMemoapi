@@ -43,7 +43,6 @@ namespace MotorMemo.Controllers.Master
         public async Task<IActionResult> getTrialBalItems(int firm_id, string div_id, DateTime? sdt, DateTime edt)
         {
 
-           
             try
             {
                 var data = await _proc.Data(firm_id, div_id, sdt, edt) as IEnumerable<dynamic>;

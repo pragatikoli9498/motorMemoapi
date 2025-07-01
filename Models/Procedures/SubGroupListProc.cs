@@ -25,10 +25,10 @@ namespace MotorMemo.Models.Procedures
             using (var ocomm = new SqliteConnection(_context.Database.GetConnectionString()))
             {
 
-                var CommandText = @"SELECT sg_code, sg_name, acc_code, Acc_name,City_name,mobile_no,cast(SUM(op_credit)*1.00 as decimal(12,3)) AS op_credit, cast(SUM(op_debit)*1.00 as decimal(12,3)) AS op_debit, cast(SUM(curr_credit)*1.00 as decimal(12,3)) AS curr_credit, 
-                                cast(SUM(curr_debit)*1.00 as decimal(12,3)) AS curr_debit,cast((CASE WHEN ((SUM(op_credit) + SUM(curr_credit))- (SUM(op_debit) + SUM(curr_debit))) > 0 THEN ((SUM(op_credit) + SUM(curr_credit))- (SUM(op_debit) + SUM(curr_debit))) ELSE 0 END) *1.00 as decimal(12,3)) AS cl_credit,
-                                		                                cast((CASE WHEN ((SUM(op_credit) + SUM(curr_credit))- (SUM(op_debit) + SUM(curr_debit))) < 0 THEN ((SUM(op_credit) + SUM(curr_credit))- (SUM(op_debit) + SUM(curr_debit))) * - 1 ELSE 0 END)*1.00 as decimal(12,3)) AS cl_debit,
-										                                email_id
+                var CommandText = @"SELECT sg_code, sg_name, acc_code, Acc_name,City_name,mobile_no,cast(SUM(op_credit)*1.00 as decimal(12,3)) AS op_credit, cast(SUM(op_debit)*1.00 as decimal(12,3)) AS op_debit,
+                                cast(SUM(curr_credit)*1.00 as decimal(12,3)) AS curr_credit,cast(SUM(curr_debit)*1.00 as decimal(12,3)) AS curr_debit,
+                                cast((CASE WHEN ((SUM(op_credit) + SUM(curr_credit))- (SUM(op_debit) + SUM(curr_debit))) > 0 THEN ((SUM(op_credit) + SUM(curr_credit))- (SUM(op_debit) + SUM(curr_debit))) ELSE 0 END) *1.00 as decimal(12,3)) AS cl_credit,
+                                cast((CASE WHEN ((SUM(op_credit) + SUM(curr_credit))- (SUM(op_debit) + SUM(curr_debit))) < 0 THEN ((SUM(op_credit) + SUM(curr_credit))- (SUM(op_debit) + SUM(curr_debit))) * - 1 ELSE 0 END)*1.00 as decimal(12,3)) AS cl_debit,email_id
                                  FROM
                                       (
                                          SELECT	sg_code, sg_name, acc_code, Acc_name, City_name, contact_mobile_no as mobile_no,email_id,
@@ -57,10 +57,10 @@ namespace MotorMemo.Models.Procedures
             using (var ocomm = new SqliteConnection(_context.Database.GetConnectionString()))
             {
 
-                var CommandText = @"SELECT sg_code, sg_name, acc_code, Acc_name,City_name,mobile_no,cast(SUM(op_credit)*1.00 as decimal(12,3)) AS op_credit,cast(SUM(op_debit)*1.00 as decimal(12,3)) AS op_debit, cast(SUM(curr_credit)*1.00 as decimal(12,3)) AS curr_credit, 
-                                cast(SUM(curr_debit)*1.00 as decimal(12,3)) AS curr_debit,cast((CASE WHEN ((SUM(op_credit) + SUM(curr_credit))- (SUM(op_debit) + SUM(curr_debit))) > 0 THEN ((SUM(op_credit) + SUM(curr_credit))- (SUM(op_debit) + SUM(curr_debit))) ELSE 0 END)*1.00 as decimal(12,3)) AS cl_credit,
-                                		                                cast((CASE WHEN ((SUM(op_credit) + SUM(curr_credit))- (SUM(op_debit) + SUM(curr_debit))) < 0 THEN ((SUM(op_credit) + SUM(curr_credit))- (SUM(op_debit) + SUM(curr_debit))) * - 1 ELSE 0 END)*1.00 as decimal(12,3))  AS cl_debit,
-										                                email_id
+                var CommandText = @"SELECT sg_code, sg_name, acc_code, Acc_name,City_name,mobile_no,cast(SUM(op_credit)*1.00 as decimal(12,3)) AS op_credit,cast(SUM(op_debit)*1.00 as decimal(12,3)) AS op_debit, 
+                                cast(SUM(curr_credit)*1.00 as decimal(12,3)) AS curr_credit,cast(SUM(curr_debit)*1.00 as decimal(12,3)) AS curr_debit,
+                                cast((CASE WHEN ((SUM(op_credit) + SUM(curr_credit))- (SUM(op_debit) + SUM(curr_debit))) > 0 THEN ((SUM(op_credit) + SUM(curr_credit))- (SUM(op_debit) + SUM(curr_debit))) ELSE 0 END)*1.00 as decimal(12,3)) AS cl_credit,
+                                cast((CASE WHEN ((SUM(op_credit) + SUM(curr_credit))- (SUM(op_debit) + SUM(curr_debit))) < 0 THEN ((SUM(op_credit) + SUM(curr_credit))- (SUM(op_debit) + SUM(curr_debit))) * - 1 ELSE 0 END)*1.00 as decimal(12,3))  AS cl_debit,email_id
                                  FROM
                                       (
                                          SELECT	sg_code, sg_name, acc_code, Acc_name, City_name, contact_mobile_no as mobile_no,email_id,

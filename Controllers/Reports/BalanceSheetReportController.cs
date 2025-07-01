@@ -16,7 +16,6 @@ namespace MotorMemo.Controllers.Reports
         private IMemoryCache _cache;
         private IWebHostEnvironment Environment;
 
-        // private string? _mobileno;
         private string? _exportType = "PDF";
         private string? _reportCacheId;
         public readonly BalanceSheetProc _proc;
@@ -64,8 +63,6 @@ namespace MotorMemo.Controllers.Reports
 
                 string basePath = Environment.ContentRootPath;
 
-
-
                 string? reportType = reportParams.Where(w => w.key == "reportType").Select(s => s.value).SingleOrDefault();
 
                 if (reportType == null)
@@ -73,12 +70,10 @@ namespace MotorMemo.Controllers.Reports
                     reportType = "1";
                 }
 
-
                 string RdlPath = basePath + ((Convert.ToInt16(reportType) == 1) ? @"\\Models\\Rdlc\\Balancesheet1.rdl" : @"\\Models\\Rdlc\\Balancesheet2.rdl");
 
                 string MemType = "PDF";
                 string contentType = "application/pdf";
-
 
                 try
                 {
@@ -103,9 +98,6 @@ namespace MotorMemo.Controllers.Reports
                         rdc.Add(new ReportDataSource("DataSet1", dataset1));
                         rdc.Add(new ReportDataSource("DataSet2", dataset2));
                         rdc.Add(new ReportDataSource("DataSet3", dataset3));
-
-                        // var parameters = new List<ReportParameter>(); //RpParamsWithValue
-
 
                         if (_mailArray == null && _wappArray == null)
                         {
@@ -144,10 +136,8 @@ namespace MotorMemo.Controllers.Reports
 
                     }
 
-
                     if (_mailArray == null && _wappArray == null)
                         rtn.data = new { ArrayBuffer = File(ReportData.Data, contentType), ContentType = contentType, FileType = _exportType };
-
 
                     else
                     {

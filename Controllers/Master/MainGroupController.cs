@@ -74,7 +74,6 @@ namespace MotorMemo.Controllers.Master
                         i.MgCodeNavigation,
                         i.SrNo
 
-
                     }).ToList();
                 if (page.PageNumber == 1)
                     rtn.PageDetails = PageDetail<Mst002>.ToPagedList(data, page.PageNumber, page.PageSize);
@@ -153,9 +152,9 @@ namespace MotorMemo.Controllers.Master
         {
             try
             {
-                //mst002.MgCodeNavigation = null;
+               
                 _context.Mst002s.Add(mst002);
-                //await _context.SaveChangesAsync();
+                
                 rtn.data = mst002;
             }
             catch (WebException ex2)

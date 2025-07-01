@@ -17,7 +17,6 @@ namespace MotorMemo.Controllers.Reports
         private IMemoryCache _cache;
         private IWebHostEnvironment Environment;
 
-        // private string? _mobileno;
         private string? _exportType = "PDF";
         private string? _reportCacheId;
         public readonly BiltyProc _proc;

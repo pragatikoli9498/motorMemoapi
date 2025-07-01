@@ -28,14 +28,9 @@ namespace MotorMemo.Controllers.Main
         {
             try
             {
-
-
                 var filter = new EntityFrameworkFilter<Sys00202>();
 
                 var query = _context.Sys00202s;
-
-
-
 
                 var data = filter.Filter(query, page.keys);
 
@@ -47,11 +42,7 @@ namespace MotorMemo.Controllers.Main
                         i.RoleName,
                         i.Comments,
                         i.Sys00203s,
-                        //i.UserRoleAuth
-
-
-
-
+                     
                     }).ToList();
                 if (page.PageNumber == 1)
                     rtn.PageDetails = PageDetail<Sys00202>.ToPagedList(data, page.PageNumber, page.PageSize);
@@ -86,38 +77,12 @@ namespace MotorMemo.Controllers.Main
             return Ok(rtn);
         }
 
-        //[HttpGet]
-        //public async Task<ActionResult<Firms>> getroleinfo(long roleid)
-        //{
-        //    try
-        //    {
-        //        respayload respayload = rtn;
-        //        respayload.data = await _context.RoleInfos.Where(w => w.RoleId == roleid
-        //          ).SingleOrDefaultAsync();
-
-
-
-
-        //        if (rtn.data == null)
-        //        {
-        //            rtn.status_cd = 0;
-        //            rtn.errors.message = "Record Not Found";
-        //        }
-        //    }
-        //    catch (Exception ex2)
-        //    {
-        //        Exception ex = ex2;
-        //        rtn.status_cd = 0;
-        //        rtn.errors.exception = ex;
-        //    }
-        //    return Ok(rtn);
-        //}
+       
         [HttpPost]
         public async Task<ObjectResult> insert(Sys00202 roleInfo)
         {
             try
             {
-
                 _context.Add(roleInfo);
                 await _context.SaveChangesAsync();
                 rtn.status_cd = 1;
@@ -150,16 +115,11 @@ namespace MotorMemo.Controllers.Main
                
                 _context.Entry(ExistingParent).CurrentValues.SetValues(roleInfo);
 
-
-
-
                 await _context.SaveChangesAsync();
                 rtn.data = roleInfo;
             }
             catch (Exception ex)
             {
-               
-                  
                 rtn.status_cd = 0;
                 rtn.errors.exception = ex;
                 return Ok(rtn);

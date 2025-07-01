@@ -23,9 +23,6 @@ namespace MotorMemo.Controllers.Main
         public async Task<ObjectResult> list(int userid)
         {
 
-
-
-
             try
             {
                 respayload respayload = rtn;
@@ -55,9 +52,6 @@ namespace MotorMemo.Controllers.Main
         public async Task<ObjectResult> getmodules()
         {
 
-
-
-
             try
             {
                 respayload respayload = rtn;
@@ -86,7 +80,6 @@ namespace MotorMemo.Controllers.Main
         [HttpPut]
         public async Task<ObjectResult> update(List<ModulePermission> modulePermissions)
         {
-
 
             if (!ModelState.IsValid)
             {

@@ -42,7 +42,6 @@ namespace MotorMemo.Controllers.Transaction
         [HttpPost]
         public async Task<IActionResult> insert(Acc002 payment)
         {
- 
             var t = db.Database.BeginTransaction();
 
             rtn.status_cd = 1;
@@ -67,7 +66,6 @@ namespace MotorMemo.Controllers.Transaction
                 if (chlnNo.status_cd != 2)
                     payment.ChallanNo = (string?)chlnNo.data;
                  
-
                 if (payment.ChallanNo?.Length > 15)
                 {
                     rtn.status_cd = 0;
@@ -82,11 +80,6 @@ namespace MotorMemo.Controllers.Transaction
                 if (payment.Acc00200 != null)
                     payment.Acc00200.CreatedDt = DateTime.Now.ToString("yyyy/MM/dd");
             
-
-                //foreach (var child in payment.Acc00201)
-                    //child.AccCodeNavigation = null;
-
- 
                 lgr = new CreateLedger(db).payment(payment);
 
                 db.Acc002s.Add(payment);
@@ -96,7 +89,6 @@ namespace MotorMemo.Controllers.Transaction
                 lgr.ChallanId = payment.VchId;
 
                 db.Acc999s.Add(lgr);
-
 
                 await db.SaveChangesAsync();
                 t.Commit();
@@ -114,20 +106,16 @@ namespace MotorMemo.Controllers.Transaction
             return Ok(rtn);
         }
 
-
         [HttpPost]
         public ActionResult getList(QueryStringParameters page, int firm_id, string div_id )
         {
             try
             {
-
-
                 var filter = new EntityFrameworkFilter<Acc002>();
 
                 var query = db.Acc002s.Include(i => i.Acc00201).
                     Where(w => w.FirmId == firm_id &&  w.DivId == div_id);
                  
-
                 var data = filter.Filter(query, page.keys);
 
                 rtn.data = data.OrderByDescending(o => o.VchDate)
@@ -145,7 +133,6 @@ namespace MotorMemo.Controllers.Transaction
                         i.AccCodeNavigation.AccName,
                         toDebit = i.Acc00201.AccCodeNavigation.AccName,
                         Amount = i.Acc00201.Amount
-
 
                     }).ToList();
                 if (page.PageNumber == 1)
@@ -178,7 +165,6 @@ namespace MotorMemo.Controllers.Transaction
                              s.ChallanNo,
                              s.AccCode,
                              s.AccCodeNavigation.AccName,
-                             //toDebit = s.Acc00201.Select(d => d.AccCodeNavigation.AccName).FirstOrDefault(),
                              s.Amount 
 
                          }).ToListAsync();
@@ -203,10 +189,7 @@ namespace MotorMemo.Controllers.Transaction
                     .Where(w => w.VchId == id)
                     .Include(a => a.Acc00200).AsNoTracking()
                     .Include(a=>a.AccCodeNavigation).AsNoTracking()
-                    .Include(c => c.Acc00201).ThenInclude(i => i.AccCodeNavigation).AsNoTracking() 
- 
-
-
+                    .Include(c => c.Acc00201).ThenInclude(i => i.AccCodeNavigation).AsNoTracking()
                     .SingleOrDefaultAsync();
 
                 if (rtn.data == null)
@@ -369,7 +352,6 @@ namespace MotorMemo.Controllers.Transaction
                         return Ok(res);
                     }
 
-
                 }
 
                 db.Entry(existingParent).CurrentValues.SetValues(pay);
@@ -387,7 +369,6 @@ namespace MotorMemo.Controllers.Transaction
                 {
                     db.Acc00201s.Add(pay.Acc00201);
                 }
-
 
                 changedLog(pay);
                 await db.SaveChangesAsync();

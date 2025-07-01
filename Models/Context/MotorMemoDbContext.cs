@@ -102,7 +102,6 @@ public partial class MotorMemoDbContext : DbContext
 
     public virtual DbSet<Mst01101> Mst01101s { get; set; }
      
-
     public virtual DbSet<Mst01104> Mst01104s { get; set; }
 
     public virtual DbSet<Mst01109> Mst01109s { get; set; }
@@ -126,7 +125,6 @@ public partial class MotorMemoDbContext : DbContext
     public virtual DbSet<Mst107> Mst107s { get; set; }
 
     public virtual DbSet<Mst108> Mst108s { get; set; }
- 
 
     public virtual DbSet<Mst10801> Mst10801s { get; set; }
       
@@ -294,9 +292,6 @@ public partial class MotorMemoDbContext : DbContext
                 .HasForeignKey(d => d.AccCode)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
-            //entity.HasOne(d => d.Vch).WithMany(p => p.Acc00201s)
-            //    .HasForeignKey(d => d.VchId)
-            //    .OnDelete(DeleteBehavior.Cascade);
             entity.HasOne(d => d.Vch).WithOne(p => p.Acc00201).HasForeignKey<Acc00201>(d => d.VchId);
         });
 

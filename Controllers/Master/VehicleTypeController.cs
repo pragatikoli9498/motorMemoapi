@@ -98,21 +98,6 @@ namespace MotorMemo.Controllers.Master
             return Ok(rtn);
         }
 
-        //[HttpDelete]
-        //public async Task<IActionResult> delete(string id)
-        //{
-        //    Mst107? value = await _context.Mst107s.FindAsync(id);
-        //    if (value == null)
-        //    {
-        //        rtn.status_cd = 0;
-        //        rtn.errors.exception = NotFound();
-        //        return Ok(rtn);
-        //    }
-        //    _context.Mst107s.Remove(value);
-        //    await _context.SaveChangesAsync();
-        //    return Ok(rtn);
-        //}
-
         [HttpDelete]
         public async Task<IActionResult> delete(int id)
         {

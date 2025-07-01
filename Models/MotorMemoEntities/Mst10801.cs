@@ -27,7 +27,5 @@ public partial class Mst10801
 
     public string? PermitTo { get; set; }
 
-    //public virtual Mst00603 State { get; set; } = null!;
-
     public virtual Mst108 VehicleNoNavigation { get; set; } = null!;
 }

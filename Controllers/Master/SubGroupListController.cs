@@ -47,11 +47,7 @@ namespace MotorMemo.Controllers.Master
             {
 
                 var data = await _proc.Data(firm_id, div_id, sg_code, sdt, edt) as IEnumerable<dynamic>;
-                //if (data == null)
-                //{
-                //    throw new Exception("Data returned is not a valid enumerable object.");
-                //}
-
+               
                 var grplist = data
                    .GroupBy(g => new
                    {
@@ -137,7 +133,6 @@ namespace MotorMemo.Controllers.Master
                         i.SgName,
                         i.SrNo,
                         i.GrpCodeNavigation
-
 
                     }).ToList();
                 if (page.PageNumber == 1)

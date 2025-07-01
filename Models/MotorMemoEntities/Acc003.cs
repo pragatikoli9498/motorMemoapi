@@ -51,8 +51,6 @@ public partial class Acc003
     public virtual Acc00300? Acc00300 { get; set; }
 
     public virtual Acc00301? Acc00301 { get; set; }
-
-    //public virtual ICollection<Acc00301> Acc00301s { get; set; } = new List<Acc00301>();
          
     public virtual Mst011? AccCodeNavigation { get; set; }
 

@@ -112,133 +112,6 @@ namespace MotorMemo.Controllers.Main
 
         }
 
-        //[HttpGet]
-        //public async Task<ObjectResult> usergrants(string username, string psw)
-        //{
-
-        //    rtn.status_cd = 1;
-
-
-        //    var s = password.EncryptPass(psw);
-        //    var d = password.DecryptPass("SFNp9LgOZOSUnhg7vgRZxQ==");
-
-        //    try
-        //    {
-        //        rtn.data = (await db.Sys00203s.AsNoTracking()
-        //            .Include(c => c.Sys00207s)
-        //            .Include(s => s.Sys00204)
-        //            .Include(s => s.Sys00201)
-        //                .Where(c => c.UserName == username && c.Sys00201.Password == s).ToListAsync()).AsEnumerable()
-        //                .Select(s => new
-        //                {
-        //                    user_id = s.UserId,
-        //                    username = s.UserName,
-        //                    userlongname = s.UserLongName,
-
-        //                    A = s.Sys00204?.A,
-        //                    D = s.Sys00204?.D,
-        //                    E = s.Sys00204?.E,
-        //                    L = s.Sys00204?.L,
-        //                    O = s.Sys00204?.O,
-        //                    P = s.Sys00204?.P,
-
-
-        //                    sysadmin = s.Sys00204?.Sysadmin,
-        //                    J = s.Sys00204?.J,
-
-        //                    modules = s.Sys00207s.Select(c => new { c.Id, c.ModuleId }).ToList()
-
-        //                }).SingleOrDefault();
-
-
-        //        if (rtn.data == null)
-        //        {
-
-        //            rtn.status_cd = 0;
-        //            rtn.errors.message = "Invalid username or password";
-
-
-        //        }
-        //    }
-        //    catch (Exception ex)
-
-        //    {
-        //        rtn.status_cd = 0;
-        //        rtn.errors.exception = ex;
-        //    }
-        //    return Ok(rtn);
-
-        //}
-
-
-        //[HttpPost]
-        //public async Task<ObjectResult> insert(Newuser user)
-        //{
-        //    rtn.status_cd = 1;
-
-        //    if (!ModelState.IsValid)
-        //    {
-        //        rtn.status_cd = 0;
-        //        rtn.errors = new errors
-        //        {
-        //            error_cd = "400",
-        //            message = "Bad Request",
-        //            exception = ModelState
-        //        };
-
-        //        return Ok(rtn);
-        //    }
-
-        //    try
-        //    {
-        //        // user.user.role = null;
-
-        //        var existingUser = await db.Sys00203s.Include(i => i.credential)
-        //            .Where(w => w.UserName == user.user.UserName).SingleOrDefaultAsync();
-        //        if (existingUser != null)
-        //        {
-
-
-
-
-        //            db.Entry(existingUser).CurrentValues.SetValues(user.user);
-        //            if (user.psw != null)
-        //                existingUser.credential.Password = dsserp.commans.password.EncryptPass(user.psw);
-
-        //        }
-        //        else
-        //        {
-        //            Sys00201 LU = new Sys00201();
-        //            LU.UserId = user.user.UserId;
-        //            LU.Password = dsserp.commans.password.EncryptPass(user.psw);
-        //            user.user.credential = LU;
-
-        //            db.Sys00203s.Add(user.user);
-        //        }
-
-
-
-
-        //        await db.SaveChangesAsync();
-
-
-        //        if (user.psw != null)
-        //            SendEmailOtps(user.user.UserLongName, user.user.EmailId, user.psw);
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        rtn.status_cd = 0;
-        //        rtn.errors.exception = ex;
-        //        return Ok(rtn);
-        //    }
-
-        //    rtn.data = user.user;
-
-        //    return Ok(rtn);
-        //}
-
-
 
         [HttpGet]
         private respayload SendEmailOtps(string FullName, string EmailID, string OTP)
@@ -503,7 +376,7 @@ namespace MotorMemo.Controllers.Main
 
                 await db.SaveChangesAsync();
 
-                //      SendEmailOtp(user.UserLongName, user.EmailId, pass);
+              
 
             }
             catch (Exception ex2)

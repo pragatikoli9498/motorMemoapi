@@ -45,7 +45,6 @@ namespace MotorMemo.Controllers.Master
 
             try
             {
-
                 var data = await _proc.Data(firm_id, div_id, sdt, edt);
 
                 rtn.data = data;

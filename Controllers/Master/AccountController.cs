@@ -13,16 +13,6 @@ namespace MotorMemo.Controllers.Master
     [ApiController]
     public class AccountController : ControllerBase
     {
-
-        //private readonly MotorMemoDbContext _context;
-
-        //private respayload rtn = new respayload();
-
-        //public AccountController(MotorMemoDbContext context)
-        //{
-        //    _context = context;
-        //}
-
         private readonly MotorMemoDbContext _context;
         private readonly MainDbContext _mainDb;
 
@@ -39,8 +29,6 @@ namespace MotorMemo.Controllers.Master
         {
             try
             {
-
-
                 var filter = new EntityFrameworkFilter<Mst011>();
 
                 var query = _context.Mst011s.Include(s => s.SgCodeNavigation).AsNoTracking()
@@ -86,8 +74,6 @@ namespace MotorMemo.Controllers.Master
                                          .Include((Mst011 s) => s.SgCodeNavigation).AsNoTracking()
                                          .Include((Mst011 s) => s.Mst01101).AsNoTracking()
                                         .Include((Mst011 s) => s.Place).AsNoTracking();
-                //.Include((Mst011 s) => s.Mst01103).AsNoTracking()
-
 
                 var data = filter.Filter(query, page.keys);
 
@@ -101,7 +87,6 @@ namespace MotorMemo.Controllers.Master
                         i.SgCodeNavigation, 
                         i.Mst01101,
                         i.Place,
-                        //i.Mst01103,
                         i.Mst01109
 
 
@@ -158,18 +143,13 @@ namespace MotorMemo.Controllers.Master
         {
             try
             {
-
-
                 var filter = new EntityFrameworkFilter<Mst011>();
                 var query = _context.Mst011s.AsNoTracking() 
                                          .Include((Mst011 s) => s.Mst01109).AsNoTracking()
                                          .Include((Mst011 s) => s.SgCodeNavigation).AsNoTracking()
                                         .Include((Mst011 s) => s.Place).AsNoTracking();
                                 
-
-
                 var data = filter.Filter(query, page.keys, true);
-
 
                 rtn.data = await data
                     .OrderBy(o => o.AccName).ThenBy(o => o.Place.CityName)
@@ -209,10 +189,7 @@ namespace MotorMemo.Controllers.Master
                                          .Include((Mst011 s) => s.SgCodeNavigation).AsNoTracking()
                                         .Include((Mst011 s) => s.Place).AsNoTracking();
 
-
-
                 var data = filter.Filter(query, page.keys, OrElse);
-
 
                 rtn.data = await data
                     .OrderBy(o => o.AccName).ThenBy(o => o.Place.CityName)
@@ -249,10 +226,7 @@ namespace MotorMemo.Controllers.Master
                                          .Include((Mst011 s) => s.SgCodeNavigation).AsNoTracking()
                                         .Include((Mst011 s) => s.Place).AsNoTracking();
 
-
-
                 var data = filter.Filter(query, page.keys, OrElse);
-
 
                 rtn.data = await data
                     .OrderBy(o => o.AccName).ThenBy(o => o.Place.CityName)
@@ -264,7 +238,6 @@ namespace MotorMemo.Controllers.Master
                         i.AccName,
                         i.SgCodeNavigation,
                         i.Place,
-
 
                     }).ToListAsync();
                 if (page.PageNumber == 1)
@@ -302,15 +275,11 @@ namespace MotorMemo.Controllers.Master
         {
             try
             {
-
-
                 var filter = new EntityFrameworkFilter<Mst011>();
 
                 var query = _context.Mst011s.Include(i => i.Mst01109)
                                      .Include(i => i.Place).ThenInclude(i => i.Taluka).ThenInclude(i => i.District); 
-                             //.Where(w => w.SgCodeNavigation.GrpCodeNavigation.MgCode == 14);
-
-
+                          
                 var data = filter.Filter(query, page.keys);
 
                 rtn.data = data.OrderBy(o => o.AccName)
@@ -342,9 +311,7 @@ namespace MotorMemo.Controllers.Master
         {
             try
             {
-                
-
-                // Step 1: Query Account Data from MotorMemoDbContext
+               
                 var accountData = await _context.Mst011s
                     .Where(s => s.AccCode == id)
                     .Include(s => s.Mst01101)
@@ -364,7 +331,6 @@ namespace MotorMemo.Controllers.Master
                     return Ok(rtn);
                 }
 
-                // Step 2: Query Firm Data from MainDbContext separately
                 var firmCodes = accountData.Mst01110s.Select(s => s.firmCode).ToList();
 
                 var firmData = await _mainDb.Mst004s
@@ -450,8 +416,6 @@ namespace MotorMemo.Controllers.Master
                     .Include((Mst011 s) => s.SgCodeNavigation).AsNoTracking()
                     .Include(i => i.Place).ThenInclude(i => i.Taluka).ThenInclude(i => i.District);
 
-
-
                 var data = filter.Filter(query, page.keys);
 
                 rtn.data = data.OrderBy(o => o.AccName)
@@ -479,6 +443,7 @@ namespace MotorMemo.Controllers.Master
             }
             return Ok(rtn);
         }
+
         [HttpPost]
         public ActionResult getExpensesAcc(QueryStringParameters page)
         {
@@ -525,15 +490,12 @@ namespace MotorMemo.Controllers.Master
             long[] MgCode = { 3, 4, 25 };
             try
             {
-
-
                 var filter = new EntityFrameworkFilter<Mst011>();
 
                 var query = _context.Mst011s.Where(w => !MgCode.Contains(w.SgCodeNavigation.GrpCodeNavigation.MgCode)).AsNoTracking()
 
                 .Include((Mst011 s) => s.Place).ThenInclude(s => s.Taluka).AsNoTracking()
                           .Include((Mst011 s) => s.Place).ThenInclude(s => s.Taluka).ThenInclude(s => s.District).AsNoTracking();
-
 
                 var data = filter.Filter(query, page.keys);
 
@@ -548,12 +510,9 @@ namespace MotorMemo.Controllers.Master
                         i.AccCode,
                         i.Place
 
-
-
                     }).ToList();
                 if (page.PageNumber == 1)
                     rtn.PageDetails = PageDetail<Mst011>.ToPagedList(data, page.PageNumber, page.PageSize);
-
             }
             catch (Exception ex2)
             {
@@ -564,20 +523,19 @@ namespace MotorMemo.Controllers.Master
             }
             return Ok(rtn);
         }
+
+
         [HttpPost]
         public ActionResult getsuppliers(QueryStringParameters page)
         {
             long[] MgCode = { 3, 4, 5, 14, 25 };
             try
             {
-
-
                 var filter = new EntityFrameworkFilter<Mst011>();
 
                 var query = _context.Mst011s.Include(i => i.Mst01109)
                                      .Include(i => i.Place).ThenInclude(i => i.Taluka).ThenInclude(i => i.District)
                 .Where(w => MgCode.Contains(w.SgCodeNavigation.GrpCodeNavigation.MgCode)).AsNoTracking();
-
 
                 var data = filter.Filter(query, page.keys);
 
@@ -590,7 +548,6 @@ namespace MotorMemo.Controllers.Master
                         i.Place,
                         i.Mst01109
 
-
                     }).ToList();
                 if (page.PageNumber == 1)
                     rtn.PageDetails = PageDetail<Mst011>.ToPagedList(data, page.PageNumber, page.PageSize);
@@ -605,6 +562,8 @@ namespace MotorMemo.Controllers.Master
             }
             return Ok(rtn);
         }
+
+
         [HttpGet]
         public async Task<ActionResult> supplierDetails(long accCode)
         {
@@ -621,14 +580,11 @@ namespace MotorMemo.Controllers.Master
                                              s.AccCode,
                                              s.AccName,
                                              s.Place.CityName,
-                                             //mst01109 = _context.Mst01109s.Where(g => g.AccCode == s.AccCode).OrderByDescending(s => s.UID).FirstOrDefault(),
-
                                              s.Mst01101.EmailId,
                                              s.Mst01101.ContactMobileNo,
                                              s.Place.Taluka.District.StateCodeNavigation
                                          }).OrderByDescending(o => o.AccCode).SingleOrDefaultAsync();
 
- 
             }
             catch (Exception ex)
             {
@@ -725,10 +681,6 @@ namespace MotorMemo.Controllers.Master
                     }
                 }
 
-
-
-               
-
                     foreach (var existingChild in old.Mst01110s.ToList())
                     {
                         if (!acc.Mst01110s.Any(a => a.firmCode == existingChild.firmCode))
@@ -747,16 +699,10 @@ namespace MotorMemo.Controllers.Master
                     }
                     else
                     {
-
-                       
                         _context.Mst01110s.Add(child);
                     }
 
                 }
-
-
-
-
 
                 await _context.SaveChangesAsync();
                 rtn.data = acc;
@@ -778,9 +724,6 @@ namespace MotorMemo.Controllers.Master
             }
             return Ok(rtn);
         }
-
-
-
         private bool AccountExists(long id)
         {
             return _context.Mst011s.Any((Mst011 e) => e.AccCode == id);
@@ -789,7 +732,6 @@ namespace MotorMemo.Controllers.Master
         [HttpGet]
         public ActionResult getvender(string? no)
         {
-
             try
             {
                 rtn.data = _context.Mst011s
@@ -801,10 +743,8 @@ namespace MotorMemo.Controllers.Master
                            i.PanNo,
                            i.Mst01101.AccAddress,
                            i.Mst01101.EmailId,
-                           
                            i.Mst01101.ContactMobileNo,
                            place=_context.Mst006s.Where(w=>w.CityId == i.PlaceId).Select(s=>new { s.CityId, s.CityName, s.Taluka.District.StateCode,s.Taluka.District.StateCodeNavigation }).FirstOrDefault(),
-                   
                            i.Mst01109.AccGstn,
                       
                        }).FirstOrDefault();

@@ -115,12 +115,9 @@ namespace MotorMemo.Controllers.Master
                         i.StateCode,
                         i.StateCodeNavigation,
 
-
-
                     }).ToList();
                 if (page.PageNumber == 1)
                     rtn.PageDetails = PageDetail<Mst00602>.ToPagedList(data, page.PageNumber, page.PageSize);
-
 
             }
             catch (Exception ex)
@@ -130,6 +127,7 @@ namespace MotorMemo.Controllers.Master
             }
             return Ok(rtn);
         }
+
         [HttpGet]
         public async Task<ActionResult> list()
         {
@@ -149,6 +147,7 @@ namespace MotorMemo.Controllers.Master
             }
             return Ok(rtn);
         }
+
         [HttpPut]
         public async Task<IActionResult> update(long id, Mst00602 district)
         {
@@ -198,6 +197,7 @@ namespace MotorMemo.Controllers.Master
             }
             return Ok(rtn);
         }
+
         [HttpDelete]
         public async Task<IActionResult> delete(int id)
         {

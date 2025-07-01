@@ -34,13 +34,11 @@ namespace MotorMemo.Controllers.Transaction
             try
             {
 
-
                 var filter = new EntityFrameworkFilter<Acc006>();
 
                 var query = db.Acc006s
                     .Where(w => w.FirmId == firm_id && w.DivId == div_id );
-                //&& (isApproval == false || w.Acc00607 == null)
-
+              
                 var data = filter.Filter(query, page.keys);
 
                 rtn.data = data.OrderByDescending(o => o.VchDate)
@@ -140,10 +138,10 @@ namespace MotorMemo.Controllers.Transaction
 
             return Ok(rtn);
         }
+
         [HttpPut]
         public async Task<IActionResult> Put(int id, Acc006 contra)
         {
-
 
             if (!ModelState.IsValid)
             {
@@ -206,15 +204,11 @@ namespace MotorMemo.Controllers.Transaction
                 if (old.Acc00600 != null)
                     db.Entry(old.Acc00600).CurrentValues.SetValues(contra.Acc00600);
 
-
-
                 foreach (var old_01 in old.Acc00601s.ToList())
                 {
                     if (!contra.Acc00601s.Any(a => a.DetlId == old_01.DetlId))
                         db.Acc00601s.Remove(old_01);
                 }
-
-
 
                 foreach (var n_01 in contra.Acc00601s)
                 {
@@ -233,10 +227,8 @@ namespace MotorMemo.Controllers.Transaction
 
                         old.Acc00601s.Add(n_01);
                     }
-
-
                 }
-                //changedLog(contra);
+               
                 await db.SaveChangesAsync();
                 rtn.data = contra;
             }
@@ -256,13 +248,11 @@ namespace MotorMemo.Controllers.Transaction
  
             try
             {
-
                 foreach(var x in contra.Acc00601s.ToList()){
 
                     x.AccCodeNavigation = null;
                 }
 
-                
                 if (contra.VchNo == 0)
                 {
                     var vch = await db.Acc006s
@@ -270,7 +260,6 @@ namespace MotorMemo.Controllers.Transaction
                              .MaxAsync(c => (int?)c.VchNo);
 
                     contra.VchNo = (vch ?? 0) + 1;
-
 
                 }
 
@@ -287,7 +276,6 @@ namespace MotorMemo.Controllers.Transaction
                 if (chlnNo.status_cd != 2)
                     contra.ChallanNo = (string?)chlnNo.data;
 
-
                 if (contra.ChallanNo?.Length > 15)
                 {
                     rtn.status_cd = 0;
@@ -299,7 +287,6 @@ namespace MotorMemo.Controllers.Transaction
 
                     return Ok(rtn);
                 }
-
 
                 if (!ModelState.IsValid)
                 {
@@ -314,15 +301,12 @@ namespace MotorMemo.Controllers.Transaction
                     return Ok(rtn);
                 }
 
-
                 lgr = new CreateLedger(db).contra(contra);
 
                 contra.AccCodeNavigation = null;
                 if (contra.Acc00607 != null)
                     if (contra.Acc00607.ApprovedDt == null)
                         contra.Acc00607 = null;
-                //if (contra.Acc00607 != null)
-                //    contra.Acc00607.CreatedDt = DateTime.UtcNow;
 
                 foreach (var childModel in contra.Acc00601s)
                 {

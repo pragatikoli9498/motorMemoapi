@@ -24,7 +24,6 @@ namespace RetailDesk.Models
             MainDb = mainDb;
         }
 
-      
         public errors getException(Exception ex)
         {
             var rtn = new errors();
@@ -55,10 +54,8 @@ namespace RetailDesk.Models
          
     }
     
-
     public class respayload
     {
-
         public object? PageDetails { get; set; }
         public byte status_cd { get; set; } = 1;
         public object? data { get; set; }
@@ -67,7 +64,6 @@ namespace RetailDesk.Models
     }
     public class errors
     {
-
 
         public  string? error_cd { get; set; }
         public string? message { get; set; }

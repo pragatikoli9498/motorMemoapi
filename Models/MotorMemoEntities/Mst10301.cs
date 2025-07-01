@@ -9,7 +9,6 @@ namespace MotorMemo.Models.MotorMemoEntities
 
         public string VehicleNo { get; set; }
         
-
         public virtual Mst103? Vch { get; set; }
     }
 }

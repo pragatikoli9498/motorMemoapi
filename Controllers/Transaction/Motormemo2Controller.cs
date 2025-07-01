@@ -34,21 +34,18 @@ namespace MotorMemo.Controllers.Transaction
 
             try
             {
-
                 var filter = new EntityFrameworkFilter<motormemo2>();
 
                 var query = _context.Motormemo2s.Where(w => w.FirmId == firm_id && w.DivId == div_id).
                 Include((motormemo2 s) => s.Motormemo2Childe).AsNoTracking()
                .Include((motormemo2 s) => s.Motormemo2AdvDetails).AsNoTracking();
                                          
-
                 var data = filter.Filter(query, page.keys);
 
                 rtn.data = data.OrderBy(o => o.VchId)
                      .Skip((page.PageNumber - 1) * page.PageSize)
                     .Take(page.PageSize).Select(i => new
                     {
-                       
                         i.VchId,
                         i.VchNo,
                         i.Motormemo2Childe,
@@ -82,12 +79,9 @@ namespace MotorMemo.Controllers.Transaction
             try
             {
 
-               
                 foreach (var childModel in motormemo2.Motormemo2AdvDetails)
                 {
-                    
                     childModel.AccCodeNavigation = null;
-
                 }
 
                 if (motormemo2.VchNo == 0)
@@ -119,7 +113,6 @@ namespace MotorMemo.Controllers.Transaction
         {
             try
             {
-
                 rtn.data = await _context.Motormemo2s.Where(s => s.VchId == id).Include(i => i.Motormemo2Childe).ThenInclude(d => d.Bilty).ThenInclude(b => b.BiltyDetails).Include(b => b.Motormemo2AdvDetails).Include(i => i.Motormemo2Audit)
                     .Select(i => new
                     {
@@ -136,7 +129,6 @@ namespace MotorMemo.Controllers.Transaction
                         i.RemAmt,
                         i.Motormemo2Audit,
               
-                        
                         Motormemo2Childe = i.Motormemo2Childe.Select(child => new
                         {
                             child.DetlId,
@@ -183,15 +175,11 @@ namespace MotorMemo.Controllers.Transaction
             try
             {
 
-
                 var s = await _context.Motormemo2s.Include(s => s.Motormemo2Childe).Include(s => s.Motormemo2Audit).Include(s => s.Motormemo2AdvDetails)
                     .Where(w => w.VchId == id).FirstOrDefaultAsync();
 
-
-
                 if (s != null)
                 {
-
                     _context.Entry(s).CurrentValues.SetValues(data);
 
                     foreach (var existingChild in s.Motormemo2Childe.ToList())
@@ -204,8 +192,6 @@ namespace MotorMemo.Controllers.Transaction
 
                     foreach (var childModel in data.Motormemo2Childe.ToList())
                     {
-
-                        
                         var existingChild = s.Motormemo2Childe
                             .Where(a => a.DetlId == childModel.DetlId)
                             .SingleOrDefault();
@@ -217,12 +203,10 @@ namespace MotorMemo.Controllers.Transaction
                         }
                         else
                         {
-
                             childModel.VchId = data.VchId;
 
                             s.Motormemo2Childe.Add(childModel);
                         }
-
 
                     }
 
@@ -237,7 +221,6 @@ namespace MotorMemo.Controllers.Transaction
                     foreach (var childModel in data.Motormemo2AdvDetails.ToList())
                     {
 
-
                         var existingChild = s.Motormemo2AdvDetails
                             .Where(a => a.DetlId == childModel.DetlId)
                             .SingleOrDefault();
@@ -249,7 +232,6 @@ namespace MotorMemo.Controllers.Transaction
                         }
                         else
                         {
-
                             childModel.VchId = data.VchId;
 
                             s.Motormemo2AdvDetails.Add(childModel);
@@ -263,7 +245,6 @@ namespace MotorMemo.Controllers.Transaction
                 {
                     _context.Motormemo2s.Add(data);
                 }
-
 
                 await _context.SaveChangesAsync();
                 rtn.data = data;
@@ -355,7 +336,6 @@ namespace MotorMemo.Controllers.Transaction
                              i.RemAmt,
                              i.Motormemo2Audit,
 
-
                              Motormemo2Childe = i.Motormemo2Childe.Select(child => new
                              {
                                  child.DetlId,
@@ -381,7 +361,6 @@ namespace MotorMemo.Controllers.Transaction
 
                          });
 
-
             }
             catch (Exception ex2)
             {
@@ -398,7 +377,6 @@ namespace MotorMemo.Controllers.Transaction
         {
             try
             {
-
                 rtn.data = await _context.Motormemo2s.Where(s => s.VchId == id)
                     .Select(i => new
                     {
@@ -415,8 +393,7 @@ namespace MotorMemo.Controllers.Transaction
                         i.RemAmt,
                         i.Motormemo2Audit
                     })
-                   
-                        .SingleOrDefaultAsync();
+                   .SingleOrDefaultAsync();
                 if (rtn.data == null)
                 {
                     rtn.status_cd = 0;
@@ -442,7 +419,6 @@ namespace MotorMemo.Controllers.Transaction
                     .Include(s => s.Motormemo2AdvDetails)
                     .Where(w => w.VchId == id)
                     .FirstOrDefaultAsync();
-
 
                 foreach (var item in data.Motormemo2AdvDetails)
                 {

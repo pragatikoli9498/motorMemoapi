@@ -7,8 +7,6 @@ public partial class Mst005
 {
     public int FirmCode { get; set; }
 
-    //public string BranchCode { get; set; } = null!;
-
     public string DivId { get; set; } = null!;
 
     public string? FromDivId { get; set; }
@@ -29,12 +27,7 @@ public partial class Mst005
 
     public decimal? IsprevYr { get; set; }
 
-    //public virtual Mst00402 Mst00402 { get; set; } = null!;
-
     public virtual Mst004? Mst004 { get; set; }
 
-    //public virtual ICollection<Mst00501> Mst00501 { get; set; } =new List<Mst00501>(); 
-
-
-
+   
 }

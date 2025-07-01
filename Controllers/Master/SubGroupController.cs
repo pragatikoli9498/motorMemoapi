@@ -56,12 +56,12 @@ namespace MotorMemo.Controllers.Master
             }
             return Ok(rtn);
         }
+
         [HttpPost]
         public ActionResult getList(QueryStringParameters page)
         {
             try
             {
-                 
                 var filter = new EntityFrameworkFilter<Mst003>();
 
                 var query = _context.Mst003s.Include(i => i.GrpCodeNavigation);
@@ -78,7 +78,6 @@ namespace MotorMemo.Controllers.Master
                         i.SrNo,
                         i.GrpCodeNavigation
 
-
                     }).ToList();
                 if (page.PageNumber == 1)
                     rtn.PageDetails = PageDetail<Mst003>.ToPagedList(data, page.PageNumber, page.PageSize);
@@ -93,6 +92,7 @@ namespace MotorMemo.Controllers.Master
             }
             return Ok(rtn);
         }
+
         [HttpGet]
         public async Task<ActionResult> list()
         {
@@ -100,6 +100,7 @@ namespace MotorMemo.Controllers.Master
             respayload.data = await _context.Mst003s.Include((Mst003 s) => s.GrpCodeNavigation).ToListAsync();
             return Ok(rtn);
         }
+
         [HttpGet]
         public async Task<ActionResult<Mst003>> SubGroup(long id)
         {
@@ -160,6 +161,7 @@ namespace MotorMemo.Controllers.Master
             }
             return Ok(rtn);
         }
+
         [HttpDelete]
         public async Task<IActionResult> delete(int id)
         {

@@ -21,10 +21,8 @@ namespace MotorMemo.Models.Procedures
         public async Task<object> firm(int? firm_id)
         {
          
-
             using (var ocomm = new SqliteConnection(_context.Database.GetConnectionString()))
             {
-
 
                 var CommandText = @"select mst004.*,mst004_01.logo
                                     FROM mst004

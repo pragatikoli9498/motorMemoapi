@@ -42,8 +42,6 @@ namespace MotorMemo.Controllers.Transaction
                         i.AccCodeNavigation.AccName,
                         i.AccCodeNavigation,
                     
-
-
                     }).ToList();
                 if (page.PageNumber == 1)
                     rtn.PageDetails = PageDetail<Sundry>.ToPagedList(data, page.PageNumber, page.PageSize);
@@ -144,8 +142,6 @@ namespace MotorMemo.Controllers.Transaction
                     });
                 }
 
-                //_context.Entry(item).State = EntityState.Modified;
-
                 _context.Entry(sundry).CurrentValues.SetValues(item);
 
                 await _context.SaveChangesAsync();
@@ -176,15 +172,12 @@ namespace MotorMemo.Controllers.Transaction
             try
             {
 
-
                 var filter = new EntityFrameworkFilter<Sundry>();
 
                 var query = _context.Sundries.AsNoTracking()
                              .Include(s => s.AccCodeNavigation).AsNoTracking();
 
-
                 var data = filter.Filter(query, page.keys, true);
-
 
                 rtn.data = await data
                     .OrderBy(o => o.SundryName)
@@ -194,8 +187,6 @@ namespace MotorMemo.Controllers.Transaction
                         i.SundryName,
                         i.S_Id,
                         i.AccCodeNavigation,
-
-
 
                     }).ToListAsync();
                 if (page.PageNumber == 1)

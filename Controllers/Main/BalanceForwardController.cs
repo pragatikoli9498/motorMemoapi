@@ -161,7 +161,7 @@ namespace MotorMemo.Controllers.Main
 
                                         }
                                         await _context.SaveChangesAsync();
-                                        //    _context.Ledgers.Add(await createledger .opening(m));
+                                       
 
                                     }
 

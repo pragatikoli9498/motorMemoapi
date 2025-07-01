@@ -21,5 +21,4 @@ public partial class Mst00501
 
     public int CalcType { get; set; }
 
-    //public virtual Mst005? Mst005 { get; set;}
 }

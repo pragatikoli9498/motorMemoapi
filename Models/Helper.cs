@@ -13,7 +13,6 @@ namespace MotorMemo.Models
             public string name { get; set; } = null!;
             public string value { get; set; }=null!;
 
-
         }
         public class BankTxn
         {
@@ -21,13 +20,6 @@ namespace MotorMemo.Models
             public string name { get; set; } = null!;
         }
 
-        //[NotMapped]
-        //public class postdatedPending
-        //{
-        //    public List<PayPost> Payments { get; set; } = new List<PayPost>();
-        //    public List<RecPost> Receipts { get; set; } = new List<RecPost>();
-
-        //}
         private static string? getValue(MotorMemoDbContext db, string? prop, string value)
         {
             if (value != null && prop!=null)
@@ -118,7 +110,6 @@ namespace MotorMemo.Models
                 if (items.Contains(entityName))
 
                 {
-
 
                     foreach (var prop in change.OriginalValues.Properties)
                     {

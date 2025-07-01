@@ -33,8 +33,6 @@ namespace MotorMemo.Controllers.Master
                 var query = _context.Mst01100s.Include(i => i.AccCodeNavigation)
                     .Where(w => w.FirmId == firm_id && w.DivId == div_id);
 
-
-
                 var data = filter.Filter(query, page.keys);
 
                 rtn.data = data.OrderBy(o => o.VchId)
@@ -48,7 +46,6 @@ namespace MotorMemo.Controllers.Master
                         i.AccCodeNavigation, 
                         i.FirmId,
                         i.DivId
-
 
                     }).ToList();
                 if (page.PageNumber == 1)
@@ -114,8 +111,6 @@ namespace MotorMemo.Controllers.Master
 
                 if (ledger != null)
                     _context.Acc999s.Remove(ledger);
-
-
 
                 _context.Acc999s.Add(new CreateLedger(_context).opening(accOpningBal));
                 await _context.SaveChangesAsync();

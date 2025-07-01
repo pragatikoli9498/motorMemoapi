@@ -27,12 +27,9 @@ namespace MotorMemo.Controllers.Master
             try
             {
 
-
                 var filter = new EntityFrameworkFilter<Mst00603>();
 
                 var query = _context.Mst00603s;
-
-
 
                 var data = filter.Filter(query, page.keys);
 
@@ -43,7 +40,6 @@ namespace MotorMemo.Controllers.Master
                         i.StateCode,
 
                         i.StateName,
-
 
                     }).ToList();
                 if (page.PageNumber == 1)

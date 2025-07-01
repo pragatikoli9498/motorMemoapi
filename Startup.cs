@@ -24,7 +24,6 @@ namespace MotorMemo
             Configuration = configuration;
         }
 
-
         public IConfiguration Configuration { get; }
 
         public string? dbname { get; set; } = "motormemo.db";
@@ -33,7 +32,6 @@ namespace MotorMemo
         public void ConfigureServices(IServiceCollection services)
         {
             
-
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
@@ -49,7 +47,6 @@ namespace MotorMemo
             });
 
            
-
             services.AddDbContext<MotorMemoDbContext>(options =>
             {
                 string? connstring = Configuration.GetConnectionString("MotormemoConnection");
@@ -66,7 +63,6 @@ namespace MotorMemo
                 Configuration.GetConnectionString("DefaultConnection");
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
                 options.UseLazyLoadingProxies(false);
-
 
             });
 
@@ -95,11 +91,9 @@ namespace MotorMemo
 
             services.AddControllers();
 
-
             services.AddControllersWithViews()
              .AddNewtonsoftJson(options =>
              {
-
 
                  options.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
                  options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
@@ -109,21 +103,6 @@ namespace MotorMemo
                  options.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
                  //options.SerializerSettings.Culture = CultureInfo.GetCultureInfo("en-IN");//CultureInfo.InvariantCulture;  
              });
-
-
-
-
-
-            // services.AddControllersWithViews()
-            //.AddNewtonsoftJson(options =>
-            //options.SerializerSettings.ContractResolver = new DefaultContractResolver());
-
-            //services.AddControllersWithViews()
-            // .AddJsonOptions(options =>
-            // {
-            //     options.JsonSerializerOptions.PropertyNamingPolicy = null;
-            // });
-
 
         }
 
@@ -141,9 +120,6 @@ namespace MotorMemo
                 return next.Invoke();
             });
 
-           
-
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -151,7 +127,6 @@ namespace MotorMemo
             }
 
             app.UseCors("MyPolicy");
-
 
             app.UseRouting();
 

@@ -24,15 +24,12 @@ namespace MotorMemo.Controllers.Master
             _context = context;
         }
  
-
         [HttpPost]
         public  ActionResult insert(Mst030 value)
         {
             try
             {
-
                 value.AccCodeNavigation = null;
-
                 _context.Mst030s.Add(value);
                 _context.SaveChanges();
                 rtn.data = value;
@@ -157,7 +154,6 @@ namespace MotorMemo.Controllers.Master
                 respayload respayload = rtn;
                 respayload.data = await (from i in _context.Mst030s.Where(w => w.Id == id)
                         .Include(s => s.AccCodeNavigation).ThenInclude(ti => ti.Place).ThenInclude(ti => ti.Taluka).ThenInclude(ti => ti.District).ThenInclude(ti => ti.StateCodeNavigation).AsNoTracking()
-
                         .AsNoTracking()
                                          select new
                                          {
@@ -173,10 +169,6 @@ namespace MotorMemo.Controllers.Master
                                              i.EmailId,
                                              i.pincode,
                                              i.Name
-
-                                             
-
-
 
                                          }).SingleOrDefaultAsync();
             }

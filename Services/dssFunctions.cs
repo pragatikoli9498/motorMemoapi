@@ -71,10 +71,7 @@ namespace MotorMemo.Services
 
                         ptrn = Config.Pattern.Split(',');
 
-
-
                         var frm = MainDb.Mst004s.Where(w => w.FirmCode == firm_id).FirstOrDefault();
-
 
                         if (frm == null)
                         {
@@ -86,9 +83,6 @@ namespace MotorMemo.Services
                             };
                             return rtn;
                         }
-
-
-                        //var firm_alias = db.mst004.Where(w => w.firm_code == firm_id).First().firm_alias;
 
                         firm_alias = frm.FirmAlias;
                     }
@@ -104,10 +98,6 @@ namespace MotorMemo.Services
                                 case "COMPANYALIAS":
                                     challan += (firm_alias ?? "").Trim();
                                     break;
-
-                                //case "BRANCHCODE":
-                                //    challan += branch_id.Trim();
-                                //    break;
 
                                 case "VOUCHERCODE":
                                     challan += vch_type.ToString().PadLeft(2, '0');
@@ -194,30 +184,22 @@ namespace MotorMemo.Services
             return rtn;
         }
 
-
-     
-
     }
     
 
     public class respayload
     {
-
         public object? PageDetails { get; set; }
         public byte status_cd { get; set; } = 1;
         public object? data { get; set; }
         public errors errors { get; set; } = new errors();
        
-
-
     }
     public class errors
     {
 
-
         public  string? error_cd { get; set; }
         public string? message { get; set; }
-
         public  object? exception { get; set; }
     }
 
@@ -237,7 +219,6 @@ namespace MotorMemo.Services
     public class uploadfile
     {
         public string path { get; set; } = null!;
-
 
     }
 

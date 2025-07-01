@@ -41,8 +41,7 @@ namespace MotorMemo.Controllers.Master
                         i.DistrictId,
                         i.TalukaName,
                         i.District,
-
-                         
+  
                     }).ToList();
                 if (page.PageNumber == 1)
                     rtn.PageDetails = PageDetail<Mst00601>.ToPagedList(data, page.PageNumber, page.PageSize);
@@ -71,8 +70,6 @@ namespace MotorMemo.Controllers.Master
 
                 var data = filter.Filter(query, page.keys);
 
-             
-
                 rtn.data = data.OrderBy(o => o.TalukaName)
                      .Skip((page.PageNumber - 1) * page.PageSize)
                     .Take(page.PageSize).Select(i => new
@@ -95,6 +92,7 @@ namespace MotorMemo.Controllers.Master
             }
             return Ok(rtn);
         }
+
         [HttpPost]
         public async Task<ActionResult> gettalukabydistCode(QueryStringParameters page, long districtId, bool OrElse = false)
         {
@@ -117,12 +115,9 @@ namespace MotorMemo.Controllers.Master
                         i.DistrictId,
                         i.District,
 
-
-
                     }).ToList();
                 if (page.PageNumber == 1)
                     rtn.PageDetails = PageDetail<Mst00601>.ToPagedList(data, page.PageNumber, page.PageSize);
-
 
             }
             catch (Exception ex)
@@ -132,6 +127,7 @@ namespace MotorMemo.Controllers.Master
             }
             return Ok(rtn);
         }
+
         [HttpGet]
         public async Task<ActionResult> list()
         {

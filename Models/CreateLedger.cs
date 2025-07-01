@@ -217,54 +217,7 @@ namespace MotorMemo.Models
 
                 int i = 0;
 
-                //var itmCnt = challan.Acc00301.Count();
-
-                //foreach (var voucher in challan.Acc00301)
-                //{
-                //    if (i == 0)
-                //    {
-                //         var ap = new Acc99901();
-                //        ap.AccCode = challan.AccCode;
-
-                //        if (itmCnt == 1)
-                //            ap.RefCode = voucher.AccCode;
-
-                //        ap.AcDate = voucher.AcDate;
-                //        ap.Dramt = challan.Amount;
-                //        ap.Cramt = 0;
-
-                //        ledger.Acc99901s.Add(ap);
-
-                //    }
-
-                //    ledger.Acc99901s.Add(new Acc99901
-                //    {
-                //        AccCode = voucher.AccCode,
-                //        RefCode = challan.AccCode,
-                //        AcDate = voucher.AcDate,
-                //        Dramt = 0,
-                //        Cramt = voucher.RecAmt,
-
-                //    });
-
-                //    if (voucher.TdsAmt != 0)
-                //    { 
-                //        long? AccCode = db.Sys010s.Where(c => c.Id == 11).Select(C => C.AccCode).SingleOrDefault();
-                //        if (AccCode == null)
-                //            throw new Exception(getException("T D S Receivable"));
-
-                //        ledger.Acc99901s.Add(new Acc99901
-                //        {
-                //            AccCode = (int)AccCode,
-                //            RefCode = voucher.AccCode,
-                //            AcDate = challan.VchDate,
-                //            Dramt = voucher.TdsAmt,
-                //            Cramt = 0,
-                //            Nar = voucher.TdsRate.ToString() + "% T D S"
-                //        });
-                //    }
-                //    i += 1;
-                //}
+               
                
                 return ledger;
         }
@@ -315,59 +268,7 @@ namespace MotorMemo.Models
             ledger.Nar = nar;
 
             int i = 0;
-            //var itmcnt = challan.Acc00201.Count();
-
-            //foreach (var voucher in challan.Acc00201)
-            //{
-              
-            //    ledger.Acc99901s.Add(new Acc99901
-            //    {
-            //        AccCode = challan.AccCode,
-            //        RefCode = voucher.AccCode,
-            //        AcDate = voucher.AcDate,
-            //        Cramt = voucher.Amount,
-            //        Dramt = 0,
-            //        Nar = voucher.Nar == string.Empty ? null : voucher.Nar
-
-            //    });
-
-            //    ledger.Acc99901s.Add(new Acc99901
-            //    {
-            //        AccCode = voucher.AccCode,
-            //        RefCode = challan.AccCode,
-            //        AcDate = voucher.AcDate,
-            //        Dramt = voucher.RecAmt,
-            //        Cramt = 0,
-            //        Nar = voucher.Nar == string.Empty ? null : voucher.Nar
-
-            //    });
-
-            //    if (voucher.TdsAmt != 0)
-            //    {
-            //        int? AccCode = db.Sys010s.Where(c => c.Id == 12).Select(C => C.AccCode).SingleOrDefault();
-
-            //        if (AccCode == null)
-            //            throw new Exception(getException("T D S Payable"));
-
-            //        ledger.Acc99901s.Add(new Acc99901
-            //        {
-            //            AccCode = (int)AccCode,
-            //            RefCode = voucher.AccCode,
-            //            // AcDate = challan.AcDate,
-            //            Dramt = 0,
-            //            Cramt = voucher.TdsAmt,
-            //            Nar = voucher.TdsRate.ToString() + "% T D S"
-
-            //        });
-            //    }
-
-            //    i += 1;
-            //}
-
-
-
-
-
+            
             return ledger;
         }
 

@@ -17,10 +17,9 @@ namespace MotorMemo.Models.Procedures
         {
             _context = context;
         }
-
         public async Task<object> Data(int vch_id)
         {
-            //var oParams = new SqliteParameter[1];
+           
             using (var ocomm = new SqliteConnection(_context.Database.GetConnectionString()))
             {
 
@@ -38,9 +37,7 @@ namespace MotorMemo.Models.Procedures
                                     LEFT JOIN mst010 on acc002_01.cost_id=mst010.I_id
                                    where acc002.vch_id=@vch_id";
 
-                //oParams[0] = new SqliteParameter("vch_id", vch_id);
-
-                //DataTable dataTable = await CreateTableMototrmemo(CommandText, oParams);
+               
                 var data = await ocomm.QueryAsync<object>(CommandText, new { vch_id });
                 return data;
             }

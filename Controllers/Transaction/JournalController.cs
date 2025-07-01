@@ -33,7 +33,6 @@ namespace MotorMemo.Controllers.Transaction
         {
             try
             { 
-
                 var filter = new EntityFrameworkFilter<Acc005>();
 
                 var query = db.Acc005s.Where(w => w.FirmId == firm_id && w.DivId == div_id && (isApproval == false || w.Acc00507 == null));
@@ -53,9 +52,7 @@ namespace MotorMemo.Controllers.Transaction
                         i.VchDate,
                         i.Amount,
                         i.TransType,
-                        //TransTypeNm = i.TransType == 0 ? "Debit" : (i.TransType == 1 ? "Credit" : "CNG"),
                         i.InvType
-
 
                     }).ToList();
                 if (page.PageNumber == 1)
@@ -93,12 +90,10 @@ namespace MotorMemo.Controllers.Transaction
                     jrn.VchNo = (vch ?? 0) + 1;
                 }
 
-
                 var chlnNo = new dssFunctions(db, MainDb).GenerateChallanNo(jrn.FirmId, jrn.DivId, 25, jrn.VchNo, "");
 
                 if (chlnNo.status_cd == 0)
                     return Ok(chlnNo);
-
 
                 if (chlnNo.status_cd != 2)
                     jrn.ChallanNo = (string?)chlnNo.data;
@@ -115,15 +110,12 @@ namespace MotorMemo.Controllers.Transaction
                     return Ok(rtn);
                 }
 
-
                 lgr = new CreateLedger(db).journal(jrn);
                 if (jrn.Acc00500 != null)
                     jrn.Acc00500.CreatedDt = DateTime.Now.ToShortDateString();
 
                 jrn.AccCodeNavigation = null;
                 jrn.Acc00507 = null;
-
-
 
                 foreach (var child in jrn.Acc00501s)
                 {
@@ -145,7 +137,6 @@ namespace MotorMemo.Controllers.Transaction
                             db.Acc00501s.Remove(old_01);
                     }
                 }
-
 
                 foreach (var n_01 in jrn.Acc00501s)
                 {
@@ -175,10 +166,7 @@ namespace MotorMemo.Controllers.Transaction
  
                 }
 
-
                 db.Acc005s.Add(jrn);
-
-              
 
                 lgr.ChallanId = jrn.VchId;
 
@@ -306,12 +294,6 @@ namespace MotorMemo.Controllers.Transaction
         public async Task<IActionResult> update(long id, Acc005 jrn)
         {
 
-
-
-            //jrn.JrnAudit.ModifiedDt = DateTime.Now;
-
-
-
             if (id != jrn.VchId)
             {
                 rtn.status_cd = 0;
@@ -322,11 +304,6 @@ namespace MotorMemo.Controllers.Transaction
                 };
                 return Ok(rtn);
             }
-            //rtn = await DayEnd.DayEndValid(jrn.firm_id, jrn.branch_id, jrn.vch_date, 25);
-            //if (rtn.status_cd == 0)
-            //{
-            //    return rtn;
-            //}
 
             try
             {
@@ -391,7 +368,6 @@ namespace MotorMemo.Controllers.Transaction
                 foreach (var childModel in jrn.Acc00501s)
                 {
                     childModel.AccCodeNavigation = null;
-                    //childModel.Cost = null;
 
                     var existingChild = existingParent.Acc00501s
                         .Where(a => (a.DetlId == 0 ? -1 : a.DetlId) == childModel.DetlId)
@@ -401,12 +377,9 @@ namespace MotorMemo.Controllers.Transaction
                     {
                         db.Entry(existingChild).CurrentValues.SetValues(childModel);
 
-
-
                     }
                     else
                     {
-
                         childModel.VchId = jrn.VchId;
 
                         existingParent.Acc00501s.Add(childModel);
@@ -414,8 +387,6 @@ namespace MotorMemo.Controllers.Transaction
 
 
                 }
-
-
 
                 changedLog(jrn);
                 await db.SaveChangesAsync();

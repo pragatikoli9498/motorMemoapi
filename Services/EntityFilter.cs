@@ -7,8 +7,6 @@ using Microsoft.EntityFrameworkCore;
  
 using System.Data;
  
-
-
 namespace MotorMemo.Services 
 {
     public class EntityFrameworkFilter<T>
@@ -19,8 +17,6 @@ namespace MotorMemo.Services
             var parameter = Expression.Parameter(typeof(T), "x");
             Expression propertyExpression = parameter;
             Expression? combinedExpression = null;
-
-
 
             foreach (var kvp in keys.Where(w => !string.IsNullOrEmpty(w.Value)))
             {
@@ -38,10 +34,6 @@ namespace MotorMemo.Services
                     // Create an expression for the related entity
                     propertyExpression = Expression.Property(parameter, relatedPropertyName);
 
-                    // Load the related entity into memory
-                    // query = query.Include(relatedPropertyName);
-
-                    // Check if the subtable is related to another subtable
                     for (int i = 1; i < relatedTypes.Length - 1; i++)
                     {
                         var subRelatedPropertyName = relatedTypes[i];
@@ -55,10 +47,6 @@ namespace MotorMemo.Services
                         // Create an expression for the related subentity
                         propertyExpression = Expression.Property(propertyExpression, subRelatedPropertyName);
 
-                        // Load the related subentity into memory
-                        //  query = query .Include($"{relatedPropertyName}.{subRelatedPropertyName}");
-
-                        // Update the related property and type for the next iteration
                         relatedProperty = subRelatedProperty;
                         relatedPropertyName = subRelatedPropertyName;
                     }
@@ -159,191 +147,7 @@ namespace MotorMemo.Services
             });
         }
     }
-    //public class EntityFrameworkFilter<T>
-    //{
-    //    public IQueryable<T> Filter(IQueryable<T> queryable, List<values> keys, bool OrElse = false)
-    //    {
-    //        IQueryable<T> query = queryable;
-    //        var parameter = Expression.Parameter(typeof(T), "x");
-    //        Expression propertyExpression = parameter;
-    //        Expression combinedExpression = null;
-
-
-
-    //        foreach (var kvp in keys.Where(w => !string.IsNullOrEmpty(w.Value)))
-    //        {
-    //            if (kvp.Key.Contains("."))
-    //            {
-    //                var relatedTypes = kvp.Key.Split('.');
-    //                var relatedPropertyName = relatedTypes[0];
-    //                var relatedProperty = typeof(T).GetProperty(relatedPropertyName);
-
-    //                if (relatedProperty == null)
-    //                {
-    //                    throw new ArgumentException($"Property {relatedPropertyName} not found in type {typeof(T)}");
-    //                }
-
-    //                // Create an expression for the related entity
-    //                propertyExpression = Expression.Property(parameter, relatedPropertyName);
-
-    //                // Load the related entity into memory
-    //               // query = query.Include(relatedPropertyName);
-
-    //                // Check if the subtable is related to another subtable
-    //                for (int i = 1; i < relatedTypes.Length - 1; i++)
-    //                {
-    //                    var subRelatedPropertyName = relatedTypes[i];
-    //                    var subRelatedProperty = relatedProperty.PropertyType.GetProperty(subRelatedPropertyName);
-
-    //                    if (subRelatedProperty == null)
-    //                    {
-    //                        throw new ArgumentException($"Property {subRelatedPropertyName} not found in type {relatedProperty.PropertyType}");
-    //                    }
-
-    //                    // Create an expression for the related subentity
-    //                    propertyExpression = Expression.Property(propertyExpression, subRelatedPropertyName);
-
-    //                    // Load the related subentity into memory
-    //                  //  query = query .Include($"{relatedPropertyName}.{subRelatedPropertyName}");
-
-    //                    // Update the related property and type for the next iteration
-    //                    relatedProperty = subRelatedProperty;
-    //                    relatedPropertyName = subRelatedPropertyName;
-    //                }
-    //            }
-
-    //            var columnExpression = Expression.Property(propertyExpression, kvp.Key.Split('.').Last());
-    //            var propertyType = columnExpression.Type;
-    //            Expression? filterExpression = null;
-
-    //            if (propertyType == typeof(decimal))
-    //            {
-    //                decimal result;
-    //                var value = decimal.TryParse(kvp.Value, out result); // Convert the string value to a decimal value
-    //                filterExpression = Expression.Equal(columnExpression, Expression.Constant(result));
-    //            }
-    //            else if (propertyType == typeof(int) || propertyType == typeof(int?))
-    //            {
-    //                int result;
-    //                if (int.TryParse(kvp.Value, out result)) // Convert the string value to a decimal value
-    //                {
-    //                    filterExpression = Expression.Equal(columnExpression, Expression.Constant(result));
-    //                }
-    //                else
-    //                {
-    //                    filterExpression = Expression.Constant(false);
-    //                }
-    //            }
-    //            // ... (other data types)
-
-    //            else if (propertyType == typeof(string))
-    //            {
-    //                var toLowerMethod = typeof(string).GetMethod("ToLower", Type.EmptyTypes);
-    //                var columnToLowerExpression = Expression.Call(columnExpression, toLowerMethod);
-    //                var filterToLowerExpression = Expression.Constant(kvp.Value.ToLower());
-    //                filterExpression = Expression.Call(columnToLowerExpression, "Contains", Type.EmptyTypes, filterToLowerExpression);
-    //            }
-
-    //            if (OrElse)
-    //            {
-    //                combinedExpression = combinedExpression == null
-    //                    ? filterExpression
-    //                    : Expression.OrElse(combinedExpression, filterExpression);
-    //            }
-    //            else
-    //            {
-    //                combinedExpression = combinedExpression == null
-    //                    ? filterExpression
-    //                    : Expression.AndAlso(combinedExpression, filterExpression);
-    //            }
-    //        }
-
-    //        if (combinedExpression != null)
-    //        {
-    //            var lambda = Expression.Lambda<Func<T, bool>>(combinedExpression, parameter);
-    //            query = query.Where(lambda);
-    //        }
-
-    //        return query;
-    //    }
-
-
-
-
-    //    //public IQueryable<T> Filter<T>(IQueryable<T> queryable, List<values> filters) where T : class
-    //    //{
-
-    //    //    IQueryable<T> query = queryable;
-
-    //    //    foreach (var kvp in filters.Where(w => !string.IsNullOrEmpty(w.Value)))
-    //    //    {
-
-    //    //        var parameter = Expression.Parameter(typeof(T), "x");
-    //    //        Expression propertyExpression = parameter;
-
-    //    //        if (kvp.Key.Contains("."))
-    //    //        {
-    //    //            var relatedTypes = kvp.Key.Split('.');
-    //    //            var relatedPropertyName = relatedTypes[0];
-    //    //            var relatedProperty = typeof(T).GetProperty(relatedPropertyName);
-
-    //    //            if (relatedProperty == null)
-    //    //            {
-    //    //                throw new ArgumentException($"Property {relatedPropertyName} not found in type {typeof(T)}");
-    //    //            }
-
-    //    //            // Create an expression for the related entity
-    //    //            propertyExpression = Expression.Property(parameter, relatedPropertyName);
-
-
-
-    //    //            // Loop through each filter and create a filter expression
-    //    //            for (int i = 1; i < relatedTypes.Length - 1; i++)
-
-    //    //            {
-    //    //                var subRelatedPropertyName = relatedTypes[i];
-    //    //                var subRelatedProperty = relatedProperty.PropertyType.GetProperty(subRelatedPropertyName);
-
-    //    //                if (subRelatedProperty == null)
-    //    //                {
-    //    //                    throw new ArgumentException($"Property {subRelatedPropertyName} not found in type {relatedProperty.PropertyType}");
-    //    //                }
-
-    //    //                // Create an expression for the related subentity
-    //    //                propertyExpression = Expression.Property(propertyExpression, subRelatedPropertyName);
-
-    //    //                // Load the related subentity into memory
-    //    //                query = query.Include($"{relatedPropertyName}.{subRelatedPropertyName}");
-
-    //    //                // Update the related property and type for the next iteration
-    //    //                relatedProperty = subRelatedProperty;
-    //    //                relatedPropertyName = subRelatedPropertyName;
-
-    //    //            }
-    //    //        }
-
-    //    //        var columnExpression = Expression.Property(propertyExpression, kvp.Key.Split('.').Last());
-    //    //       // var containsMethod = Expression.Call(columnExpression, "Contains", Type.EmptyTypes, Expression.Constant(kvp.Value));
-    //    //       // var lambda = Expression.Lambda<Func<T, bool>>(containsMethod, parameter);
-
-
-
-
-    //    //        var toLowerMethod = typeof(string).GetMethod("ToLower", Type.EmptyTypes);
-    //    //        var toLowerExpression = Expression.Call(columnExpression, toLowerMethod);
-    //    //        var containsMethod = typeof(string).GetMethod("Contains", new[] { typeof(string) });
-    //    //        var containsExpression = Expression.Call(toLowerExpression, containsMethod, Expression.Constant(kvp?.Value ??"".ToLower()));
-    //    //        var lambda = Expression.Lambda<Func<T, bool>>(containsExpression, parameter);
-
-
-    //    //        query = query.Where(lambda);
-    //    //    }
-    //    //    return query;
-
-
-
-    //    //}
-    //}
+  
 
     public class values
     {
@@ -392,9 +196,6 @@ namespace MotorMemo.Services
 
             return new PageDetail<T>(count, pageNumber, pageSize);
         }
-
-
-       
     }
 
 

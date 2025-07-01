@@ -31,8 +31,6 @@ namespace RetailDesk.Controllers.Main
                     Select(s => new
 
                     {
-
-
                         s.UserId,
                         s.A,
                         s.O,
@@ -62,7 +60,6 @@ namespace RetailDesk.Controllers.Main
             try
             {
 
-
                 foreach (var item in userRoleAuths)
                 {
                     var existingItem = db.Sys00205s.Where(w => w.UserId == item.UserId).FirstOrDefault();
@@ -70,8 +67,6 @@ namespace RetailDesk.Controllers.Main
                         db.Entry(existingItem).CurrentValues.SetValues(item);
                     else
                         db.Sys00205s.Add(item);
-
-
 
                 };
 

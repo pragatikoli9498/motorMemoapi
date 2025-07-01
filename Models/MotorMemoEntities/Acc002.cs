@@ -49,7 +49,5 @@ public partial class Acc002
 
     public virtual Acc00201? Acc00201 { get; set; }
 
-    //public virtual ICollection<Acc00201> Acc00201s { get; set; } = new List<Acc00201>();
-
     public virtual Mst011 AccCodeNavigation { get; set; } = null!;
 }

@@ -89,43 +89,6 @@ namespace MotorMemo.models
             reader.Close();
             return dataTable;
         }
-        //public ReportParameterInfoCollection GetParams(Dictionary<string, object> InternalJsonArray)
-        //{
-        //    string? text = null;
-
-        //    if (InternalJsonArray.ContainsKey("DbParameters") && InternalJsonArray["DbParameters"] != null)
-        //    {
-        //        text = JsonConvert.SerializeObject(InternalJsonArray["DbParameters"]);
-        //    }
-        //    else if (InternalJsonArray.ContainsKey("reportParameters") && InternalJsonArray["reportParameters"] != null)
-        //    {
-        //        text = JsonConvert.SerializeObject(InternalJsonArray["reportParameters"]);
-        //    }
-        //    else if (InternalJsonArray.ContainsKey("parameters") && InternalJsonArray["parameters"] != null)
-        //    {
-        //        text = JsonConvert.SerializeObject(InternalJsonArray["parameters"]);
-        //    }
-
-        //    ReportParameterInfoCollection reportParameterInfoCollection = new ReportParameterInfoCollection();
-        //    if (text != null)
-        //    {
-        //        List<ReportsParameter> list = JsonConvert.DeserializeObject<List<ReportsParameter>>(text);
-
-        //        foreach (ReportsParameter item in list)
-        //        {
-        //            reportParameterInfoCollection.Add(new ReportParameterInfo
-        //            {
-        //                Name = item.Name,
-        //                Values = item.Values,
-        //                Hidden = true
-        //            });
-        //        }
-
-
-        //    }
-        //    return reportParameterInfoCollection;
-
-        //}
-
+        
     }
 }

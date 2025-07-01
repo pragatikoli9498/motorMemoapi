@@ -63,13 +63,5 @@ public partial class Mst00402
 
     public string? EwayKey { get; set; }
 
-    //public virtual Mst00603 BranchState { get; set; } = null!;
-
-    //public virtual Mst004 FirmCodeNavigation { get; set; } = null!;
-
-    //public virtual ICollection<Mst00403> Mst00403s { get; set; } = new List<Mst00403>();
-
-    //public virtual ICollection<Mst00409> Mst00409s { get; set; } = new List<Mst00409>();
-
-    //public virtual ICollection<Mst005> Mst005s { get; set; } = new List<Mst005>();
+   
 }

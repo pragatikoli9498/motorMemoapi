@@ -38,10 +38,8 @@ namespace MotorMemo.Controllers.Master
             if (value.Mst10300 != null)
                 value.Mst10300.CreatedDt = DateTime.Now.ToString("yyyy/mm/dd");
 
-
             try
             {
-
                 _context.Mst103s.Add(value);
                 _context.SaveChanges();
                 rtn.data = value;
@@ -146,10 +144,8 @@ namespace MotorMemo.Controllers.Master
                 respayload.data = await _context.Mst103s.Where(w => w.DeclrId == id)
                     .Include(i => i.AccCodeNavigation)
                     .Include(i => i.Mst10301s).AsTracking()
-                       //.Include(i => i.Mst10300).AsTracking()
-         
                     .SingleOrDefaultAsync();
-                //    rtn.data= await _context.Mst103s.Where(w=>w.DeclrId == id).FirstOrDefaultAsync();
+               
                 if (rtn.data == null)
                 {
                     rtn.status_cd = 0;
@@ -170,11 +166,8 @@ namespace MotorMemo.Controllers.Master
         public async Task<IActionResult> update(int id, Mst103 mst103)
         {
          
-            
             try
             {
-
-               
 
                 var existingParent = await _context.Mst103s.Include(i => i.Mst10301s).Where(w => w.DeclrId == id).FirstOrDefaultAsync();
 
@@ -186,16 +179,12 @@ namespace MotorMemo.Controllers.Master
                         _context.Mst10301s.Remove(existingChild);
                 }
 
-
                 foreach (var childModel in mst103.Mst10301s.ToList())
                 {
                    
                     var existingChildbb = _context.Mst10301s
                         .Where(a => a.detlid == childModel.detlid)
                         .SingleOrDefault();
-
-
-                    
 
                         if (existingChildbb != null)
                         {
@@ -212,11 +201,8 @@ namespace MotorMemo.Controllers.Master
                             _context.Mst10301s.Add(childModel);
                         }
                     
-
-
                 }
  
-
                 await _context.SaveChangesAsync();
                 rtn.data = mst103;
               

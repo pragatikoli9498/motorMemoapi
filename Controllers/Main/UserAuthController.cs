@@ -83,7 +83,6 @@ namespace RetailDesk.Controllers.Main
                 rtn.status_cd = 0;
                 rtn.errors.exception = ex;
 
-
             }
 
             return Ok(rtn);
@@ -120,7 +119,6 @@ namespace RetailDesk.Controllers.Main
             try
             {
 
-
                 foreach (var item in userAuths)
                 {
                     var existingItem = db.Sys00204s.Where(w => w.UserId == item.UserId).FirstOrDefault();
@@ -128,8 +126,6 @@ namespace RetailDesk.Controllers.Main
                         db.Entry(existingItem).CurrentValues.SetValues(item);
                     else
                         db.Sys00204s.Add(item);
-
-
 
                 };
 

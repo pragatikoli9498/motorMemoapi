@@ -21,14 +21,11 @@ public partial class MainDbContext : DbContext
 
     public virtual DbSet<Mst00401> Mst00401s { get; set; }
      
-
     public virtual DbSet<Mst00403> Mst00403s { get; set; }
 
     public virtual DbSet<Mst00409> Mst00409s { get; set; }
 
     public virtual DbSet<Mst005> Mst005s { get; set; }
-
- 
 
     public virtual DbSet<Mst00603> Mst00603s { get; set; }
     public virtual DbSet<Sys00201> Sys00201s { get; set; }
@@ -156,8 +153,6 @@ public partial class MainDbContext : DbContext
             entity.Property(e => e.GstNo).HasColumnName("gst_no");
             entity.Property(e => e.GstTyp).HasColumnName("gst_typ");
 
-            //entity.HasOne(d => d.Mst004).WithMany(p => p.Mst00409s).HasForeignKey(d => new { d.FirmId }).OnDelete(DeleteBehavior.ClientSetNull);
-
             entity.HasOne(d => d.Mst004).WithOne(p => p.Mst00409).HasForeignKey<Mst00409>(d =>  d.FirmId);
         });
 
@@ -185,9 +180,6 @@ public partial class MainDbContext : DbContext
                 .HasColumnName("prefix");
             entity.Property(e => e.Tdt).HasColumnName("tdt"); 
  
-          //entity.HasOne(d => d.Mst004).WithMany(p => p.Mst005s).HasForeignKey(d => new { d.FirmCode });
-
-            // Define the relationship with Mst004
             entity.HasOne(d => d.Mst004)  // Mst005 has one Mst004
                 .WithMany(p => p.Mst005s)
                 .HasForeignKey(d => new { d.FirmCode })    

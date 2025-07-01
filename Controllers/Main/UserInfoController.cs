@@ -26,15 +26,10 @@ namespace MotorMemo.Controllers.Main
             try
             {
 
-
                 var filter = new EntityFrameworkFilter<Sys00203>();
 
                 var query = db.Sys00203s.Include(i => i.Role);
                     
-
-
-
-
                 var data = filter.Filter(query, page.keys);
 
                 rtn.data = data.OrderBy(o => o.UserName)
@@ -47,9 +42,6 @@ namespace MotorMemo.Controllers.Main
                         i.Role,
                         i.Mobileno,
                         i.UserLongname
-
-
-
                     }).ToList();
                 if (page.PageNumber == 1)
                     rtn.PageDetails = PageDetail<Sys00203>.ToPagedList(data, page.PageNumber, page.PageSize);
@@ -69,13 +61,11 @@ namespace MotorMemo.Controllers.Main
         [HttpGet]
         public async Task<ActionResult> list()
         {
-            //
+           
             try
             {
 
-
                 rtn.data = await db.Sys00203s.Include((Sys00203 i) => i.Role).ToListAsync();
-
 
             }
             catch (Exception ex2)
@@ -86,10 +76,6 @@ namespace MotorMemo.Controllers.Main
             }
             return Ok(rtn);
         }
-
-        // GET: api/user
-
-
 
 
         [HttpGet]
@@ -145,7 +131,6 @@ namespace MotorMemo.Controllers.Main
         [HttpPost]
         public async Task<ObjectResult> insert(Sys00203 userInfo)
         {
-            // userInfo.role = null;
 
             userInfo.Sys00201.Password = password.EncryptPass(userInfo.Sys00201.Password);
 
@@ -161,8 +146,6 @@ namespace MotorMemo.Controllers.Main
                 await db.SaveChangesAsync();
                 rtn.data = userInfo;
 
-
-
             }
             catch (Exception ex2)
             {
@@ -172,7 +155,6 @@ namespace MotorMemo.Controllers.Main
             }
             return Ok(rtn);
         }
-
 
 
         [HttpPut]
@@ -189,10 +171,6 @@ namespace MotorMemo.Controllers.Main
 
                 Sys00203? ExistingParent = await db.Sys00203s.Where((a) => a.UserId == (long)userid).SingleOrDefaultAsync();
                 db.Entry(ExistingParent).CurrentValues.SetValues(userInfo);
-
-
-
-
 
                 await db.SaveChangesAsync();
                 rtn.data = userInfo;

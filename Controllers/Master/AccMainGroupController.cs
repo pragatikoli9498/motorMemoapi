@@ -23,13 +23,9 @@ namespace MotorMemo.Controllers.Master
         {
             try
             {
-
-
                 var filter = new EntityFrameworkFilter<Mst001>();
 
                 var query = _context.Mst001s;
-
-
 
                 var data = filter.Filter(query, page.keys);
 

@@ -45,9 +45,7 @@ namespace MotorMemo.Controllers.Master
 
             try
             {
-              
-
-                    var opBalRows = await _proc.getCashBankOpening(firm_id, div_id, sdt, edt, acc_code) as IEnumerable<dynamic>;
+                var opBalRows = await _proc.getCashBankOpening(firm_id, div_id, sdt, edt, acc_code) as IEnumerable<dynamic>;
                 int opBal = 0;
                 if (opBalRows != null)
                 {
@@ -58,7 +56,6 @@ namespace MotorMemo.Controllers.Master
                     }
                 }
 
-                //var report = await _proc.getCashBankBook(firm_id,div_id, sdt, edt, acc_code);
                 var report = await _proc.getCashBankBook(firm_id, div_id, sdt, edt, acc_code) as IEnumerable<dynamic>;
                 var clbaln = report.AsEnumerable().Sum(row => row.Field<int?>("balance") ?? 0) + opBal;
                 int clBal = Convert.ToInt16(clbaln);
@@ -102,7 +99,6 @@ namespace MotorMemo.Controllers.Master
 
                 var reportList = new List<CashBankBook>();
 
-               
                 foreach (var row in report)
                 {
                     int balance = row.balance != null ? Convert.ToInt32(row.balance) : 0;
@@ -124,8 +120,6 @@ namespace MotorMemo.Controllers.Master
 
                     reportList.Add(cashBankBook);
                 }
-
-
 
                 rpt.Add(opening);
 

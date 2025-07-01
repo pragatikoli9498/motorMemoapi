@@ -43,13 +43,11 @@ namespace MotorMemo.Controllers.Transaction
         {
             try
             {
-                 
                 var filter = new EntityFrameworkFilter<Acc003>();
 
                 var query = db.Acc003s.Where(w => w.FirmId == FirmId && w.DivId == DivId)
                     .Include(c => c.AccCodeNavigation)
                     .Include(c => c.Acc00301).ThenInclude(c => c.AccCodeNavigation);
-
 
                 var data = filter.Filter(query, page.keys);
 
@@ -67,11 +65,8 @@ namespace MotorMemo.Controllers.Transaction
                         i.AccCodeNavigation,
                         i.AccCodeNavigation.AccName,
                         toCredit = i.Acc00301.AccCodeNavigation.AccName,
-                        //toCredit = i.Acc00301.Select(d => d.AccCodeNavigation.AccName).FirstOrDefault(),
                         Amount = i.Acc00301.Amount,
                         
-
-
                     }).ToList();
                 if (page.PageNumber == 1)
                     rtn.PageDetails = PageDetail<Acc003>.ToPagedList(data, page.PageNumber, page.PageSize);
@@ -95,7 +90,6 @@ namespace MotorMemo.Controllers.Transaction
                 rtn.data = await db.Acc003s.AsNoTracking()
                     .Include(c => c.AccCodeNavigation).AsNoTracking()
                     .Include(c => c.Acc00301).ThenInclude(c => c.AccCodeNavigation).AsNoTracking()
-
 
                        .Where(w => w.FirmId == FirmId && w.DivId == DivId)
 
@@ -183,8 +177,6 @@ namespace MotorMemo.Controllers.Transaction
                 if (res.status_cd == 0)
                     return Ok(res);
 
-                //if (res.status_cd != 2)
-                //    receipt.ChallanNo = res.data.ToString();
                 if (res.status_cd != 2)
                     receipt.ChallanNo = (string?)res.data;
 
@@ -200,13 +192,11 @@ namespace MotorMemo.Controllers.Transaction
                     return Ok(rtn);
                 }
  
-
                 acc999 = new CreateLedger(db).receipt(receipt);
 
                 if (receipt.Acc00300 != null)
                     receipt.Acc00300.CreatedDt = DateTime.Now.ToString();
  
-              
                 db.Acc003s.Add(receipt);
                 await db.SaveChangesAsync();
 
@@ -230,6 +220,7 @@ namespace MotorMemo.Controllers.Transaction
             return Ok(rtn);
 
         }
+
         [HttpDelete]
         public async Task<IActionResult> Delete(long id)
         {
@@ -239,13 +230,11 @@ namespace MotorMemo.Controllers.Transaction
             try
             {
                 
-                 
                 var ledger = db.Acc999s.Where(c => c.ChallanId == id && c.VchType == 2).ToList();
 
                 if (ledger.Count() > 0)
                     db.Acc999s.RemoveRange(ledger);
  
-
             }
             catch (Exception ex)
             {
@@ -267,10 +256,7 @@ namespace MotorMemo.Controllers.Transaction
                     .Where(w => w.ChallanNo == id && w.FirmId == FirmId)
                     .Include(i => i.AccCodeNavigation.Place.Taluka.District.StateCodeNavigation).AsNoTracking()
                     .Include(i => i.Acc00300).AsNoTracking()
-                    //.Include(i => i.Acc00301.Select(s => s.AccCodeNavigation.Place.Taluka.District.StateCodeNavigation)).AsNoTracking()
-                    //.Include(i => i.Acc00301.Select(s => s.AccCodeNavigation.SgCodeNavigation.GrpCodeNavigation)).AsNoTracking()
-                   
-                    
+                  
                     .SingleOrDefault();
 
                 if (rtn.data == null)
@@ -376,14 +362,11 @@ namespace MotorMemo.Controllers.Transaction
             try
             {
 
-
-
                 var existingParent = await db.Acc003s
                         .Where(a => a.VchId == id)
                         .Include(a => a.Acc00301)
                         .Include(a => a.Acc00300)
                         .SingleOrDefaultAsync();
-
 
                 if (existingParent == null)
                 {
@@ -434,7 +417,6 @@ namespace MotorMemo.Controllers.Transaction
                         return Ok(res);
                     }
 
-
                 }
 
                 db.Entry(existingParent).CurrentValues.SetValues(receipt);
@@ -452,7 +434,6 @@ namespace MotorMemo.Controllers.Transaction
                 {
                     db.Acc00301s.Add(receipt.Acc00301);
                 }
-
 
                 changedLog(receipt);
                 await db.SaveChangesAsync();

@@ -32,8 +32,6 @@ namespace MotorMemo.Controllers.Master
                                          .Include((Mst108 s) => s.Mst10804).AsNoTracking()
                                         .Include((Mst108 s) => s.Mst10801s).AsNoTracking();
 
-
-
                 var data = filter.Filter(query, page.keys);
 
                 rtn.data = data.OrderBy(o => o.VehicleNo)
@@ -72,7 +70,6 @@ namespace MotorMemo.Controllers.Master
 
             try
             {
-                  
                 _context.Mst108s.Add(mst108);
                 await _context.SaveChangesAsync();
 
@@ -130,8 +127,6 @@ namespace MotorMemo.Controllers.Master
                    
                         .Include( s=> s.Mst10805s).ThenInclude(ti=>ti.State).AsNoTracking() 
                         .Include((Mst108 s) => s.Mst10804)
-                     
-
                         .AsNoTracking()
                                          select new
                                          {
@@ -153,14 +148,12 @@ namespace MotorMemo.Controllers.Master
                                              i.ModifiedDt,
                                              i.ModifiedUser,
                                              i.Mst10801s,
-                                             //i.Mst10803,
                                              i.Mst10804,
                                              i.Mst10805s,
                                              i.PanNo,
                                              i.IsOwn,
                                              i.VtypeId
-                                        
-
+              
                                          }).SingleOrDefaultAsync();
                 if (rtn.data == null)
                 {
@@ -183,7 +176,6 @@ namespace MotorMemo.Controllers.Master
         {
             try
             {
-                 
                 var mst108s = await _context.Mst108s.Where(w => w.VehicleNo == id).FirstOrDefaultAsync();
 
                 foreach (var item in mst108.Mst10805s)
@@ -194,10 +186,7 @@ namespace MotorMemo.Controllers.Master
 
                 if (mst108s !=null)
                 {
-
                     _context.Entry(mst108).State = EntityState.Modified;
-
-                    
                 }
                 else
                 {

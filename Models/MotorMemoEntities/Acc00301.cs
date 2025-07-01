@@ -22,7 +22,6 @@ public partial class Acc00301
 
     public DateTime AcDate { get; set; }
      
-
     public virtual Mst011? AccCodeNavigation { get; set; } 
 
     public virtual Acc003? Vch { get; set; }

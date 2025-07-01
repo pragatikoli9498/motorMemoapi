@@ -17,7 +17,6 @@ namespace MotorMemo.Controllers.Reports
         private IMemoryCache _cache;
         private IWebHostEnvironment Environment;
 
-        // private string? _mobileno;
         private string? _exportType = "PDF";
         private string? _reportCacheId;
         public readonly CashBankBookProc _proc;
@@ -35,7 +34,6 @@ namespace MotorMemo.Controllers.Reports
         public async Task<IActionResult> Report([FromBody] Dictionary<string, object> jsonArray)
         {
             var repoService = new ReportService();
-
 
             List<ReportParams> reportParams = JsonConvert.DeserializeObject<List<ReportParams>>(jsonArray["reportParams"].ToString());
 
@@ -57,13 +55,8 @@ namespace MotorMemo.Controllers.Reports
                 if (jsonArray.ContainsKey("docName"))
                     docName = jsonArray["docName"].ToString();
 
-
-
                 string[] DbParamNames = new string[] { "firm_id","div_id","sdt","edt","acc_code" };
                 var DbParamsWithValue = repoService.getdbParams(reportParams, DbParamNames);
-
-                //string[] RpParamNames = new string[] {"firm_id" };
-                
 
                 int firm_id = Convert.ToInt16(DbParamsWithValue?["firm_id"]);
                 string div_id = DbParamsWithValue["div_id"].ToString();
@@ -74,16 +67,6 @@ namespace MotorMemo.Controllers.Reports
                 decimal? balance = 0.00m;
                 decimal? opblAmt = 0.00m;
 
-                //try
-                //{
-                //    if (opBal !=null)
-                //    {
-                //        balance = Convert.ToDecimal(opBal);
-                //        opblAmt = balance;
-                //    }
-
-
-                //}
                 try
                 {
                     if (opBal != null)
@@ -101,8 +84,6 @@ namespace MotorMemo.Controllers.Reports
                     throw ex;
                 }
 
-
-
                 string[] RpParamNames = { "sdt", "edt", "acc_code", "opblAmt" };
 
                 reportParams.Add(new ReportParams
@@ -115,10 +96,8 @@ namespace MotorMemo.Controllers.Reports
 
                 string RdlPath = basePath + @"\\Models\\Rdlc\\cash_bank_book.rdl";
 
-
                 string MemType = "PDF";
                 string contentType = "application/pdf";
-
 
                 try
                {
@@ -179,10 +158,8 @@ namespace MotorMemo.Controllers.Reports
 
                     }
 
-
                     if (_mailArray == null && _wappArray == null)
                         rtn.data = new { ArrayBuffer = File(ReportData.Data, contentType), ContentType = contentType, FileType = _exportType };
-
 
                     else
                     {

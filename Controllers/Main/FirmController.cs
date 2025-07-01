@@ -50,7 +50,6 @@ namespace MotorMemo.Controllers.Main
                         i.EmailId,
                         i.TransactionId,
                         i.Mst00603,
-                        //i.FinYears,
                         i.Mst00401,
                         i.FirmAlias
                     }).ToList();
@@ -90,14 +89,7 @@ namespace MotorMemo.Controllers.Main
             try
             {
                 respayload respayload = rtn;
-                //respayload.data = await _context.Mst004s
-                //     .Where(w => w.FirmCode == id)
-                //        .Include(i => i.Mst00401)
-                //          .Include(i => i.Mst00603)
-                //            .Include(i => i.Mst00409s)
-                //              .Include(i => i.Mst00403s)
-                //                .AsNoTracking()
-                //.SingleOrDefaultAsync();
+               
                 respayload.data = await _context.Mst004s.Where(w => w.FirmCode == id)
                     .Include(i => i.Mst00401).AsTracking()
                        .Include(i => i.Mst00603).AsTracking()

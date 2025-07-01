@@ -47,8 +47,7 @@ namespace MotorMemo.Controllers.Master
             {
 
                 var data = await _proc.Data(firm_id, div_id, sdt,edt) as IEnumerable<dynamic>;
-                //DataTable data = await _proc.Data(firm_id, branch_id, div_id, sg_code, acc_code, sdt, edt, Inventory);
-                //decimal runningTotal = 0;
+               
                 if (data != null)
                 {
                     rtn.data = data.Select(g => new

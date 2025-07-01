@@ -25,7 +25,6 @@ namespace MotorMemo.Controllers.Master
         {
             try
             {
-                 
                 var filter = new EntityFrameworkFilter<Mst006>();
 
                 var query = _context.Mst006s.Include(i => i.Taluka)
@@ -56,6 +55,7 @@ namespace MotorMemo.Controllers.Master
             }
             return Ok(rtn);
         }
+
         [HttpGet]
         public async Task<ActionResult> list()
         {
@@ -66,6 +66,7 @@ namespace MotorMemo.Controllers.Master
                                      select new { s.CityId, s.CityPin, s.CityName, s.Taluka }).ToListAsync();
             return Ok(rtn);
         }
+
         [HttpGet]
         public async Task<ActionResult> Placeedit(long id)
         { 
@@ -84,7 +85,6 @@ namespace MotorMemo.Controllers.Master
                       s.TalukaId,
                       Taluka = s.Taluka,
  
-
                   })
                    .SingleOrDefaultAsync();
 
@@ -108,6 +108,7 @@ namespace MotorMemo.Controllers.Master
 
             return Ok(rtn);
         }
+
         [HttpPut]
         public async Task<IActionResult> update(long id, Mst006 place)
         {
@@ -137,7 +138,6 @@ namespace MotorMemo.Controllers.Master
             }
             return Ok(rtn);
         }
-
 
 
         [HttpPost]

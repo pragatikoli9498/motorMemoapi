@@ -40,8 +40,7 @@ namespace MotorMemo.Controllers.Master
                       i.IHsnDescription,
                       i.IId,
                       i.IUnit,
-                     i.IUnitNavigation
-
+                      i.IUnitNavigation
 
                     }).ToList();
                 if (page.PageNumber == 1)
@@ -129,9 +128,7 @@ namespace MotorMemo.Controllers.Master
             {
                 respayload respayload = rtn;
                 respayload.data = await _context.Mst010s.Where((Mst010 s) => s.IId == id)
-                 
- 
-                    .SingleOrDefaultAsync();
+                .SingleOrDefaultAsync();
                 if (rtn.data == null)
                 {
                     rtn.status_cd = 0;
@@ -153,7 +150,6 @@ namespace MotorMemo.Controllers.Master
         {
             try
             {
-                
                 _context.Mst010s.Add(product);
                 await _context.SaveChangesAsync();
                 rtn.data = product;

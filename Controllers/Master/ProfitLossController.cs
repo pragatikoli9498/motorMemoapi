@@ -108,10 +108,6 @@ namespace MotorMemo.Controllers.Master
              })
                  .ToList();
 
-
-
-
-
                 rtn.data = prfLoos.ToList();
 
             }

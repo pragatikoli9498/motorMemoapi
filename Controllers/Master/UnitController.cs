@@ -35,10 +35,8 @@ namespace MotorMemo.Controllers.Master
                      .Skip((page.PageNumber - 1) * page.PageSize)
                     .Take(page.PageSize).Select(i => new
                     {
-
                         i.UnitCode,
                         i.UnitName,
-
 
                     }).ToList();
                 if (page.PageNumber == 1)
@@ -54,6 +52,7 @@ namespace MotorMemo.Controllers.Master
             }
             return Ok(rtn);
         }
+
         [HttpGet]
         public async Task<ActionResult> list()
         {
@@ -83,6 +82,7 @@ namespace MotorMemo.Controllers.Master
             }
             return Ok(rtn);
         }
+
         [HttpPut]
         public async Task<IActionResult> update(Mst012 unit)
         {

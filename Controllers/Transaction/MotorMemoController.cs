@@ -18,7 +18,6 @@ namespace MotorMemo.Controllers.Transaction
         private readonly MainDbContext _mainDb;
 
         private respayload rtn = new respayload();
-
         public MotorMemoController(MotorMemoDbContext context, MainDbContext mainDb)
         {
             _context = context;
@@ -27,10 +26,9 @@ namespace MotorMemo.Controllers.Transaction
        
         [HttpPost]
         public ActionResult getList(QueryStringParameters page, int firm_id, string div_id)
-      {
+        {
             try
             {
-
                 var filter = new EntityFrameworkFilter<Motormemo>();
 
                 var query = _context.Motormemos.Where(w=>w.FirmId==firm_id && w.DivId==div_id).
@@ -83,12 +81,10 @@ namespace MotorMemo.Controllers.Transaction
                 childModel.Sundries = null;
             }
 
-
             foreach (var childModel in motormemo.MotormemoOtherCharges)
             {
                 childModel.AccCodeNavigation = null;
                 childModel.Sundries = null;
-                
             }
 
             try
@@ -105,7 +101,6 @@ namespace MotorMemo.Controllers.Transaction
                 _context.Motormemos.Add(motormemo);
                 await _context.SaveChangesAsync();
 
-              
                 rtn.data = motormemo;
 
             }
@@ -115,9 +110,7 @@ namespace MotorMemo.Controllers.Transaction
                 rtn.errors = new dssFunctions().getException(ex);
 
             }
-
             return Ok(rtn);
-
         }
 
         [HttpGet]
@@ -125,12 +118,10 @@ namespace MotorMemo.Controllers.Transaction
         {
             try
             {
-               
                 rtn.data = await  _context.Motormemos.Where( s => s.VchId == id).Include(s=> s.MotormemoAudit).AsNoTracking()
                         .Include(s=> s.MotormemoCommodities).AsNoTracking()
                         .Include(s=> s.MotormemoExpenses).AsNoTracking()  
                         .Include( s => s.MotormemoOtherCharges).AsNoTracking()
-                     
                         .Include(s=>s.MotormemoExpenses).ThenInclude(ti=>ti.AccCodeNavigation)
                         .Include(s => s.MotormemoExpenses).ThenInclude(ti => ti.Sundries)
                         .Include(s => s.MotormemoOtherCharges).ThenInclude(ti => ti.AccCodeNavigation)
@@ -149,7 +140,6 @@ namespace MotorMemo.Controllers.Transaction
                                           i.FreightType,
                                           i.MotormemoDetails,
                                           Acc003s= i.Acc003s.FirstOrDefault(),
-                                          //i.MobileNo,
                                           i.BillAmt,
                                           i.VehicleNo,
                                           i.Dt,
@@ -229,14 +219,9 @@ namespace MotorMemo.Controllers.Transaction
 
                 if (s != null)
                 {
-
                     _context.Entry(s).CurrentValues.SetValues(data);
 
                     _context.Entry(s.MotormemoDetails).CurrentValues.SetValues(data.MotormemoDetails);
-
-                  //  _context.Entry(s.MotormemoCommodities).CurrentValues.SetValues(data.MotormemoCommodities);
-
-                     
 
                     foreach (var existingChild in s.MotormemoCommodities.ToList())
                     {
@@ -244,12 +229,9 @@ namespace MotorMemo.Controllers.Transaction
                             _context.MotormemoCommodities.Remove(existingChild);
                     }
 
-                   
-
                     foreach (var childModel in data.MotormemoCommodities.ToList())
                     {
                        
-
                         var existingChild = s.MotormemoCommodities
                             .Where(a =>  a.DetlId == childModel.DetlId)
                             .SingleOrDefault();
@@ -267,10 +249,7 @@ namespace MotorMemo.Controllers.Transaction
                             s.MotormemoCommodities.Add(childModel);
                         }
 
-
                     }
-
-                    // _context.Entry(s.MotormemoExpenses).CurrentValues.SetValues(data.MotormemoExpenses);
 
                     foreach (var existingChild in s.MotormemoExpenses.ToList())
                     {
@@ -301,8 +280,6 @@ namespace MotorMemo.Controllers.Transaction
                          
                     }
 
-                    //_context.Entry(s.MotormemoOtherCharges).CurrentValues.SetValues(data.MotormemoOtherCharges);
-
                     foreach (var existingChild in s.MotormemoOtherCharges.ToList())
                     {
                         if (!data.MotormemoOtherCharges.Any(a => a.DetlId == existingChild.DetlId))
@@ -311,10 +288,8 @@ namespace MotorMemo.Controllers.Transaction
 
                     foreach (var childModel in data.MotormemoOtherCharges.ToList())
                     {
-
                         childModel.AccCodeNavigation = null;
                         
-
                         var existingChild = s.MotormemoOtherCharges
                             .Where(a => a.DetlId == childModel.DetlId)
                             .SingleOrDefault();
@@ -341,7 +316,6 @@ namespace MotorMemo.Controllers.Transaction
                     _context.Motormemos.Add(data);
                 }
 
-
                 await _context.SaveChangesAsync();
                 rtn.data = data;
             }
@@ -358,7 +332,6 @@ namespace MotorMemo.Controllers.Transaction
         [HttpGet]
         public ActionResult LRgetdata(int firm_id,string div_id ,int memoNo)
         {
-
             try
             {
                 rtn.data = _context.Motormemos
@@ -392,8 +365,6 @@ namespace MotorMemo.Controllers.Transaction
             try
             {
 
-                
-
                rtn.data = _context.Motormemos.Where(w => w.FirmId == firm_id && w.DivId == div_id && w.VehicleNo==veh_no && w.LeftAmount > 0 && w.ConfDate == null).
                 Include((Motormemo s) => s.MotormemoDetails).AsNoTracking()
                                          .Include((Motormemo s) => s.MotormemoAudit).AsNoTracking()
@@ -401,7 +372,7 @@ namespace MotorMemo.Controllers.Transaction
                                          .Include((Motormemo s) => s.MotormemoExpenses).AsNoTracking()
                                          .Include((Motormemo s) => s.MotormemoOtherCharges).AsNoTracking()
                         .Select(i => new
-                      {
+                       {
                         i.MemoNo,
                         i.VchId,
                         i.Dt,
@@ -419,7 +390,6 @@ namespace MotorMemo.Controllers.Transaction
 
                     }).ToList();
                 
-
             }
             catch (Exception ex2)
             {
@@ -437,7 +407,6 @@ namespace MotorMemo.Controllers.Transaction
         {
             try
             {
-
                 rtn.data = await _context.Motormemos.Where(s => s.VchId == id).Include(i=>i.MotormemoCommodities)
                           .Include(s => s.Acc003s)
                         .AsNoTracking().Select(i => new
@@ -453,7 +422,7 @@ namespace MotorMemo.Controllers.Transaction
                             i.MotormemoDetails,
 
                             Acc003s = i.Acc003s.FirstOrDefault(),
-                            //i.MobileNo,
+                         
                             i.BillAmt,
                             i.VehicleNo,
                             i.Dt,
@@ -484,8 +453,6 @@ namespace MotorMemo.Controllers.Transaction
             }
             return Ok(rtn);
         }
-
-
 
         [HttpPut]
         public async Task<IActionResult> updatepayment(int id, Motormemo data)

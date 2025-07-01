@@ -14,8 +14,6 @@
 
         public string? ValidUpTo { get; set; }
 
-
-
         public virtual motormemo2? Motormemo2 { get; set; }
 
         public virtual Bilty? Bilty { get; set; } 
