@@ -128,7 +128,7 @@ namespace MotorMemo.Controllers.Transaction
                         i.TotalAdv,
                         i.RemAmt,
                         i.Motormemo2Audit,
-              
+                        i.VehicleAccNavigation,
                         Motormemo2Childe = i.Motormemo2Childe.Select(child => new
                         {
                             child.DetlId,
@@ -335,7 +335,7 @@ namespace MotorMemo.Controllers.Transaction
                              i.TotalAdv,
                              i.RemAmt,
                              i.Motormemo2Audit,
-
+                             i.VehicleAccNavigation,
                              Motormemo2Childe = i.Motormemo2Childe.Select(child => new
                              {
                                  child.DetlId,

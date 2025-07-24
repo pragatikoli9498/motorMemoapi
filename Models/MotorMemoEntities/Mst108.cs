@@ -39,7 +39,7 @@ public partial class Mst108
 
     public string? DriverLicNo { get; set; }
 
-    public int? IsOwn { get; set; }
+    public string? IsOwn { get; set; }
 
     public virtual Mst011? AccCodeNavigation { get; set; }
 
@@ -52,4 +52,6 @@ public partial class Mst108
     public virtual ICollection<Mst10805> Mst10805s { get; set; } = new List<Mst10805>();
 
     public virtual Mst107 Vtype { get; set; } = null!;
+
+    public virtual ICollection<Mst10806> Mst10806s { get; set; } = new List<Mst10806>();
 }

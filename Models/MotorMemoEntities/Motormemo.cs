@@ -11,7 +11,7 @@ public partial class Motormemo
 
     public string? DivId { get; set; } = null!;
 
-    public string? Dt { get; set; }
+    public DateTime? Dt { get; set; }
 
     public string? From_Dstn { get; set; }
 
@@ -33,6 +33,10 @@ public partial class Motormemo
 
     public DateTime? ConfDate { get; set; }
 
+    public int? KiloMiter { get; set; }
+
+    public int? vehAccCode { get; set; }
+
     public virtual MotormemoAudit? MotormemoAudit { get; set; }
 
     public virtual MotormemoDetail? MotormemoDetails { get; set; }
@@ -44,4 +48,8 @@ public partial class Motormemo
     public virtual ICollection<MotormemoOtherCharges> MotormemoOtherCharges { get; set; } = new List<MotormemoOtherCharges>();
 
     public virtual ICollection<Acc003> Acc003s { get; set; } = new List<Acc003>();
+
+    public virtual Mst011? VehicleAccNavigation { get; set; }
+
+    public virtual ICollection<Tms011_01> Tms01101s { get; set; } = new List<Tms011_01>();
 }

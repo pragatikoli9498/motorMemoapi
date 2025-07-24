@@ -153,15 +153,16 @@ namespace MotorMemo.Controllers.Master
             { 
                 respayload respayload = rtn;
                 respayload.data = await (from i in _context.Mst030s.Where(w => w.Id == id)
-                        .Include(s => s.AccCodeNavigation).ThenInclude(ti => ti.Place).ThenInclude(ti => ti.Taluka).ThenInclude(ti => ti.District).ThenInclude(ti => ti.StateCodeNavigation).AsNoTracking()
+                        .Include(s => s.AccCodeNavigation).Include(ti => ti.PlaceIdNavigation).ThenInclude(ti => ti.Taluka).ThenInclude(ti => ti.District).ThenInclude(ti => ti.StateCodeNavigation).AsNoTracking()
                         .AsNoTracking()
                                          select new
                                          {
                                              i.StateCode,
                                              i.AccCodeNavigation,
+                                             i.PlaceIdNavigation,
                                              i.AccCode,
-                                             state=i.AccCodeNavigation.Place.Taluka.District.StateCodeNavigation,
-                                             i.AccCodeNavigation.Place,
+                                             i.Placeid,
+                                             state=i.PlaceIdNavigation.Taluka.District.StateCodeNavigation,
                                              i.Id,
                                              i.GstinNo,
                                              i.Address,

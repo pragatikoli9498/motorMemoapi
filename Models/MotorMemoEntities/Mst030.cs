@@ -9,13 +9,13 @@ public partial class Mst030
 
     public string Name { get; set; } = null!;
 
-    public int? Placeid { get; set; } = null!;
+    public int? Placeid { get; set; }
 
-    public string? pincode { get; set; } = null!;
+    public string? pincode { get; set; }
 
     public string? GstinNo { get; set; }
 
-    public int? StateCode { get; set; } = null!;
+    public int? StateCode { get; set; }
 
     public string? MobileNo { get; set; }
 
@@ -34,4 +34,6 @@ public partial class Mst030
     public string? ModifiedDt { get; set; }
 
     public virtual Mst011? AccCodeNavigation { get; set; }
+
+    public virtual Mst006? PlaceIdNavigation { get; set; }
 }

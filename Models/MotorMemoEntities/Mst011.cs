@@ -55,7 +55,7 @@ public partial class Mst011
 
     public virtual ICollection<MotormemoOtherCharges> MotormemoOtherCharges { get; set; } = new List<MotormemoOtherCharges>();
 
-    public virtual ICollection<Mst01100> Mst01100s { get; set; } = new List<Mst01100>();
+    public virtual Mst01100? Mst01100 { get; set; } 
 
     public virtual ICollection<Mst01110> Mst01110s { get; set; } = new List<Mst01110>();
 
@@ -73,16 +73,24 @@ public partial class Mst011
 
     public virtual ICollection<Mst10803>  ExpAccCodeNavigations { get; set; } = new List<Mst10803>();
 
+    public virtual ICollection<Mst10803> ProvAccCodeNavigation { get; set; } = new List<Mst10803>();
+
     public virtual ICollection<Mst108> Mst108s { get; set; } = new List<Mst108>();
 
+    public virtual ICollection<Mst10806> Mst10806s { get; set; } = new List<Mst10806>();
     public virtual Mst006? Place { get; set; }
 
     public virtual Mst003? SgCodeNavigation { get; set; } = null!;
 
     public virtual ICollection<Sundry> Sundries { get; set; } = new List<Sundry>();
      
-
     public virtual ICollection<Sys010> Sys010s { get; set; } = new List<Sys010>();
 
+    public virtual ICollection<motormemo2> vehAcc { get; set; } = new List<motormemo2>();
+
+    public virtual ICollection<Motormemo> vehAcc1 { get; set; } = new List<Motormemo>();
+
     public virtual ICollection<Motormemo2AdvDetails> Motormemo2AdvDetails { get; set; } = new List<Motormemo2AdvDetails>();
+
+    public virtual ICollection<Tms011> Tms011s { get; set; } = new List<Tms011>();
 }

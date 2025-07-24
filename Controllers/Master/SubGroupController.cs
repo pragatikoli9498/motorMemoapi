@@ -176,6 +176,43 @@ namespace MotorMemo.Controllers.Master
             await _context.SaveChangesAsync();
             return Ok(rtn);
         }
+
+        [HttpPost]
+        public ActionResult getListbyMgcode(QueryStringParameters page,int mgCode)
+        {
+            try
+            {
+                var filter = new EntityFrameworkFilter<Mst003>();
+
+                var query = _context.Mst003s.Include(i => i.GrpCodeNavigation).Where(w => w.GrpCodeNavigation.MgCode == mgCode);
+
+                var data = filter.Filter(query, page.keys);
+
+                rtn.data = data.OrderBy(o => o.SgName)
+                     .Skip((page.PageNumber - 1) * page.PageSize)
+                    .Take(page.PageSize).Select(i => new
+                    {
+                        i.SgCode,
+                        i.GrpCode,
+                        i.SgName,
+                        i.SrNo,
+                        i.GrpCodeNavigation
+
+                    }).ToList();
+                if (page.PageNumber == 1)
+                    rtn.PageDetails = PageDetail<Mst003>.ToPagedList(data, page.PageNumber, page.PageSize);
+
+            }
+            catch (Exception ex2)
+            {
+
+                rtn.status_cd = 0;
+                rtn.errors.message = ex2.Message;
+
+            }
+            return Ok(rtn);
+        }
+
         private bool AccSubGroupExists(long id)
         {
             return _context.Mst003s.Any((Mst003 e) => e.SgCode == id);

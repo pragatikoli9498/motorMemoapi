@@ -26,5 +26,7 @@ public partial class Mst00603
     public virtual ICollection<Mst00602> Mst00602s { get; set; } = new List<Mst00602>();
 
     public virtual ICollection<Mst10805> Mst10805s { get; set; } = new List<Mst10805>();
+
+    public virtual ICollection<Tms011> Tms011s { get; set; } = new List<Tms011>();
      
 }

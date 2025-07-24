@@ -134,7 +134,11 @@ public partial class MotorMemoDbContext : DbContext
 
     public virtual DbSet<Mst10805> Mst10805s { get; set; }
 
+    public virtual DbSet<Mst10806> Mst10806s { get; set; }
+
     public virtual DbSet<Mst152> Mst152s { get; set; }
+
+    public virtual DbSet<setting> Settings { get; set; }
 
     public virtual DbSet<Sundry> Sundries { get; set; }
       
@@ -145,6 +149,10 @@ public partial class MotorMemoDbContext : DbContext
     public virtual DbSet<Sys010> Sys010s { get; set; }
 
     public virtual DbSet<Sys200> Sys200s { get; set; }
+
+    public virtual DbSet<Tms011> Tms011s { get; set; }
+
+    public virtual DbSet<Tms011_01> Tms01101s { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -387,7 +395,6 @@ public partial class MotorMemoDbContext : DbContext
              
             entity.HasOne(d => d.Vch).WithOne(p => p.Acc00301).HasForeignKey<Acc00301>(d => d.VchId);
         });
-   
    
         modelBuilder.Entity<Acc005>(entity =>
         {
@@ -784,12 +791,16 @@ public partial class MotorMemoDbContext : DbContext
             entity.Property(e => e.MemoNo).HasColumnType("NUMERIC").HasColumnName("memo_No"); 
             entity.Property(e => e.To_Dstn).HasColumnName("to_dstn");
             entity.Property(e => e.VehicleNo).HasColumnName("vehicle_no");
+            entity.Property(e => e.vehAccCode).HasColumnName("VehAccount");
+            entity.Property(e => e.KiloMiter).HasColumnName("KiloMiters");
             entity.Property(e => e.TotalFreight).HasColumnType("NUMERIC").HasColumnName("TotalFreight");
             entity.Property(e => e.AdvAmount).HasColumnType("NUMERIC").HasColumnName("AdvAmount");
             entity.Property(e => e.LeftAmount).HasColumnType("NUMERIC").HasColumnName("LeftAmount");
             entity.Property(e => e.FreightType).HasColumnType("NUMERIC").HasColumnName("FreightType");
             entity.Property(e => e.BillAmt).HasColumnType("NUMERIC").HasColumnName("BillAmt");
             entity.Property(e => e.ConfDate).HasColumnName("ConfirmationDt");
+
+            entity.HasOne(d => d.VehicleAccNavigation).WithMany(p => p.vehAcc1).HasForeignKey(d => d.vehAccCode);
 
         });
 
@@ -807,6 +818,8 @@ public partial class MotorMemoDbContext : DbContext
             entity.Property(e => e.From_Dstn).HasColumnName("From_dstn");
             entity.Property(e => e.To_Dstn).HasColumnName("To_dstn");
             entity.Property(e => e.VehicleNo).HasColumnName("Vehicle_no");
+            entity.Property(e => e.vehAccCode).HasColumnName("VehAccount");
+            entity.Property(e => e.KiloMiter).HasColumnName("KiloMiters");
             entity.Property(e => e.TotalWet).HasColumnName("TotalWet");
             entity.Property(e => e.FreightperWet).HasColumnName("FreightperWet");
             entity.Property(e => e.FreightTotal).HasColumnName("FreightTotal");
@@ -814,6 +827,7 @@ public partial class MotorMemoDbContext : DbContext
             entity.Property(e => e.RemAmt).HasColumnName("RemAmt");
             entity.Property(e => e.ConfDate).HasColumnName("ConfirmationDt");
 
+            entity.HasOne(d => d.VehicleAccNavigation).WithMany(p => p.vehAcc).HasForeignKey(d => d.vehAccCode);
 
         });
 
@@ -1233,7 +1247,7 @@ public partial class MotorMemoDbContext : DbContext
             entity.Property(e => e.ModifiedUser).UseCollation("NOCASE");
         
 
-            entity.HasOne(d => d.AccCodeNavigation).WithMany(p => p.Mst01100s).HasForeignKey(d => d.AccCode);
+            entity.HasOne(d => d.AccCodeNavigation).WithOne(p => p.Mst01100).HasForeignKey<Mst01100>(d => d.AccCode);
         });
 
         modelBuilder.Entity<Mst01101>(entity =>
@@ -1271,7 +1285,6 @@ public partial class MotorMemoDbContext : DbContext
             entity.HasOne(d => d.AccCodeNavigation).WithOne(p => p.Mst01101).HasForeignKey<Mst01101>(d => d.AccCode);
         });
 
-       
         modelBuilder.Entity<Mst01104>(entity =>
         {
             entity.HasKey(e => e.AccCode);
@@ -1408,8 +1421,11 @@ public partial class MotorMemoDbContext : DbContext
             entity.HasOne(d => d.AccCodeNavigation).WithMany()
                 .HasForeignKey(d => d.AccCode)
                 .OnDelete(DeleteBehavior.SetNull);
-        });
 
+            entity.HasOne(d => d.PlaceIdNavigation).WithOne(d => d.Vendor)
+                .HasForeignKey<Mst030>(d => d.Placeid)
+                .OnDelete(DeleteBehavior.SetNull);
+        });
 
         modelBuilder.Entity<Mst031>(entity =>
         {
@@ -1479,7 +1495,6 @@ public partial class MotorMemoDbContext : DbContext
             entity.HasOne(d => d.Vch).WithOne(p => p.Mst10300).HasForeignKey<Mst10300>(d => d.VchId);
         });
 
-
         modelBuilder.Entity<Mst10301>(entity =>
         {
             entity.HasKey(e => e.detlid);
@@ -1548,7 +1563,6 @@ public partial class MotorMemoDbContext : DbContext
                 .HasForeignKey(d => d.VtypeId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
- 
 
         modelBuilder.Entity<Mst10801>(entity =>
         {
@@ -1592,7 +1606,11 @@ public partial class MotorMemoDbContext : DbContext
             entity.HasOne(d => d.ExpAccCodeNavigation).WithMany(p => p.ExpAccCodeNavigations)
                 .HasForeignKey(d => d.ExpAccCode)
                 .OnDelete(DeleteBehavior.ClientSetNull);
- 
+            entity.HasOne(d => d.ProvAccCodeNavigation).WithMany(p => p.ProvAccCodeNavigation)
+                .HasForeignKey(d => d.ProvAccCode)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+
 
             entity.HasOne(d => d.VehicleNoNavigation).WithOne(p => p.Mst10803).HasForeignKey<Mst10803>(d => d.VehicleNo);
         });
@@ -1641,6 +1659,36 @@ public partial class MotorMemoDbContext : DbContext
             entity.HasOne(d => d.VehicleNoNavigation).WithMany(p => p.Mst10805s).HasForeignKey(d => d.VehicleNo);
         });
 
+        modelBuilder.Entity<Mst10806>(entity =>
+        {
+            entity.HasKey(e => e.Detl_Id);
+
+            entity.ToTable("mst108_06");
+
+            entity.Property(e => e.Detl_Id).HasColumnName("Detl_Id");
+            entity.Property(e => e.VehicleNo).HasColumnName("Vehicle_no");
+            entity.Property(e => e.Eff_Dt)
+                .HasColumnName("Eff_Dt");
+            entity.Property(e => e.OwnerName).HasColumnName("OwnerName");
+            entity.Property(e => e.PanNo).HasColumnName("PanNo");
+
+            entity.Property(e => e.BankName)
+                .UseCollation("NOCASE")
+                .HasColumnName("Bank_Name");
+            entity.Property(e => e.BankAccNo)
+                .UseCollation("NOCASE")
+                .HasColumnName("BankAccNo");
+            entity.Property(e => e.IfscCode)
+                .UseCollation("NOCASE")
+                .HasColumnName("ifsc_code");
+            entity.Property(e => e.AccCode).HasColumnName("AccCode");
+            entity.Property(e => e.IsTransport).HasColumnName("IsTransport");
+
+            entity.HasOne(d => d.Mst108).WithMany(p => p.Mst10806s).HasForeignKey(d => d.VehicleNo);
+
+            entity.HasOne(d => d.AccCodeNavigation).WithMany(p => p.Mst10806s).HasForeignKey(d => d.AccCode);
+        });
+
         modelBuilder.Entity<Mst152>(entity =>
         {
             entity.HasKey(e => e.FtId);
@@ -1666,6 +1714,20 @@ public partial class MotorMemoDbContext : DbContext
             entity.HasOne(d => d.AccCodeNavigation).WithMany(p => p.Sundries)
                 .HasForeignKey(d => d.ExpaccCode)
                 .OnDelete(DeleteBehavior.ClientSetNull);
+        });
+
+        modelBuilder.Entity<setting>(entity =>
+        {
+            entity.ToTable("setting");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.SetCode).HasColumnName("Set_Code");
+            entity.Property(e => e.SetDesc)
+                .UseCollation("NOCASE")
+                .HasColumnName("Set_Desc");
+            entity.Property(e => e.SetValue)
+                .UseCollation("NOCASE")
+                .HasColumnName("Set_Value");
         });
 
         modelBuilder.Entity<Sys001>(entity =>
@@ -1753,6 +1815,75 @@ public partial class MotorMemoDbContext : DbContext
             entity.Property(e => e.PropertyName).UseCollation("NOCASE");
             entity.Property(e => e.Status).UseCollation("NOCASE");
             entity.Property(e => e.UserName).UseCollation("NOCASE");
+        });
+
+        modelBuilder.Entity<Tms011>(entity =>
+        {
+            entity.HasKey(e => e.VchId);
+
+            entity.ToTable("tms011");
+            entity.Property(e => e.VchId).HasColumnName("Vch_id");
+            entity.Property(e => e.VchDt).HasColumnName("Vch_dt");
+            entity.Property(e => e.VchNo).HasColumnName("Vch_no");
+            entity.Property(e => e.FirmId).HasColumnName("Firm_id");
+            entity.Property(e => e.DivId).HasColumnName("Div_id");
+            entity.Property(e => e.BillNo).HasColumnName("Bill_no");
+            entity.Property(e => e.BillDt).HasColumnName("Bill_Dt");
+            entity.Property(e => e.IsRcm).HasColumnName("IsRcm");
+            entity.Property(e => e.FromDt).HasColumnName("From_dt");
+            entity.Property(e => e.ToDt).HasColumnName("To_dt");
+            entity.Property(e => e.AccCode).HasColumnName("AccCode");
+            entity.Property(e => e.CgstRate).HasColumnName("Cgst_Rate");
+            entity.Property(e => e.CgstAmt).HasColumnName("CGST");
+            entity.Property(e => e.SgstRate).HasColumnName("Sgst_Rate");
+            entity.Property(e => e.SgstAmt).HasColumnName("SGST");
+            entity.Property(e => e.IgstRate).HasColumnName("Igst_Rate");
+            entity.Property(e => e.IgstAmt).HasColumnName("IGST");
+            entity.Property(e => e.Sac).HasColumnName("SAC");
+            entity.Property(e => e.RoundOff).HasColumnName("Roundoff");
+            entity.Property(e => e.StateCode).HasColumnName("StateCode");
+            entity.Property(e => e.GrossAmt).HasColumnName("GrossAmt");
+            entity.Property(e => e.NetAmt).HasColumnName("NetAmt");
+
+            entity.HasOne(d => d.AccCodeNavigation).WithMany(p => p.Tms011s)
+                .HasForeignKey(d => d.AccCode)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+            entity.HasMany(d => d.Tms01101s).WithOne(p => p.Tms011)
+                .HasForeignKey(d => d.VchId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+            entity.HasOne(d => d.Mst00603).WithMany(p => p.Tms011s)
+            .HasForeignKey(d => d.StateCode).OnDelete(DeleteBehavior.ClientSetNull);
+
+
+        });
+
+        modelBuilder.Entity<Tms011_01>(entity =>
+        {
+            entity.HasKey(e => e.DetlId);
+
+            entity.ToTable("tms011_01");
+            entity.Property(e => e.DetlId).HasColumnName("Detl_id");
+            entity.Property(e => e.VchId).HasColumnName("Vch_id");
+            entity.Property(e => e.LrId).HasColumnName("LR_id");
+            entity.Property(e => e.BillAmt).HasColumnName("BillAmt");
+            entity.Property(e => e.Dt).HasColumnName("dt");
+            entity.Property(e => e.From_Dstn).HasColumnName("from_dstn");
+            entity.Property(e => e.To_Dstn).HasColumnName("to_dstn");
+            entity.Property(e => e.MemoNo).HasColumnName("memo_No");
+            entity.Property(e => e.VehicleNo).HasColumnName("vehicle_no");
+            entity.Property(e => e.KiloMiter).HasColumnName("KiloMiters");
+
+            entity.HasOne(d => d.Tms011).WithMany(p => p.Tms01101s)
+               .HasForeignKey(d => d.VchId)
+               .OnDelete(DeleteBehavior.ClientSetNull);
+
+            entity.HasOne(d => d.Motormemo).WithMany(p => p.Tms01101s)
+               .HasForeignKey(d => d.LrId)
+               .OnDelete(DeleteBehavior.ClientSetNull);
+              
+
         });
 
         OnModelCreatingPartial(modelBuilder);

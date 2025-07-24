@@ -15,9 +15,9 @@ public partial class Mst10803
 
     public decimal? BranchId { get; set; }
 
-    public virtual Mst011 ExpAccCodeNavigation { get; set; } = null!;
+    public virtual Mst011? ExpAccCodeNavigation { get; set; }
 
-    public virtual Mst011 ProvAccCodeNavigation { get; set; } = null!;
+    public virtual Mst011? ProvAccCodeNavigation { get; set; }
 
-    public virtual Mst108 VehicleNoNavigation { get; set; } = null!;
+    public virtual Mst108? VehicleNoNavigation { get; set; }
 }

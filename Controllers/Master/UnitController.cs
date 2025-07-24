@@ -84,23 +84,24 @@ namespace MotorMemo.Controllers.Master
         }
 
         [HttpPut]
-        public async Task<IActionResult> update(Mst012 unit)
+        public async Task<IActionResult> update(Mst012 unit,string unitCode)
         {
-
-            Mst012 unit2 = unit;
-            Mst012? InvItemUnit = _context.Mst012s.Where((Mst012 w) => w.UnitCode == unit2.UnitCode).SingleOrDefault();
-            if (InvItemUnit != null)
-            {
-                _context.Entry(InvItemUnit).CurrentValues.SetValues(unit2);
-            }
-            else
-            {
-                _context.Mst012s.Add(unit2);
-            }
             try
             {
+              
+                Mst012? InvItemUnit = _context.Mst012s.Where((Mst012 w) => w.UnitCode == unitCode).SingleOrDefault();
+                if (InvItemUnit == null)
+                {
+                    _context.Mst012s.Add(unit);
+
+                }
+                else
+                {
+                    _context.Entry(InvItemUnit).CurrentValues.SetValues(unit);
+                }
+
                 await _context.SaveChangesAsync();
-                rtn.data = unit2;
+                rtn.data = unit;
             }
             catch (Exception ex)
             {

@@ -142,7 +142,9 @@ namespace MotorMemo.Controllers.Transaction
                                           Acc003s= i.Acc003s.FirstOrDefault(),
                                           i.BillAmt,
                                           i.VehicleNo,
+                                          i.KiloMiter,
                                           i.Dt,
+                                          i.VehicleAccNavigation,
                                           i.From_Dstn,
                                           i.To_Dstn,  
                                           i.MotormemoOtherCharges,
@@ -204,7 +206,7 @@ namespace MotorMemo.Controllers.Transaction
             try
             {
                 data.Acc003s = null;
-
+                data.VehicleAccNavigation = null;
                 var s = await _context.Motormemos.Include(s=>s.MotormemoDetails)
                     .Include( s => s.MotormemoCommodities)
                     .Include(s => s.MotormemoExpenses)
@@ -498,6 +500,42 @@ namespace MotorMemo.Controllers.Transaction
                 rtn.status_cd = 0;
                 rtn.errors.exception = ex;
                 return Ok(rtn);
+            }
+            return Ok(rtn);
+        }
+
+        [HttpGet]
+        public ActionResult PendingBilled(int firm_id, string div_id, DateTime fdt,DateTime tdt,int accCode)
+
+        {
+            try
+            {
+                var excludedLrIds = _context.Tms01101s.Select(x => x.LrId).ToList();
+
+                rtn.data = _context.Motormemos
+                 .Include((Motormemo s) => s.MotormemoDetails).AsNoTracking()
+                 .Where(w => w.FirmId == firm_id && w.DivId == div_id && w.MotormemoDetails.senderAccount == accCode && w.BillAmt > 0 && w.Dt >= fdt &&
+                w.Dt <= tdt && !excludedLrIds.Contains(w.VchId))
+                         .Select(i => new
+                         {
+                             i.MemoNo,
+                             LrId=i.VchId,
+                             i.Dt,
+                             i.KiloMiter,
+                             i.MotormemoDetails,
+                             i.VehicleNo,
+                             i.To_Dstn,
+                             i.From_Dstn,
+                             i.BillAmt,
+                         }).ToList();
+
+            }
+            catch (Exception ex2)
+            {
+
+                rtn.status_cd = 0;
+                rtn.errors.message = ex2.Message;
+
             }
             return Ok(rtn);
         }

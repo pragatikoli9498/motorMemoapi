@@ -30,10 +30,16 @@
 
         public DateTime? ConfDate { get; set; }
 
+        public int? KiloMiter { get; set; }
+
+        public int vehAccCode { get; set; }
+
         public virtual Motormemo2Audit? Motormemo2Audit { get; set; }
 
         public virtual ICollection<Motormemo2Childe> Motormemo2Childe { get; set; } = new List<Motormemo2Childe>();
 
         public virtual ICollection<Motormemo2AdvDetails> Motormemo2AdvDetails { get; set; } = new List<Motormemo2AdvDetails>();
+
+        public virtual Mst011? VehicleAccNavigation { get; set; }
     }
 }

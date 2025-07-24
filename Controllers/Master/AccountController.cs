@@ -4,6 +4,7 @@ using MotorMemo.Models;
 using MotorMemo.Models.Context;
 using MotorMemo.Models.MotorMemoEntities;
 using MotorMemo.Services;
+using System.DirectoryServices.Protocols;
 using System.Net;
 using System.Security.Principal;
 
@@ -62,6 +63,7 @@ namespace MotorMemo.Controllers.Master
             }
             return Ok(rtn);
         }
+      
         [HttpPost]
         public ActionResult getList(QueryStringParameters page)
         {
@@ -104,6 +106,7 @@ namespace MotorMemo.Controllers.Master
             }
             return Ok(rtn);
         }
+        
         [HttpGet]
         public async Task<ActionResult> list()
         {
@@ -137,18 +140,17 @@ namespace MotorMemo.Controllers.Master
             return Ok(rtn);
         }
 
-
         [HttpPost]
         public async Task<ActionResult> getAcclist(QueryStringParameters page)
         {
             try
             {
                 var filter = new EntityFrameworkFilter<Mst011>();
-                var query = _context.Mst011s.AsNoTracking() 
+                var query = _context.Mst011s.AsNoTracking()
                                          .Include((Mst011 s) => s.Mst01109).AsNoTracking()
                                          .Include((Mst011 s) => s.SgCodeNavigation).AsNoTracking()
-                                        .Include((Mst011 s) => s.Place).AsNoTracking();
-                                
+                                        .Include((Mst011 s) => s.Place).AsNoTracking()
+                                        .Include((Mst011 s) => s.Mst10806s).AsNoTracking();
                 var data = filter.Filter(query, page.keys, true);
 
                 rtn.data = await data
@@ -162,7 +164,8 @@ namespace MotorMemo.Controllers.Master
                         i.SgCodeNavigation,
                         i.Place, 
                         i.PanNo,
-                        i.Mst01109
+                        i.Mst01109,
+                        i.Mst10806s
                     }).ToListAsync();
                 if (page.PageNumber == 1)
                     rtn.PageDetails = PageDetail<Mst011>.ToPagedList(data, page.PageNumber, page.PageSize);
@@ -177,6 +180,7 @@ namespace MotorMemo.Controllers.Master
             }
             return Ok(rtn);
         }
+        
         [HttpPost]
         public async Task<ActionResult> getAcclistbyMgCode(QueryStringParameters page, string mgCode, bool OrElse = false)
         {
@@ -216,16 +220,64 @@ namespace MotorMemo.Controllers.Master
             }
             return Ok(rtn);
         }
+
         [HttpPost]
-        public async Task<ActionResult> getAcclistbySgCode(QueryStringParameters page, long? sgCode, bool OrElse = false)
+        public async Task<ActionResult> GetAcclistByMgbs(QueryStringParameters page, string mgbs, bool orElse = false)
+        {
+            try
+            {
+                int[] mgbsArray = Array.ConvertAll(mgbs.Split(','), int.Parse);
+
+                var filter = new EntityFrameworkFilter<Mst011>();
+
+                var query = _context.Mst011s
+                    .AsNoTracking()
+                    .Where(w => w.SgCodeNavigation.GrpCodeNavigation.MgCodeNavigation.MgBs.HasValue &&
+                                mgbsArray.Contains(w.SgCodeNavigation.GrpCodeNavigation.MgCodeNavigation.MgBs.Value))
+                    .Include(s => s.SgCodeNavigation)
+                    .Include(s => s.Place);
+
+                var data = filter.Filter(query, page.keys, orElse);
+
+                rtn.data = await data
+                    .OrderBy(o => o.AccName)
+                    .ThenBy(o => o.Place.CityName)
+                    .Skip((page.PageNumber - 1) * page.PageSize)
+                    .Take(page.PageSize)
+                    .Select(i => new
+                    {
+                        i.AccCode,
+                        i.AccAlias,
+                        i.AccName,
+                        i.SgCodeNavigation,
+                        i.Place
+                    })
+                    .ToListAsync();
+
+                if (page.PageNumber == 1)
+                    rtn.PageDetails = PageDetail<Mst011>.ToPagedList(data, page.PageNumber, page.PageSize);
+            }
+            catch (Exception ex)
+            {
+                rtn.status_cd = 0;
+                rtn.errors.exception = ex;
+                return Ok(rtn);
+            }
+
+            return Ok(rtn);
+        }
+       
+        [HttpPost]
+        public async Task<ActionResult> getAcclistbySgCode(QueryStringParameters page, int? sgCode, bool OrElse = false)
         {
             try
             {
                  var filter = new EntityFrameworkFilter<Mst011>();
                 var query = _context.Mst011s.AsNoTracking().Where(w => (sgCode == null || w.SgCode == sgCode))
                                          .Include((Mst011 s) => s.SgCodeNavigation).AsNoTracking()
-                                        .Include((Mst011 s) => s.Place).AsNoTracking();
-
+                                        .Include((Mst011 s) => s.Place).ThenInclude(i => i.Taluka).ThenInclude(i1 => i1.District).ThenInclude(i2 => i2.StateCodeNavigation).AsNoTracking()
+                                            
+                                        .Include((Mst011 s) => s.Mst10806s).AsNoTracking().Include((Mst011 s) => s.Mst01109).AsNoTracking();
                 var data = filter.Filter(query, page.keys, OrElse);
 
                 rtn.data = await data
@@ -238,7 +290,10 @@ namespace MotorMemo.Controllers.Master
                         i.AccName,
                         i.SgCodeNavigation,
                         i.Place,
-
+                        state = i.Place.Taluka.District.StateCodeNavigation,
+                        i.PanNo,
+                        i.Mst01109,
+                        i.Mst10806s
                     }).ToListAsync();
                 if (page.PageNumber == 1)
                     rtn.PageDetails = PageDetail<Mst011>.ToPagedList(data, page.PageNumber, page.PageSize);
@@ -253,6 +308,7 @@ namespace MotorMemo.Controllers.Master
             }
             return Ok(rtn);
         }
+        
         [HttpGet]
         public async Task<ActionResult> supplier()
         {
@@ -270,6 +326,7 @@ namespace MotorMemo.Controllers.Master
                                      }).ToListAsync();
             return Ok(rtn);
         }
+        
         [HttpPost]
         public ActionResult getsupplier(QueryStringParameters page)
         {
@@ -314,6 +371,7 @@ namespace MotorMemo.Controllers.Master
                
                 var accountData = await _context.Mst011s
                     .Where(s => s.AccCode == id)
+                    .Include(s => s.Mst01100)
                     .Include(s => s.Mst01101)
                     .Include(s => s.Mst01104)
                     .Include(s => s.Mst01109)
@@ -345,6 +403,7 @@ namespace MotorMemo.Controllers.Master
                 // Step 3: Combine Data Manually
                 rtn.data = new
                 { 
+                        accountData.Mst01100,
                         accountData.AccAlias,
                         accountData.AccCode,
                         accountData.AccName,
@@ -484,6 +543,7 @@ namespace MotorMemo.Controllers.Master
             }
             return Ok(rtn);
         }
+        
         [HttpPost]
         public ActionResult getWithOutBankCash(QueryStringParameters page)
         {
@@ -524,7 +584,6 @@ namespace MotorMemo.Controllers.Master
             return Ok(rtn);
         }
 
-
         [HttpPost]
         public ActionResult getsuppliers(QueryStringParameters page)
         {
@@ -562,7 +621,6 @@ namespace MotorMemo.Controllers.Master
             }
             return Ok(rtn);
         }
-
 
         [HttpGet]
         public async Task<ActionResult> supplierDetails(long accCode)
@@ -640,6 +698,7 @@ namespace MotorMemo.Controllers.Master
                 }
             
                 var old = await _context.Mst011s.Where(s => s.AccCode == id)
+                    .Include(s => s.Mst01100)
                     .Include(s => s.Mst01101)
                     .Include(s => s.Mst01104)
                     .Include(s => s.Mst01109) 
@@ -654,6 +713,19 @@ namespace MotorMemo.Controllers.Master
                         message = "Record Not Found"
                     };
                     return Ok(rtn);
+                }
+                _context.Entry(old).CurrentValues.SetValues(acc);
+                if (old.Mst01100 != null)
+                {
+                    _context.Entry(old.Mst01100).CurrentValues.SetValues(acc.Mst01100);
+                }
+                else
+                {
+                    if (acc.Mst01100 != null)
+                    {
+                        acc.Mst01100.AccCode = id;
+                        _context.Mst01100s.Add(acc.Mst01100);
+                    }
                 }
                 _context.Entry(old).CurrentValues.SetValues(acc);
                 if (old.Mst01101 != null)
@@ -758,6 +830,52 @@ namespace MotorMemo.Controllers.Master
 
             return Ok(rtn);
         }
+
+        //[HttpPost]
+        //public async Task<ActionResult> GetAccByMgbs(QueryStringParameters page, int mgbs, bool orElse = false)
+        //{
+        //    try
+        //    {
+        //        int[] mgbsArray = Array.ConvertAll(mgbs.Split(','), int.Parse);
+
+        //        var filter = new EntityFrameworkFilter<Mst011>();
+
+        //        var query = _context.Mst011s
+        //            .AsNoTracking()
+        //            .Where(w => w.SgCodeNavigation.GrpCodeNavigation.MgCodeNavigation.MgBs.HasValue &&
+        //                        mgbs.Contains(w.SgCodeNavigation.GrpCodeNavigation.MgCodeNavigation.MgBs.Value))
+        //            .Include(s => s.SgCodeNavigation)
+        //            .Include(s => s.Place);
+
+        //        var data = filter.Filter(query, page.keys, orElse);
+
+        //        rtn.data = await data
+        //            .OrderBy(o => o.AccName)
+        //            .ThenBy(o => o.Place.CityName)
+        //            .Skip((page.PageNumber - 1) * page.PageSize)
+        //            .Take(page.PageSize)
+        //            .Select(i => new
+        //            {
+        //                i.AccCode,
+        //                i.AccAlias,
+        //                i.AccName,
+        //                i.SgCodeNavigation,
+        //                i.Place
+        //            })
+        //            .ToListAsync();
+
+        //        if (page.PageNumber == 1)
+        //            rtn.PageDetails = PageDetail<Mst011>.ToPagedList(data, page.PageNumber, page.PageSize);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        rtn.status_cd = 0;
+        //        rtn.errors.exception = ex;
+        //        return Ok(rtn);
+        //    }
+
+        //    return Ok(rtn);
+        //}
 
     }
 }

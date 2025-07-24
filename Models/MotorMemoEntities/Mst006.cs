@@ -24,4 +24,6 @@ public partial class Mst006
     public virtual ICollection<Mst011> Mst011s { get; set; } = new List<Mst011>();
 
     public virtual Mst00601? Taluka { get; set; } = null!;
+
+    public virtual Mst030? Vendor { get; set; }
 }
