@@ -147,7 +147,7 @@ namespace MotorMemo.Controllers.Reports
                 catch (Exception ex)
                 {
                     rtn.status_cd = 0;
-                    rtn.errors.message = ex.Message ?? ex.InnerException?.Message;
+                    rtn.errors.message = ex.Message ?? ex.InnerException?.Message; 
                 }
             }
             else
