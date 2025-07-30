@@ -86,7 +86,7 @@ namespace MotorMemo.Controllers.Reports
 
                         var rdc = new List<ReportDataSource>();
                         rdc.Add(new ReportDataSource("DataSet1", dataset1));
-                        rdc.Add(new ReportDataSource("DataSet2", dataset2));
+                        rdc.Add(new ReportDataSource("DataSet2", dataset2)); 
 
                         var parameters = new List<ReportParameter>(); //RpParamsWithValue
 
