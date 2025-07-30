@@ -73,7 +73,7 @@ namespace MotorMemo.Controllers.Reports
 
                     if (ReportData == null)
                     {
-                        ReportData = new CacheData();
+                        ReportData = new CacheData(); 
 
                         object dataset1 = await _proc.Data(
                                                              Convert.ToInt16(DbParamsWithValue["firm_id"]),
