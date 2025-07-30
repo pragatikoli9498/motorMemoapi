@@ -88,6 +88,8 @@ namespace MotorMemo
             services.AddScoped<motormemo2Proc>();
             services.AddScoped<LorryReceipt2RegProc>();
             services.AddScoped<ExpensesProc>();
+            services.AddScoped<TransInvoiceProc>();
+            services.AddScoped<TransInvoiceRegProc>();
 
             services.AddControllers();
 

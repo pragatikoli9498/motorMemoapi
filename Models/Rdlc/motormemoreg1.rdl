@@ -887,7 +887,9 @@ LEFT JOIN Sundry ON EXP.S_id=Sundry.S_Id</CommandText>
                                 <TextRun>
                                   <Value>=Sum(Fields!charges.Value)</Value>
                                   <Style>
+                                    <FontSize>9pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
+                                    <Format>f2</Format>
                                     <Color>#333333</Color>
                                   </Style>
                                 </TextRun>
@@ -900,26 +902,6 @@ LEFT JOIN Sundry ON EXP.S_id=Sundry.S_Id</CommandText>
                             <Border>
                               <Style>Solid</Style>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </RightBorder>
                             <BackgroundColor>White</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -940,7 +922,9 @@ LEFT JOIN Sundry ON EXP.S_id=Sundry.S_Id</CommandText>
                                 <TextRun>
                                   <Value>=Sum(Fields!charges.Value)</Value>
                                   <Style>
+                                    <FontSize>9pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
+                                    <Format>f2</Format>
                                     <Color>#333333</Color>
                                   </Style>
                                 </TextRun>
@@ -953,26 +937,6 @@ LEFT JOIN Sundry ON EXP.S_id=Sundry.S_Id</CommandText>
                             <Border>
                               <Style>Solid</Style>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </RightBorder>
                             <BackgroundColor>White</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -993,7 +957,9 @@ LEFT JOIN Sundry ON EXP.S_id=Sundry.S_Id</CommandText>
                                 <TextRun>
                                   <Value>=Fields!LeftAmount.Value</Value>
                                   <Style>
+                                    <FontSize>9pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
+                                    <Format>f2</Format>
                                     <Color>#333333</Color>
                                   </Style>
                                 </TextRun>
@@ -1006,26 +972,6 @@ LEFT JOIN Sundry ON EXP.S_id=Sundry.S_Id</CommandText>
                             <Border>
                               <Style>Solid</Style>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </RightBorder>
                             <BackgroundColor>White</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -1435,6 +1381,7 @@ LEFT JOIN Sundry ON EXP.S_id=Sundry.S_Id</CommandText>
                               <TextRun>
                                 <Value>=Fields!dt.Value</Value>
                                 <Style>
+                                  <FontSize>9pt</FontSize>
                                   <FontWeight>Normal</FontWeight>
                                   <Color>#333333</Color>
                                 </Style>
@@ -1491,6 +1438,7 @@ LEFT JOIN Sundry ON EXP.S_id=Sundry.S_Id</CommandText>
                                   <TextRun>
                                     <Value>=Fields!memo_No.Value</Value>
                                     <Style>
+                                      <FontSize>9pt</FontSize>
                                       <FontWeight>Normal</FontWeight>
                                       <Color>#333333</Color>
                                     </Style>
@@ -1559,6 +1507,7 @@ LEFT JOIN Sundry ON EXP.S_id=Sundry.S_Id</CommandText>
                                       <TextRun>
                                         <Value>=Fields!from_dstn.Value</Value>
                                         <Style>
+                                          <FontSize>9pt</FontSize>
                                           <FontWeight>Normal</FontWeight>
                                           <Color>#333333</Color>
                                         </Style>
@@ -1625,6 +1574,7 @@ LEFT JOIN Sundry ON EXP.S_id=Sundry.S_Id</CommandText>
                                           <TextRun>
                                             <Value>=Fields!to_dstn.Value</Value>
                                             <Style>
+                                              <FontSize>9pt</FontSize>
                                               <FontWeight>Normal</FontWeight>
                                               <Color>#333333</Color>
                                             </Style>
@@ -1681,6 +1631,7 @@ LEFT JOIN Sundry ON EXP.S_id=Sundry.S_Id</CommandText>
                                               <TextRun>
                                                 <Value>=Fields!vehicle_no.Value</Value>
                                                 <Style>
+                                                  <FontSize>9pt</FontSize>
                                                   <FontWeight>Normal</FontWeight>
                                                   <Color>#333333</Color>
                                                 </Style>
@@ -1737,7 +1688,9 @@ LEFT JOIN Sundry ON EXP.S_id=Sundry.S_Id</CommandText>
                                                   <TextRun>
                                                     <Value>=Fields!TotalFreight.Value</Value>
                                                     <Style>
+                                                      <FontSize>9pt</FontSize>
                                                       <FontWeight>Normal</FontWeight>
+                                                      <Format>f2</Format>
                                                       <Color>#333333</Color>
                                                     </Style>
                                                   </TextRun>
@@ -1750,26 +1703,6 @@ LEFT JOIN Sundry ON EXP.S_id=Sundry.S_Id</CommandText>
                                               <Border>
                                                 <Style>Solid</Style>
                                               </Border>
-                                              <TopBorder>
-                                                <Color>Black</Color>
-                                                <Style>Solid</Style>
-                                                <Width>1pt</Width>
-                                              </TopBorder>
-                                              <BottomBorder>
-                                                <Color>Black</Color>
-                                                <Style>Solid</Style>
-                                                <Width>1pt</Width>
-                                              </BottomBorder>
-                                              <LeftBorder>
-                                                <Color>Black</Color>
-                                                <Style>Solid</Style>
-                                                <Width>1pt</Width>
-                                              </LeftBorder>
-                                              <RightBorder>
-                                                <Color>Black</Color>
-                                                <Style>Solid</Style>
-                                                <Width>1pt</Width>
-                                              </RightBorder>
                                               <BackgroundColor>White</BackgroundColor>
                                               <PaddingLeft>2pt</PaddingLeft>
                                               <PaddingRight>2pt</PaddingRight>
@@ -1909,6 +1842,7 @@ LEFT JOIN Sundry ON EXP.S_id=Sundry.S_Id</CommandText>
                       <Value>=CDate(Parameters!sdt.Value)</Value>
                       <Style>
                         <FontWeight>Normal</FontWeight>
+                        <Format>dd/MM/yyyy</Format>
                       </Style>
                     </TextRun>
                     <TextRun>
@@ -1921,6 +1855,7 @@ LEFT JOIN Sundry ON EXP.S_id=Sundry.S_Id</CommandText>
                       <Value>=CDate(Parameters!edt.Value)</Value>
                       <Style>
                         <FontWeight>Normal</FontWeight>
+                        <Format>dd/MM/yyyy</Format>
                       </Style>
                     </TextRun>
                   </TextRuns>

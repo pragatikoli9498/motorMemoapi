@@ -360,7 +360,6 @@ namespace MotorMemo.Controllers.Transaction
             return Ok(rtn);
         }
 
-
         [HttpGet]
         public ActionResult PendingLorryRec(int firm_id, string div_id, string veh_no)
         {
@@ -402,7 +401,6 @@ namespace MotorMemo.Controllers.Transaction
             }
             return Ok(rtn);
         }
-
 
         [HttpGet]
         public async Task<ActionResult> PendingAmountedit(int id)
